@@ -1,14 +1,19 @@
 package org.qudus.squad.data.csv
 
-import java.io.File
+import okio.FileSystem
+import okio.Path.Companion.toPath
 
 class CsvReader {
     fun read(fileName: String): List<String> {
-        val file = File(fileName)
+        val path = fileName.toPath()
+        val fs = FileSystem.SYSTEM
 
-        if (!file.exists()) return emptyList()
+        if (!fs.exists(path)) return emptyList()
 
-        return file.readLines()
-            .filter { it.isNotBlank() }
+        return fs.read(path) {
+            generateSequence { readUtf8Line() }
+                .filter { it.isNotBlank() }
+                .toList()
+        }
     }
 }

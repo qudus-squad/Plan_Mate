@@ -1,17 +1,18 @@
 package org.qudus.squad.model
 
-import java.time.LocalDate
-import java.util.UUID
-
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.Clock
+import kotlinx.datetime.toLocalDateTime
 
 data class LogEntry(
     val userName: String,
-    val targetId: UUID,
+    val targetId: String,
     val targetType: TargetType,
     val action: String,
     val oldValue: String?,
     val newValue: String?,
-    val loggedAt: LocalDate = LocalDate.now()
+    val loggedAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 )
 
 enum class TargetType {
