@@ -1,12 +1,12 @@
 package org.qudus.squad.model
 
-import java.util.UUID
+import org.qudus.squad.logic.GenerateUUID
 
 abstract class User(
     val username: String,
     val passwordHash: String
 ) {
-    val userId: UUID = UUID.randomUUID()
+    val userId: String = GenerateUUID().generate()
     abstract val role: UserRole
 }
 
