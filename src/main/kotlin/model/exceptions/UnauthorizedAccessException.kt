@@ -1,4 +1,4 @@
-package org.qudus.squad.logic.exceptions
+package org.qudus.squad.model.exceptions
 
 class UnauthorizedAccessException(
     message: String = NOT_AUTHORIZED_EXCEPTION_MESSAGE,

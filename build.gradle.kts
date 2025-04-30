@@ -1,5 +1,5 @@
 plugins {
-     kotlin("jvm") version "2.0.0"
+    kotlin("jvm") version "2.0.0"
 }
 
 group = "org.qudus.squad"
@@ -14,6 +14,13 @@ dependencies {
     implementation("com.squareup.okio:okio:3.7.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+
+    // junit
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.0-M1")
+
+    // kotest
+    testImplementation("io.kotest:kotest-runner-junit5:6.0.0.M3")
+    testImplementation("io.kotest:kotest-assertions-core:6.0.0.M3")
 
 }
 
