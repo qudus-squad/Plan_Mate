@@ -9,6 +9,7 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.result.shouldBeSuccess
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.qudus.squad.model.State
 
 class CreateStateUseCaseTest {
 
@@ -26,16 +27,17 @@ class CreateStateUseCaseTest {
     fun `should allow admin to create new state`() {
         // Given
         val admin = AdminUser(username = "admin", passwordHash = "hashed")
+        val state = State(name = "InProgress")
 
         // When
-        val result = createStateUseCase.createState(admin, projectId, "In Progress")
+        val result = createStateUseCase.createState(admin, projectId, state)
 
         // Then
         result.shouldBeSuccess()
         val states = stateRepository.getAllStatesForProject(projectId)
         states.shouldHaveSize(1)
-        states.map { it.name } shouldContainExactly listOf("In Progress")
+        states.map { it.name } shouldContainExactly listOf("InProgress")
         assertEquals(1, states.size)
-        assertEquals("In Progress", states[0].name)
+        assertEquals("InProgress", states[0].name)
     }
 }

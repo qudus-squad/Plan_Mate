@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.qudus.squad.logic.usecases.state.CreateStateUseCase
 import org.qudus.squad.logic.usecases.state.GetAllStatesForProjectUseCase
 import org.qudus.squad.model.AdminUser
+import org.qudus.squad.model.State
 import kotlin.test.Test
 
 class GetAllStatesForProjectUseCaseTest {
@@ -32,9 +33,9 @@ class GetAllStatesForProjectUseCaseTest {
         val admin = AdminUser("admin", "hashed")
 
         // When
-        createStateUseCase.createState(admin, projectId1, "ToDo")
-        createStateUseCase.createState(admin, projectId1, "InProgress")
-        createStateUseCase.createState(admin, projectId1, "Done")
+        createStateUseCase.createState(admin, projectId1, State(name = "ToDo"))
+        createStateUseCase.createState(admin, projectId1, State(name = "InProgress"))
+        createStateUseCase.createState(admin, projectId1, State(name = "Done"))
 
         val states = getAllStatesUseCase.getAllStatesForProject(projectId1)
 
@@ -57,8 +58,8 @@ class GetAllStatesForProjectUseCaseTest {
 
         // Given
         val admin = AdminUser("admin", "hashed")
-        createStateUseCase.createState(admin, projectId1, "ToDo")
-        createStateUseCase.createState(admin, projectId2, "Archived")
+        createStateUseCase.createState(admin, projectId1, State(name = "ToDo"))
+        createStateUseCase.createState(admin, projectId2, State(name = "Archived"))
 
         // When
         val states = getAllStatesUseCase.getAllStatesForProject(projectId1)

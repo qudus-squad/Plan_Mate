@@ -9,6 +9,7 @@ import org.qudus.squad.logic.exceptions.UnauthorizedAccessException
 import org.qudus.squad.logic.usecases.state.CreateStateUseCase
 import org.qudus.squad.logic.usecases.state.DeleteStateUseCase
 import org.qudus.squad.model.AdminUser
+import org.qudus.squad.model.State
 import org.qudus.squad.model.User
 import org.qudus.squad.model.UserRole
 import kotlin.test.Test
@@ -33,10 +34,11 @@ class DeleteStateUseCaseTest {
 
         // Given
         val admin = AdminUser("admin", "hashed")
-        createStateUseCase.createState(admin, projectId, "ToDo")
+        val state = State(name = "ToDo")
+        createStateUseCase.createState(admin, projectId, state)
 
         // When
-        val result = deleteStateUseCase.deleteState(admin, projectId, "ToDo")
+        val result = deleteStateUseCase.deleteState(admin, projectId, state)
 
         // Then
         result.shouldBeSuccess()
@@ -48,12 +50,13 @@ class DeleteStateUseCaseTest {
 
         // Given
         val admin = AdminUser("admin", "hashed")
+        val nonExistentState = State(name = "NonExistent")
 
         // When
         val result = deleteStateUseCase.deleteState(
             admin,
             projectId,
-            "NonExistent",
+            nonExistentState,
         )
 
         // Then
@@ -67,9 +70,10 @@ class DeleteStateUseCaseTest {
         val mate = object : User("mate", "hashed") {
             override val role = UserRole.MATE
         }
+        val state = State(name = "ToDo")
 
         // When
-        val result = deleteStateUseCase.deleteState(mate, projectId, "ToDo")
+        val result = deleteStateUseCase.deleteState(mate, projectId, state)
 
         // Then
         result.shouldBeFailure { it is UnauthorizedAccessException }

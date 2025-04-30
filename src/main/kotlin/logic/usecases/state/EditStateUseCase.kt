@@ -12,14 +12,14 @@ class EditStateUseCase(private val stateRepository: StateRepository) {
         user: User,
         projectId: String,
         oldState: State,
-        newState: State,
+        modifiedState: State,
     ): Result<Unit> {
         if (user !is AdminUser) return Result.failure(UnauthorizedAccessException())
 
         return stateRepository.editState(
             projectId = projectId,
-            newState = oldState,
-            oldState = newState,
+            oldState = oldState,
+            modifiedState = modifiedState,
         )
     }
 }

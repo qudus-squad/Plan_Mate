@@ -7,28 +7,28 @@ class FakeStateRepository : StateRepository {
 
     private val statesPerProject = mutableMapOf<String, MutableList<State>>()
 
-    override fun addStateToProject(projectId: String, state: String): Result<Unit> {
+    override fun addStateToProject(projectId: String, state: State): Result<Unit> {
         val states = statesPerProject.getOrPut(projectId) { mutableListOf() }
-        if (states.any { it.name == state }) {
-            return Result.failure(Exception("State already exists"))
-        }
-        states.add(State(name = state))
+        states.add(state)
         return Result.success(Unit)
     }
 
-    override fun editState(projectId: String, state: String, newStateName: String): Result<Unit> {
+    override fun editState(projectId: String, oldState: State, modifiedState: State): Result<Unit> {
         val states = statesPerProject[projectId] ?: return Result.failure(Exception("Project not found"))
-        val index = states.indexOfFirst { it.name == state }
-        if (index == -1) return Result.failure(Exception("Old state not found"))
 
-        states[index] = State(name = newStateName)
+        val index = states.indexOfFirst { it.id == oldState.id }
+        if (index == -1) return Result.failure(Exception("State not found"))
+
+        val updatedState = State(id = oldState.id, name = modifiedState.name)
+        states[index] = updatedState
+
         return Result.success(Unit)
     }
 
-    override fun deleteState(projectId: String, state: String): Result<Unit> {
+    override fun deleteState(projectId: String, state: State): Result<Unit> {
         val states = statesPerProject[projectId] ?: return Result.failure(Exception("Project not found"))
 
-        val removed = states.removeIf { it.name == state }
+        val removed = states.removeIf { it.id == state.id }
         return if (removed) Result.success(Unit) else Result.failure(Exception("State not found"))
     }
 
