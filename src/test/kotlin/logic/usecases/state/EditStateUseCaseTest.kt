@@ -8,7 +8,7 @@ import io.kotest.matchers.result.shouldBeSuccess
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.qudus.squad.logic.exceptions.UnauthorizedAccessException
+import org.qudus.squad.model.exceptions.UnauthorizedAccessException
 import org.qudus.squad.logic.usecases.state.CreateStateUseCase
 import org.qudus.squad.logic.usecases.state.EditStateUseCase
 import org.qudus.squad.model.AdminUser
