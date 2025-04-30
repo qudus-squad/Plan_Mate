@@ -13,6 +13,7 @@ data class Task(
     val projectId: String,
     val state: State,
     val creatorUserID: String,
+    val assignedUserId: String? = null,
     val createdAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
     val lastUpdatedAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
 )
