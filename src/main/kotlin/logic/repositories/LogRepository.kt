@@ -1,4 +1,4 @@
-package org.qudus.squad.logic.repositories.log_repository
+package org.qudus.squad.logic.repositories
 
 import org.qudus.squad.model.LogEntry
 
