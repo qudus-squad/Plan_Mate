@@ -1,8 +1,8 @@
 package org.qudus.squad.model
 
-import java.util.UUID
+import org.qudus.squad.logic.GenerateUUID
 
 data class State(
-    val id: UUID = UUID.randomUUID(),
+    val id: String = GenerateUUID().generate(),
     val name: String,
 )

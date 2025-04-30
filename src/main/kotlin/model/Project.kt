@@ -1,14 +1,17 @@
 package org.qudus.squad.model
 
-import java.time.LocalDateTime
-import java.util.UUID
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.Clock
+import kotlinx.datetime.toLocalDateTime
+import org.qudus.squad.logic.GenerateUUID
 
 data class Project(
-    val id: UUID = UUID.randomUUID(),
+    val id: String = GenerateUUID().generate(),
     val title: String,
     val description: String,
-    val creatorUserId: UUID,
-    val createdAt: LocalDateTime = LocalDateTime.now(),
-    val lastUpdateAt: LocalDateTime = LocalDateTime.now(),
-    val states: List<State>,
+    val creatorUserId: String,
+    val createdAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+    val lastUpdateAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+    val state: List<State>,
 )
