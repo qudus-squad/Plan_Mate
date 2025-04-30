@@ -1,7 +1,7 @@
-package org.qudus.squad.data.repositories.log_repository
+package org.qudus.squad.data.repositories
 
 import org.qudus.squad.data.data_source.log_data_source.LogDataSource
-import org.qudus.squad.logic.repositories.log_repository.LogRepository
+import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.model.LogEntry
 
 class LogRepositoryImpl(
