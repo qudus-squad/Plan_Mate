@@ -3,6 +3,7 @@ package org.qudus.squad.data.repositories
 import org.qudus.squad.data.data_source.authntication_data_source.AuthenticationDataSource
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.model.MateUser
+import org.qudus.squad.model.User
 import org.qudus.squad.model.UserRole
 
 class AuthenticationRepositoryImplementation(
@@ -13,7 +14,8 @@ class AuthenticationRepositoryImplementation(
         authenticationDataSource.createMateUser(userRole, user)
     }
 
-    override fun signIn(user: MateUser) {
+    override fun signIn(user: User):Boolean {
+        return authenticationDataSource.signIn(user)
     }
 
 }

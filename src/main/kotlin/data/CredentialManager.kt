@@ -34,10 +34,9 @@ class CredentialManager {
 
         val storedUsernames = fileSystem.read(usernamesPath) { readUtf8() }.lines()
         if (storedUsernames.contains(hashedUsername)) {
-            throw UserAlreadyExistException("User Already Exist")
+            throw UserAlreadyExistException(USER_ALREADY_EXIST)
         }
 
-        // Save new credentials if username doesn't exist
         fileSystem.appendingSink(usernamesPath).buffer().use { it.writeUtf8("$hashedUsername\n") }
         fileSystem.appendingSink(passwordsPath).buffer().use { it.writeUtf8("$hashedPassword\n") }
     }
@@ -55,5 +54,9 @@ class CredentialManager {
             }
         }
         return false
+    }
+
+    companion object{
+        const val USER_ALREADY_EXIST = "User Already Exist"
     }
 }
