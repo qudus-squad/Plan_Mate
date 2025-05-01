@@ -2,8 +2,8 @@ package org.qudus.squad.data.csv.parser
 
 import kotlinx.datetime.toLocalDateTime
 import org.qudus.squad.data.csv.CsvParser
-import org.qudus.squad.model.State
-import org.qudus.squad.model.Task
+import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.model.entity.Task
 
 class TaskCsvParser : CsvParser<Task> {
 
@@ -15,7 +15,7 @@ class TaskCsvParser : CsvParser<Task> {
             title = taskList[TaskCsvColumnIndex.TITLE.index],
             description = taskList[TaskCsvColumnIndex.DESCRIPTION.index],
             projectId = taskList[TaskCsvColumnIndex.PROJECT_ID.index],
-            state = State(taskList[TaskCsvColumnIndex.STATE_ID.index], taskList[TaskCsvColumnIndex.STATE_NAME.index]),
+            taskState = TaskState(taskList[TaskCsvColumnIndex.STATE_ID.index], taskList[TaskCsvColumnIndex.STATE_NAME.index]),
             creatorUserID = taskList[TaskCsvColumnIndex.CREATOR_USER_ID.index],
             createdAt = taskList[TaskCsvColumnIndex.CREATED_AT.index].toLocalDateTime(),
             lastUpdatedAt = taskList[TaskCsvColumnIndex.LAST_UPDATED_AT.index].toLocalDateTime(),
@@ -28,8 +28,8 @@ class TaskCsvParser : CsvParser<Task> {
             model.title,
             model.description,
             model.projectId,
-            model.state.id,
-            model.state.name,
+            model.taskState.id,
+            model.taskState.name,
             model.creatorUserID,
             model.createdAt.toString(),
             model.lastUpdatedAt.toString()

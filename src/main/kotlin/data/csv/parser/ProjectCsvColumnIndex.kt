@@ -1,6 +1,7 @@
 package org.qudus.squad.data.csv.parser
 
 enum class ProjectCsvColumnIndex(val index: Int) {
+    //Change to constants
     ID(0),
     TITLE(1),
     DESCRIPTION(2),

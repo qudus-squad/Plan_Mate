@@ -4,7 +4,7 @@ import okio.Path.Companion.toPath
 import okio.buffer
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.TaskCsvParser
-import org.qudus.squad.model.Task
+import org.qudus.squad.model.entity.Task
 
 class CsvTaskDataSource(
     private val csvReader: CsvReader, private val taskCsvParser: TaskCsvParser
@@ -35,7 +35,7 @@ class CsvTaskDataSource(
         }
     }
 
-    override fun addTask(task: Task) {
+    override fun createNewTask(task: Task) {
         val csvLine = taskCsvParser.toCsvRow(task)
 
         FileSystem.SYSTEM.appendingSink(TASKS_FILE.toPath()).buffer().use { sink ->

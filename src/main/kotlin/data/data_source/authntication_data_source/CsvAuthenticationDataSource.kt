@@ -1,15 +1,14 @@
 package org.qudus.squad.data.data_source.authntication_data_source
 
 import org.qudus.squad.data.CredentialManager
-import org.qudus.squad.model.MateUser
-import org.qudus.squad.model.User
-import org.qudus.squad.model.UserRole
+import org.qudus.squad.model.entity.User
+import org.qudus.squad.model.entity.UserRole
 
 class CsvAuthenticationDataSource(
     private val credentialManager: CredentialManager
 ) : AuthenticationDataSource {
 
-    override fun createMateUser(userRole: UserRole, user: MateUser) {
+    override fun createNewUser(userRole: UserRole, user: User) {
         credentialManager.saveCredentials(user.username, user.passwordHash)
     }
 

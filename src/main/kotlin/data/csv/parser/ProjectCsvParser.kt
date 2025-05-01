@@ -2,8 +2,8 @@ package org.qudus.squad.data.csv.parser
 
 import kotlinx.datetime.toLocalDateTime
 import org.qudus.squad.data.csv.CsvParser
-import org.qudus.squad.model.Project
-import org.qudus.squad.model.State
+import org.qudus.squad.model.entity.Project
+import org.qudus.squad.model.entity.TaskState
 
 
 class ProjectCsvParser : CsvParser<Project> {
@@ -16,7 +16,7 @@ class ProjectCsvParser : CsvParser<Project> {
             creatorUserId = projectList[ProjectCsvColumnIndex.CREATOR_USER_ID.index],
             createdAt = projectList[ProjectCsvColumnIndex.CREATED_AT.index].toLocalDateTime(),
             lastUpdateAt = projectList[ProjectCsvColumnIndex.LAST_UPDATED_AT.index].toLocalDateTime(),
-            state = projectList[ProjectCsvColumnIndex.STATE.index].parseStateList()
+            taskState = projectList[ProjectCsvColumnIndex.STATE.index].parseStateList()
         )
     }
 
@@ -64,9 +64,9 @@ class ProjectCsvParser : CsvParser<Project> {
         return result
     }
 
-    fun String.parseStateList(): List<State> {
+    fun String.parseStateList(): List<TaskState> {
         return this.removePrefix("[").removeSuffix("]").split(',').map { it.trim() }.filter { it.isNotEmpty() }
-            .map { name -> State(name = name) }
+            .map { name -> TaskState(name = name) }
     }
 
     override fun toCsvRow(model: Project): String {
@@ -77,7 +77,7 @@ class ProjectCsvParser : CsvParser<Project> {
             model.creatorUserId,
             model.createdAt,
             model.lastUpdateAt,
-            model.state.toString()
+            model.taskState.toString()
         ).joinToString(",")
     }
 }

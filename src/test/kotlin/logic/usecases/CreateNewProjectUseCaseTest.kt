@@ -1,4 +1,4 @@
-package logic.usecases
+package logic.useCases
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.string.shouldNotContain
@@ -7,10 +7,11 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource.Companion.PROJECTS_FILE
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.usecases.project.CreateNewProjectUseCase
-import org.qudus.squad.model.AdminUser
-import org.qudus.squad.model.MateUser
-import org.qudus.squad.model.State
+import org.qudus.squad.logic.useCases.project.CreateNewProjectUseCase
+
+import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.model.entity.User
+import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.model.exceptions.AccessDeniedException
 
 class CreateNewProjectUseCaseTest {
@@ -29,15 +30,15 @@ class CreateNewProjectUseCaseTest {
         //Given
         val title = "project "
         val description = "new project "
-        val state: List<State> = listOf()
-        val projectCreator = MateUser("user", ("123456"))
+        val state: List<TaskState> = listOf()
+        val projectCreator = User("user", ("123456"), role =UserRole.MATE )
         // When && Then
         shouldThrow<AccessDeniedException> {
             createNewProjectUseCase.createProject(
                 title = title,
                 description = description,
                 user = projectCreator,
-                state = state
+                taskState = state
             )
         }
     }
@@ -46,14 +47,14 @@ class CreateNewProjectUseCaseTest {
         //Given
         val title = ""
         val description = "new project "
-        val state: List<State> = listOf()
-        val projectCreator = MateUser("user", ("123456"))
+        val state: List<TaskState> = listOf()
+        val projectCreator = User("user", ("123456"), role =UserRole.MATE )
         shouldThrow<AccessDeniedException> {
             createNewProjectUseCase.createProject(
                 title = title,
                 description = description,
                 user = projectCreator,
-                state = state
+                taskState = state
             )
         }
     }
@@ -62,14 +63,14 @@ class CreateNewProjectUseCaseTest {
     //Given
     val title = "project "
     val description = "new project "
-    val state: List<State> = listOf()
-    val projectCreator = AdminUser("user", ("123456"))
+        val state: List<TaskState> = listOf()
+        val projectCreator = User("user", ("123456"), role =UserRole.MATE )
         //When
         val result =createNewProjectUseCase.createProject(
             title = title,
             description = description,
             user = projectCreator,
-            state = state
+            taskState = state
         )
         //Then
         val tempCsv = PROJECTS_FILE

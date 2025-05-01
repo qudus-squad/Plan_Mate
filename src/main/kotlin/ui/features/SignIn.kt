@@ -5,7 +5,8 @@ import org.qudus.squad.data.data_source.authntication_data_source.CsvAuthenticat
 import org.qudus.squad.data.repositories.AuthenticationRepositoryImplementation
 import org.qudus.squad.logic.usecases.authentication.SignInUseCase
 import org.qudus.squad.logic.validation.UserDataValidator
-import org.qudus.squad.model.MateUser
+import org.qudus.squad.model.entity.User
+import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.model.exceptions.InvalidUserDataException
 
 class SignIn(
@@ -18,7 +19,7 @@ class SignIn(
         val password = readln()
 
         try {
-            val isUserSignedIn = (signInUseCase.signIn(MateUser(userName, password)))
+            val isUserSignedIn = (signInUseCase.signIn(User(userName, password , role = UserRole.MATE)))
             if (isUserSignedIn) {
                 println("Signed in Successfully")
             } else {

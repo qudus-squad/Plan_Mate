@@ -1,6 +1,6 @@
 package org.qudus.squad.logic.validation
 
-import org.qudus.squad.model.User
+import org.qudus.squad.model.entity.User
 
 class UserDataValidator {
 
@@ -10,5 +10,4 @@ class UserDataValidator {
                 user.username.all { !it.isLetterOrDigit() }
                 )
     }
-
 }

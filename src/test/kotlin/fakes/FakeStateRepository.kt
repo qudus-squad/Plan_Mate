@@ -1,38 +1,38 @@
 package fakes
 
 import org.qudus.squad.logic.repositories.StateRepository
-import org.qudus.squad.model.State
+import org.qudus.squad.model.entity.TaskState
 
 class FakeStateRepository : StateRepository {
 
-    private val statesPerProject = mutableMapOf<String, MutableList<State>>()
+    private val statesPerProject = mutableMapOf<String, MutableList<TaskState>>()
 
-    override fun addStateToProject(projectId: String, state: State): Result<Unit> {
+    override fun addTaskStateToProject(projectId: String, taskState: TaskState): Result<Unit> {
         val states = statesPerProject.getOrPut(projectId) { mutableListOf() }
-        states.add(state)
+        states.add(taskState)
         return Result.success(Unit)
     }
 
-    override fun editState(projectId: String, oldState: State, modifiedState: State): Result<Unit> {
+    override fun editTaskState(projectId: String, oldTaskState: TaskState, modifiedTaskState: TaskState): Result<Unit> {
         val states = statesPerProject[projectId] ?: return Result.failure(Exception("Project not found"))
 
-        val index = states.indexOfFirst { it.id == oldState.id }
+        val index = states.indexOfFirst { it.id == oldTaskState.id }
         if (index == -1) return Result.failure(Exception("State not found"))
 
-        val updatedState = State(id = oldState.id, name = modifiedState.name)
-        states[index] = updatedState
+        val updatedTaskState = TaskState(id = oldTaskState.id, name = modifiedTaskState.name)
+        states[index] = updatedTaskState
 
         return Result.success(Unit)
     }
 
-    override fun deleteState(projectId: String, state: State): Result<Unit> {
+    override fun deleteTaskState(projectId: String, taskState: TaskState): Result<Unit> {
         val states = statesPerProject[projectId] ?: return Result.failure(Exception("Project not found"))
 
-        val removed = states.removeIf { it.id == state.id }
+        val removed = states.removeIf { it.id == taskState.id }
         return if (removed) Result.success(Unit) else Result.failure(Exception("State not found"))
     }
 
-    override fun getAllStatesForProject(projectId: String): List<State> {
+    override fun getAllTaskStatesByProjectId(projectId: String): List<TaskState> {
         return statesPerProject[projectId]?.toList() ?: emptyList()
     }
 }

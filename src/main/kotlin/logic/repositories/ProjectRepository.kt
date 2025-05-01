@@ -1,6 +1,6 @@
 package org.qudus.squad.logic.repositories
 
-import org.qudus.squad.model.Project
+import org.qudus.squad.model.entity.Project
 
 interface ProjectRepository {
     fun getAllProjects(): List<Project>
