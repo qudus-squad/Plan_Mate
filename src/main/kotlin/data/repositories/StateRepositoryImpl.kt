@@ -1,6 +1,6 @@
-package org.qudus.squad.data.repositories.state_repository
+package org.qudus.squad.data.repositories
 
-import org.qudus.squad.logic.repositories.state_repository.StateRepository
+import org.qudus.squad.logic.repositories.StateRepository
 import org.qudus.squad.model.State
 
 class StateRepositoryImpl : StateRepository {

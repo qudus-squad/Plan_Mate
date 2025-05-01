@@ -1,4 +1,4 @@
-package org.qudus.squad.logic.usecases
+package org.qudus.squad.logic.usecases.authentication
 
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.validation.UserDataValidator
@@ -19,7 +19,6 @@ class SignInUseCase(
         }
         return authenticationRepository.signIn(user)
     }
-
 
     companion object {
         const val INVALID_USER_NAME_OR_PASSWORD = "Incorrect username or password"

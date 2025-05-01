@@ -17,6 +17,7 @@ class ManageProjectsUI(
             println("1- Create New Project")
             println("2- Delete Project")
             println("3- Edit Project")
+            println("4- Get All Projects")
             when (readlnOrNull()?.trim()) {
                 "1" -> createNewProject(user)
             }

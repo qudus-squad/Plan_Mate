@@ -1,4 +1,4 @@
-package org.qudus.squad.logic.usecases
+package org.qudus.squad.logic.usecases.project
 
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.model.Project

@@ -1,6 +1,6 @@
 package org.qudus.squad.ui.features
 
-import org.qudus.squad.logic.usecases.CreateNewMateUserUseCase
+import org.qudus.squad.logic.usecases.mate.CreateNewMateUserUseCase
 import org.qudus.squad.model.MateUser
 import org.qudus.squad.model.UserRole
 import org.qudus.squad.model.exceptions.InvalidUserDataException
@@ -28,5 +28,4 @@ class CreateNewMateUser(
             println(e.message)
         }
     }
-
 }

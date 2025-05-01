@@ -7,7 +7,7 @@ import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.repositories.AuthenticationRepository
-import org.qudus.squad.logic.usecases.SignInUseCase
+import org.qudus.squad.logic.usecases.authentication.SignInUseCase
 import org.qudus.squad.logic.validation.UserDataValidator
 import org.qudus.squad.model.MateUser
 import org.qudus.squad.model.exceptions.InvalidUserDataException
@@ -63,5 +63,4 @@ class SignInUseCaseTest {
         // Then
         result shouldBe true
     }
-
 }

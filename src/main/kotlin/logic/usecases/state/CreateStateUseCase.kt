@@ -1,10 +1,10 @@
 package org.qudus.squad.logic.usecases.state
 
-import org.qudus.squad.model.exceptions.UnauthorizedAccessException
-import org.qudus.squad.logic.repositories.state_repository.StateRepository
+import org.qudus.squad.logic.repositories.StateRepository
 import org.qudus.squad.model.AdminUser
 import org.qudus.squad.model.State
 import org.qudus.squad.model.User
+import org.qudus.squad.model.exceptions.UnauthorizedAccessException
 
 class CreateStateUseCase(private val stateRepository: StateRepository) {
 
@@ -13,11 +13,14 @@ class CreateStateUseCase(private val stateRepository: StateRepository) {
         projectId: String,
         state: State,
     ): Result<Unit> {
-        if (user !is AdminUser) return Result.failure(UnauthorizedAccessException())
+        if (user !is AdminUser) throw UnauthorizedAccessException(NOT_AUTHORIZED_EXCEPTION_MESSAGE)
 
         return stateRepository.addStateToProject(
             projectId = projectId,
             state = state,
         )
+    }
+    companion object {
+        const val NOT_AUTHORIZED_EXCEPTION_MESSAGE = "User is not authorized to perform this action."
     }
 }
