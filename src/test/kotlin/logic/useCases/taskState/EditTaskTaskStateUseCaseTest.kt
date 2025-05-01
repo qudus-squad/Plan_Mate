@@ -8,8 +8,8 @@ import io.kotest.matchers.result.shouldBeSuccess
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.qudus.squad.logic.useCases.taskState.CreateNewTaskStateUseCase
 import org.qudus.squad.logic.useCases.taskState.EditTaskStateUseCase
-import org.qudus.squad.logic.usecases.state.CreateNewTaskStateUseCase
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole

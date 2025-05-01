@@ -1,6 +1,6 @@
 package org.qudus.squad.ui.features
 
-import org.qudus.squad.logic.usecases.authentication.CreateNewUserUseCase
+import org.qudus.squad.logic.useCases.authentication.CreateNewUserUseCase
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.model.exceptions.InvalidUserDataException

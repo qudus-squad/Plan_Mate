@@ -1,6 +1,6 @@
 package org.qudus.squad.ui.features
 
-import org.qudus.squad.logic.usecases.project.CreateNewProjectUseCase
+import org.qudus.squad.logic.useCases.project.CreateNewProjectUseCase
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
@@ -41,8 +41,8 @@ class ManageProjectsUI(
         val projectToBeCreated = createNewProjectUseCase.createProject(
             title = title,
             description = description,
-            taskState = taskStates,
-            user = user
+            user = user,
+            taskState = taskStates
         )
         println(" user : ${projectToBeCreated.creatorUserId} created ${projectToBeCreated.title} ")
     }

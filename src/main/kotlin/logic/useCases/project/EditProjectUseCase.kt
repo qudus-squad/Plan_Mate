@@ -4,8 +4,8 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.model.Project
-import org.qudus.squad.model.State
+import org.qudus.squad.model.entity.Project
+import org.qudus.squad.model.entity.TaskState
 
 class EditProjectUseCase(
     private val projectRepository: ProjectRepository
@@ -42,7 +42,7 @@ class EditProjectUseCase(
         // Read and apply states
         val newStates = readStatesInput()
         if (newStates.isNotEmpty()) {
-            updatedProject = updatedProject.copy(state = newStates)
+            updatedProject = updatedProject.copy(taskState = newStates)
         }
 
         // Update timestamp
@@ -53,14 +53,14 @@ class EditProjectUseCase(
         return updatedProject
     }
 
-    private fun readStatesInput(): List<State> {
-        val states = mutableListOf<State>()
+    private fun readStatesInput(): List<TaskState> {
+        val states = mutableListOf<TaskState>()
         println("Enter states (ID,Name pairs). Enter empty ID to finish:")
 
         while (true) {
             val id = readlnOrNull()?.takeIf { it.isNotBlank() } ?: break
             val name = readlnOrNull()?.takeIf { it.isNotBlank() } ?: continue
-            states.add(State(id, name))
+            states.add(TaskState(id, name))
         }
 
         return states
@@ -69,8 +69,8 @@ class EditProjectUseCase(
     private fun isValidInput(project: Project): Boolean {
         return project.title.isNotBlank() &&
                 project.description.isNotBlank() &&
-                project.state.isNotEmpty() &&
-                project.state.all { it.id.isNotBlank() && it.name.isNotBlank() }
+                project.taskState.isNotEmpty() &&
+                project.taskState.all { it.id.isNotBlank() && it.name.isNotBlank() }
     }
 
     private fun updateProject(project: Project): Boolean {
