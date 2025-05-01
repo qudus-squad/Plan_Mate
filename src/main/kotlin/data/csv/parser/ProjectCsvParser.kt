@@ -6,7 +6,7 @@ import org.qudus.squad.model.Project
 import org.qudus.squad.model.State
 
 
-class ProjectCsvCsvParser : CsvParser<Project> {
+class ProjectCsvParser : CsvParser<Project> {
     override fun fromCsvRow(row: String): Project {
         val projectList = row.smartCsvParser()
         return Project(

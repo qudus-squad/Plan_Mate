@@ -8,7 +8,7 @@ import org.qudus.squad.model.Task
 class TaskCsvParser : CsvParser<Task> {
 
     override fun fromCsvRow(row: String): Task {
-        val cleanedLine = row.trim().removeSuffix("\n")
+        val cleanedLine = row.trim().replace("\"", "")
         val taskList = cleanedLine.split(',')
         return Task(
             id = taskList[TaskCsvColumnIndex.ID.index],
