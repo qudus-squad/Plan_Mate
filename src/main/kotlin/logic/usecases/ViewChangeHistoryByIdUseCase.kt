@@ -9,7 +9,6 @@ class ViewChangeHistoryByIdUseCase(private val logRepository: LogRepository) {
 
     fun getFormattedChangeHistory(targetId: String): List<String> {
         val changeLogs: List<LogEntry> = logRepository.getLogByTargetId(targetId)
-            ?.takeIf { it.isNotEmpty() }
             ?: throw NoChangeHistoryFoundException("$NO_CHANGE_HISTORY_FOUND_FOR_ID: $targetId")
 
         return changeLogs.map { log ->
