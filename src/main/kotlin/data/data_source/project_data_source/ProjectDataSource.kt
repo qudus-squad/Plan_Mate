@@ -6,5 +6,5 @@ interface ProjectDataSource {
     fun getAllProjects(): List<Project>
     fun getProjectById(id: String): Project
     fun deleteProjectById(id: String)
-    fun addProjectById(project: Project)
+    fun createNewProject(project: Project)
 }

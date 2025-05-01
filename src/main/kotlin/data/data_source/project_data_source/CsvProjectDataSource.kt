@@ -35,7 +35,7 @@ class CsvProjectDataSource(
         }
     }
 
-    override fun addProjectById(project: Project) {
+    override fun createNewProject(project: Project) {
         val csvLine = projectCsvCsvParser.toCsvRow(project)
         FileSystem.SYSTEM.appendingSink(PROJECTS_FILE.toPath()).buffer().use { sink ->
             sink.writeUtf8(csvLine + "\n")

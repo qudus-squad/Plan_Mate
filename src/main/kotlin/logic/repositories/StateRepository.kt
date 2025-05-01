@@ -1,4 +1,4 @@
-package org.qudus.squad.logic.repositories.state_repository
+package org.qudus.squad.logic.repositories
 
 import org.qudus.squad.model.State
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.data.CredentialManager
 import org.qudus.squad.logic.repositories.AuthenticationRepository
-import org.qudus.squad.logic.usecases.CreateNewMateUserUseCase
+import org.qudus.squad.logic.usecases.mate.CreateNewMateUserUseCase
 import org.qudus.squad.logic.validation.UserDataValidator
 import org.qudus.squad.model.AdminUser
 import org.qudus.squad.model.MateUser
