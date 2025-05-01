@@ -5,10 +5,8 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.qudus.squad.data.data_source.project_data_source.ProjectDataSource
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.usecases.EditProjectUseCase
 import org.qudus.squad.model.Project
 import org.qudus.squad.model.State
-import java.io.File
 
 
 class ProjectRepositoryImpl(private val projectDataSource: ProjectDataSource) : ProjectRepository {
@@ -38,7 +36,6 @@ class ProjectRepositoryImpl(private val projectDataSource: ProjectDataSource) : 
         lastUpdateAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
     )
     override fun editProject(project: Project) {
-//        val file = File("D:/Courses/The Chance/PlanMate V.1.0/src/main/kotlin/data/csv/projects.csv")
         return editProject(project)
     }
 }
