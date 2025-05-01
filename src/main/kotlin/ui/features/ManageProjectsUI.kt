@@ -1,9 +1,9 @@
 package org.qudus.squad.ui.features
 
 import org.qudus.squad.logic.usecases.project.CreateNewProjectUseCase
-import org.qudus.squad.model.State
-import org.qudus.squad.model.User
-import org.qudus.squad.model.UserRole
+import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.model.entity.User
+import org.qudus.squad.model.entity.UserRole
 
 class ManageProjectsUI(
     private val createNewProjectUseCase: CreateNewProjectUseCase
@@ -36,12 +36,12 @@ class ManageProjectsUI(
         println("Enter States (separated By Comma Character(,) )")
 
         val statesEntered = readlnOrNull()?.trim()?.split(",") ?: emptyList()
-        val states = statesEntered.map { string -> State(name = string) }
+        val taskStates = statesEntered.map { string -> TaskState(name = string) }
 
         val projectToBeCreated = createNewProjectUseCase.createProject(
             title = title,
             description = description,
-            state = states,
+            taskState = taskStates,
             user = user
         )
         println(" user : ${projectToBeCreated.creatorUserId} created ${projectToBeCreated.title} ")

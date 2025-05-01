@@ -1,4 +1,4 @@
-package org.qudus.squad.model
+package org.qudus.squad.model.entity
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone

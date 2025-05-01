@@ -1,4 +1,4 @@
-package org.qudus.squad.logic
+package org.qudus.squad.logic.utils
 
 import org.qudus.squad.model.exceptions.InvalidUserDataException
 

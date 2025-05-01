@@ -5,7 +5,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.qudus.squad.data.data_source.project_data_source.ProjectDataSource
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.model.Project
+import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.State
 
 
@@ -37,5 +37,9 @@ class ProjectRepositoryImpl(private val projectDataSource: ProjectDataSource) : 
     )
     override fun editProject(project: Project) {
         return editProject(project)
+    }
+
+    override fun getProjectById(id: String): Project {
+        TODO("Not yet implemented")
     }
 }

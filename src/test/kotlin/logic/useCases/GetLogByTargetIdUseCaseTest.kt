@@ -1,4 +1,4 @@
-package logic.usecases
+package logic.useCases
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldContainExactly
@@ -11,21 +11,21 @@ import kotlinx.datetime.LocalTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.repositories.LogRepository
-import org.qudus.squad.logic.usecases.log.ViewChangeHistoryByIdUseCase
-import org.qudus.squad.model.LogEntry
+import org.qudus.squad.logic.useCases.log.GetLogByTargetIdUseCase
+import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.exceptions.NoChangeHistoryFoundException
-import org.qudus.squad.model.TargetType
+import org.qudus.squad.model.entity.TargetType
 import org.qudus.squad.utils.DateTimeFormatter
 
-class ViewChangeHistoryByIdUseCaseTest {
+class GetLogByTargetIdUseCaseTest {
 
     private lateinit var logRepository: LogRepository
-    private lateinit var viewChangeHistoryByIdUseCase: ViewChangeHistoryByIdUseCase
+    private lateinit var getLogByTargetIdUseCase: GetLogByTargetIdUseCase
 
     @BeforeEach
     fun setUp() {
         logRepository = mockk()
-        viewChangeHistoryByIdUseCase = ViewChangeHistoryByIdUseCase(logRepository)
+        getLogByTargetIdUseCase = GetLogByTargetIdUseCase(logRepository)
     }
 
     private fun sampleLogEntries(): List<LogEntry> {
@@ -64,7 +64,7 @@ class ViewChangeHistoryByIdUseCaseTest {
         every { logRepository.getLogByTargetId(targetId) } returns logs
 
         // When
-        val result = viewChangeHistoryByIdUseCase.getFormattedChangeHistory(targetId)
+        val result = getLogByTargetIdUseCase.getFormattedLog(targetId)
 
         // Then
         result.shouldContainExactly(
@@ -90,7 +90,7 @@ class ViewChangeHistoryByIdUseCaseTest {
         every { logRepository.getLogByTargetId(targetId) } returns emptyList()
 
         // When
-        val result = viewChangeHistoryByIdUseCase.getFormattedChangeHistory(targetId)
+        val result = getLogByTargetIdUseCase.getFormattedLog(targetId)
 
         // Then
         result shouldBe emptyList()
@@ -104,7 +104,7 @@ class ViewChangeHistoryByIdUseCaseTest {
 
         // When & Then
         val exception = shouldThrow<NoChangeHistoryFoundException> {
-            viewChangeHistoryByIdUseCase.getFormattedChangeHistory(targetId)
+            getLogByTargetIdUseCase.getFormattedLog(targetId)
         }
         exception.message shouldBe "No change history found for ID: not-found"
     }

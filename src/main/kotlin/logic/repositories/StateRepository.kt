@@ -1,10 +1,10 @@
 package org.qudus.squad.logic.repositories
 
-import org.qudus.squad.model.State
+import org.qudus.squad.model.entity.TaskState
 
 interface StateRepository {
-    fun addStateToProject(projectId: String, state: State): Result<Unit>
-    fun editState(projectId: String, oldState: State, modifiedState: State): Result<Unit>
-    fun deleteState(projectId: String, state: State): Result<Unit>
-    fun getAllStatesForProject(projectId: String): List<State>
+    fun addTaskStateToProject(projectId: String, taskState: TaskState): Result<Unit>
+    fun editTaskState(projectId: String, oldTaskState: TaskState, modifiedTaskState: TaskState): Result<Unit>
+    fun deleteTaskState(projectId: String, taskState: TaskState): Result<Unit>
+    fun getAllTaskStatesByProjectId(projectId: String): List<TaskState>
 }

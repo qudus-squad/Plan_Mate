@@ -6,7 +6,7 @@ import okio.buffer
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.LogEntryCsvParser
 import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource.Companion.PROJECTS_FILE
-import org.qudus.squad.model.LogEntry
+import org.qudus.squad.model.entity.LogEntry
 
 class CsvLogDataSource(
     private val csvReader: CsvReader, private val logEntryCsvParser: LogEntryCsvParser

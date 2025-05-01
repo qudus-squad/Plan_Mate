@@ -1,35 +1,35 @@
 package org.qudus.squad.data.repositories
 
 import org.qudus.squad.logic.repositories.TaskRepository
-import org.qudus.squad.model.State
-import org.qudus.squad.model.Task
+import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.model.entity.Task
 
 class TaskRepositoryImpl: TaskRepository {
-    override fun createTask(task: Task): Result<Unit> {
+    override fun createNewTask(task: Task){
         TODO("Not yet implemented")
     }
 
-    override fun editTask(updatedTask: Task): Result<Unit> {
+    override fun editExistingTask(updatedTask: Task){
         TODO("Not yet implemented")
     }
 
-    override fun deleteTask(taskId: String): Result<Unit> {
+    override fun deleteTask(taskId: String) {
         TODO("Not yet implemented")
     }
 
-    override fun getAllTasks(): List<Task> {
+    override fun getAllTasksByProjectId(): List<Task> {
         TODO("Not yet implemented")
     }
 
-    override fun switchTaskState(taskId: String, newState: State): Result<Unit> {
+    override fun switchTaskState(taskId: String, newTaskState: TaskState) {
         TODO("Not yet implemented")
     }
 
-    override fun assignTaskTo(taskId: String, userId: String): Result<Unit> {
+    override fun assignTaskToUser(taskId: String, userId: String) {
         TODO("Not yet implemented")
     }
 
-    override fun unAssignTask(taskId: String): Result<Unit> {
+    override fun unAssignTask(taskId: String) {
         TODO("Not yet implemented")
     }
 }

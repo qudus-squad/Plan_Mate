@@ -1,4 +1,4 @@
-package org.qudus.squad.logic
+package org.qudus.squad.logic.utils
 
 import kotlin.random.Random
 

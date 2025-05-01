@@ -1,6 +1,6 @@
 package org.qudus.squad.data.data_source.log_data_source
 
-import org.qudus.squad.model.LogEntry
+import org.qudus.squad.model.entity.LogEntry
 
 interface LogDataSource {
     fun getAllLogs(): List<LogEntry>

@@ -5,7 +5,7 @@ import okio.Path.Companion.toPath
 import okio.buffer
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.ProjectCsvParser
-import org.qudus.squad.model.Project
+import org.qudus.squad.model.entity.Project
 
 class CsvProjectDataSource(
     private val csvReader: CsvReader, private val projectCsvCsvParser: ProjectCsvParser

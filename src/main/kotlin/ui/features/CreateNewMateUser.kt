@@ -1,14 +1,14 @@
 package org.qudus.squad.ui.features
 
-import org.qudus.squad.logic.usecases.mate.CreateNewMateUserUseCase
-import org.qudus.squad.model.MateUser
-import org.qudus.squad.model.UserRole
+import org.qudus.squad.logic.usecases.authentication.CreateNewUserUseCase
+import org.qudus.squad.model.entity.User
+import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.model.exceptions.InvalidUserDataException
 import org.qudus.squad.model.exceptions.UnknownException
 import org.qudus.squad.model.exceptions.UserAlreadyExistException
 
 class CreateNewMateUser(
-    private val createNewMateUserUseCase: CreateNewMateUserUseCase
+    private val createNewUserUseCase: CreateNewUserUseCase
 ) {
     fun createNewMateUser(currentUserRole: UserRole) {
         println("Enter username: ")
@@ -16,7 +16,7 @@ class CreateNewMateUser(
         println("Enter Password")
         val password = readln()
         try {
-            createNewMateUserUseCase.createNewMateUser(currentUserRole, MateUser(userName, password))
+            createNewUserUseCase.createNewMateUser(currentUserRole, User(userName, password , role =UserRole.MATE))
             println("User Added Successfully")
         } catch (e: AccessDeniedException) {
             println(e.message)

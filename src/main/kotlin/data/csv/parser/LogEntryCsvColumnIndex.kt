@@ -1,6 +1,7 @@
 package org.qudus.squad.data.csv.parser
 
 enum class LogEntryCsvColumnIndex(val index: Int) {
+    //Change to constants
     USERNAME(0),
     TARGET_ID(1),
     TARGET_TYPE(2),
@@ -9,4 +10,3 @@ enum class LogEntryCsvColumnIndex(val index: Int) {
     NEW_VALUE(5),
     LOGGED_AT(6)
 }
-

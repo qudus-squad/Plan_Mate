@@ -1,13 +1,13 @@
-package org.qudus.squad.logic.usecases.log
+package org.qudus.squad.logic.useCases.log
 
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.model.exceptions.NoChangeHistoryFoundException
 import org.qudus.squad.utils.DateTimeFormatter
-import org.qudus.squad.model.LogEntry
+import org.qudus.squad.model.entity.LogEntry
 
-class ViewChangeHistoryByIdUseCase(private val logRepository: LogRepository) {
+class GetLogByTargetIdUseCase(private val logRepository: LogRepository) {
 
-    fun getFormattedChangeHistory(targetId: String): List<String> {
+    fun getFormattedLog(targetId: String): List<String> {
         val changeLogs: List<LogEntry> = logRepository.getLogByTargetId(targetId)
             ?: throw NoChangeHistoryFoundException("$NO_CHANGE_HISTORY_FOUND_FOR_ID: $targetId")
 
