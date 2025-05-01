@@ -3,7 +3,7 @@ package org.qudus.squad.ui.features
 import org.qudus.squad.data.CredentialManager
 import org.qudus.squad.data.data_source.authntication_data_source.CsvAuthenticationDataSource
 import org.qudus.squad.data.repositories.AuthenticationRepositoryImplementation
-import org.qudus.squad.logic.usecases.authentication.SignInUseCase
+import org.qudus.squad.logic.useCases.authentication.SignInUseCase
 import org.qudus.squad.logic.validation.UserDataValidator
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
