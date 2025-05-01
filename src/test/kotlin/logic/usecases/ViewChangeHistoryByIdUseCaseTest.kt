@@ -19,12 +19,12 @@ import org.qudus.squad.utils.DateTimeFormatter
 class ViewChangeHistoryByIdUseCaseTest {
 
  private lateinit var logRepository: LogRepository
- private lateinit var useCase: ViewChangeHistoryByIdUseCase
+ private lateinit var viewChangeHistoryByIdUseCase: ViewChangeHistoryByIdUseCase
 
  @BeforeEach
  fun setUp() {
   logRepository = mockk()
-  useCase = ViewChangeHistoryByIdUseCase(logRepository)
+  viewChangeHistoryByIdUseCase = ViewChangeHistoryByIdUseCase(logRepository)
  }
 
  private fun sampleLogEntries(): List<LogEntry> {
@@ -63,7 +63,7 @@ class ViewChangeHistoryByIdUseCaseTest {
   every { logRepository.getLogByTargetId(targetId) } returns logs
 
   // When
-  val result = useCase.getFormattedChangeHistory(targetId)
+  val result = viewChangeHistoryByIdUseCase.getFormattedChangeHistory(targetId)
 
   // Then
   result.shouldContainExactly(
@@ -75,15 +75,16 @@ class ViewChangeHistoryByIdUseCaseTest {
  }
 
  @Test
- fun `should throw exception when no change logs found for the given target ID`() {
+ fun `should return empty list when no change logs found for the given target ID`() {
   // Given
   val targetId = "123"
   every { logRepository.getLogByTargetId(targetId) } returns emptyList()
 
-  // When & Then
-  shouldThrow<NoChangeHistoryFoundException> {
-   useCase.getFormattedChangeHistory(targetId)
-  }.message shouldBe "No change history found for ID: 123"
+  // When
+  val result = viewChangeHistoryByIdUseCase.getFormattedChangeHistory(targetId)
+
+  // Then
+  result shouldBe emptyList()
  }
 
  @Test
@@ -94,8 +95,8 @@ class ViewChangeHistoryByIdUseCaseTest {
 
   // When & Then
   val exception = shouldThrow<NoChangeHistoryFoundException> {
-   useCase.getFormattedChangeHistory(targetId)
+   viewChangeHistoryByIdUseCase.getFormattedChangeHistory(targetId)
   }
-  assert(exception.message == "No change history found for ID: not-found")
+  exception.message shouldBe "No change history found for ID: not-found"
  }
 }
