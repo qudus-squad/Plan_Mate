@@ -1,4 +1,4 @@
-package org.qudus.squad.logic.useCases.authentication
+package logic.useCases.authentication
 
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.validation.UserDataValidator
