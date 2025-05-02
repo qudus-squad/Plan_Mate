@@ -1,9 +1,9 @@
 package logic.usecases.tasks
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Assertions.*
 import org.qudus.squad.logic.exceptions.EmptyValuesException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.useCases.tasks.CreateNewTaskUseCase
@@ -48,7 +48,7 @@ class CreateNewTaskUseCaseTest {
             creatorUserID = ""
         )
         // When & Then
-        assertThrows(EmptyValuesException::class.java){
+        shouldThrow<EmptyValuesException> {
             createNewTaskUseCase.createNewTask(task)
         }
     }
@@ -64,7 +64,7 @@ class CreateNewTaskUseCaseTest {
             creatorUserID = "145826"
         )
         // When & Then
-        assertThrows(EmptyValuesException::class.java){
+        shouldThrow<EmptyValuesException> {
             createNewTaskUseCase.createNewTask(task)
         }
     }
@@ -80,7 +80,7 @@ class CreateNewTaskUseCaseTest {
             creatorUserID = "145826"
         )
         // When & Then
-        assertThrows(EmptyValuesException::class.java){
+        shouldThrow<EmptyValuesException> {
             createNewTaskUseCase.createNewTask(task)
         }
     }
@@ -96,7 +96,7 @@ class CreateNewTaskUseCaseTest {
             creatorUserID = ""
         )
         // When & Then
-        assertThrows(EmptyValuesException::class.java){
+        shouldThrow<EmptyValuesException> {
             createNewTaskUseCase.createNewTask(task)
         }
     }
