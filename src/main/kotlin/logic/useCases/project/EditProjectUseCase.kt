@@ -8,11 +8,13 @@ import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.entity.TaskState
 
 class EditProjectUseCase(
-    private val projectRepository: ProjectRepository
+    private val projectRepository: ProjectRepository,
 ) {
-    private val projectsList = projectRepository.getAllProjects()
 
     fun editProject(project: Project): Boolean {
+
+        val projectsList = projectRepository.getAllProjects()
+
         if (isNotValidProjectsList(projectsList)) return false
         val updatedProject = applyProjectChanges(project)
         if (!isValidInput(updatedProject)) return false
@@ -24,7 +26,7 @@ class EditProjectUseCase(
         return projectsList.isEmpty()
     }
 
-        private fun applyProjectChanges(project: Project): Project {
+    private fun applyProjectChanges(project: Project): Project {
         var updatedProject = project.copy()
 
         // Read and apply title

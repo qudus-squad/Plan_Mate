@@ -11,7 +11,7 @@ import org.qudus.squad.logic.useCases.taskState.CreateNewTaskStateUseCase
 import org.qudus.squad.logic.useCases.taskState.DeleteTaskStateUseCase
 import org.qudus.squad.logic.useCases.taskState.EditTaskStateUseCase
 import org.qudus.squad.logic.useCases.taskState.GetAllTaskStatesByProjectIdUseCase
-import org.qudus.squad.logic.usecases.project.DeleteProjectUseCase
+import logic.useCases.project.DeleteProjectUseCase
 import org.qudus.squad.logic.validation.UserDataValidator
 
 val useCaseModule = module {
