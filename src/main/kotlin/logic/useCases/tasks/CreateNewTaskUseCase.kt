@@ -11,12 +11,16 @@ class CreateNewTaskUseCase(
         if (validateTaskValues(task)){
             taskRepository.createNewTask(task)
         }else
-            throw EmptyValuesException("Task has empty values")
+            throw EmptyValuesException(TASK_HAS_EMPTY_VALUES)
     }
 
     private fun validateTaskValues(task: Task): Boolean{
         return task.title.isNotBlank() && task.description.isNotBlank()
                 && task.creatorUserID.isNotBlank() && task.projectId.isNotBlank()
                 && task.taskState.name.isNotBlank()
+    }
+
+    companion object{
+        const val TASK_HAS_EMPTY_VALUES = "Task has empty values"
     }
 }
