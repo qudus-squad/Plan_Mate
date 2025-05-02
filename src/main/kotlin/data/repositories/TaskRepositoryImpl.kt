@@ -10,24 +10,13 @@ import org.qudus.squad.model.entity.Task
 
 class TaskRepositoryImpl(
     private val taskDataSource: TaskDataSource,
-    private val logRepository: LogRepository
 ) : TaskRepository {
     override fun createNewTask(task: Task) {
         taskDataSource.createNewTask(task)
-        logRepository.addLog(
-            LogEntry(
-                task.creatorUserID, task.id, TargetType.TASK, "add new task", null, null
-            )
-        )
     }
 
     override fun editExistingTask(updatedTask: Task) {
         taskDataSource.editExistingTask(updatedTask)
-        logRepository.addLog(
-            LogEntry(
-                updatedTask.creatorUserID, updatedTask.id, TargetType.TASK, "Edit task", null, null
-            )
-        )
     }
 
     override fun getAllTasksByProjectId(id: String): List<Task> {
