@@ -15,6 +15,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
 
+    // koin
+    implementation("io.insert-koin:koin-core:4.0.3")
     // junit
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.0-M1")
 

@@ -6,7 +6,7 @@ import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.model.exceptions.AccessDeniedException
 import org.qudus.squad.model.exceptions.InvalidUserDataException
-import org.qudus.squad.model.exceptions.UnknownException
+import org.qudus.squad.model.exceptions.UserAlreadyExistException
 
 class CreateNewUserUseCase(
     private val authenticationRepository: AuthenticationRepository,
@@ -24,8 +24,8 @@ class CreateNewUserUseCase(
         try {
             authenticationRepository.createNewUser(userRole, user)
             return true
-        } catch (e: Exception) {
-            throw UnknownException(e.message.toString())
+        } catch (e: UserAlreadyExistException) {
+            throw e
         }
     }
 
