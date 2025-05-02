@@ -11,14 +11,14 @@ class TaskCsvParser : CsvParser<Task> {
         val cleanedLine = row.trim().replace("\"", "")
         val taskList = cleanedLine.split(',')
         return Task(
-            id = taskList[TaskCsvColumnIndex.ID.index],
-            title = taskList[TaskCsvColumnIndex.TITLE.index],
-            description = taskList[TaskCsvColumnIndex.DESCRIPTION.index],
-            projectId = taskList[TaskCsvColumnIndex.PROJECT_ID.index],
-            taskState = TaskState(taskList[TaskCsvColumnIndex.STATE_ID.index], taskList[TaskCsvColumnIndex.STATE_NAME.index]),
-            creatorUserID = taskList[TaskCsvColumnIndex.CREATOR_USER_ID.index],
-            createdAt = taskList[TaskCsvColumnIndex.CREATED_AT.index].toLocalDateTime(),
-            lastUpdatedAt = taskList[TaskCsvColumnIndex.LAST_UPDATED_AT.index].toLocalDateTime(),
+            id = taskList[TaskCsvColumnIndex.ID],
+            title = taskList[TaskCsvColumnIndex.TITLE],
+            description = taskList[TaskCsvColumnIndex.DESCRIPTION],
+            projectId = taskList[TaskCsvColumnIndex.PROJECT_ID],
+            taskState = TaskState(taskList[TaskCsvColumnIndex.STATE_ID], taskList[TaskCsvColumnIndex.STATE_NAME]),
+            creatorUserID = taskList[TaskCsvColumnIndex.CREATOR_USER_ID],
+            createdAt = taskList[TaskCsvColumnIndex.CREATED_AT].toLocalDateTime(),
+            lastUpdatedAt = taskList[TaskCsvColumnIndex.LAST_UPDATED_AT].toLocalDateTime(),
         )
     }
 
