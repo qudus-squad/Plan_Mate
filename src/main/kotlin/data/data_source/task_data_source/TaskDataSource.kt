@@ -8,8 +8,8 @@ interface TaskDataSource {
     fun editExistingTask(updatedTask: Task)
     fun switchTaskState(taskId: String, newTaskState: TaskState)
     fun deleteTaskById(id: String)
-    fun getAllTasksByProjectId(id : String): List<Task>
-    fun getTaskById(id: String): Task
-    fun assignTaskToUser(taskId: String, userId: String)
+    fun getAllTasksByProjectId(id: String): List<Task>
+    fun getTaskById(id: String): Task?
+    fun assignTaskToUser(taskId: String, userId: String): Boolean
     fun unAssignTask(taskId: String)
 }

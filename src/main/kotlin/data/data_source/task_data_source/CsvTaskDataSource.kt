@@ -31,7 +31,6 @@ class CsvTaskDataSource(
         }
     }
 
-
     override fun switchTaskState(taskId: String, newTaskState: TaskState) {
         val updatedLines = getAllTasks().map {
             if (it.id == taskId) {
@@ -62,28 +61,31 @@ class CsvTaskDataSource(
         return getAllTasks().filter { it.projectId == id }
     }
 
-    override fun getTaskById(id: String): Task {
-        return getAllTasks().first { task -> task.id == id }
+    override fun getTaskById(id: String): Task? {
+        return getAllTasks().firstOrNull() { task -> task.id == id }
+
+
     }
 
-
-    override fun assignTaskToUser(taskId: String, userId: String) {
-        val updatedTasks = getAllTasks().map { task ->
-            if (task.id == taskId) {
-                task.copy(
-                    assignedUserId = userId,
-                    lastUpdatedAt = kotlinx.datetime.Clock.System.now()
-                        .toLocalDateTime(TimeZone.currentSystemDefault())
-                )
-            } else task
-        }
-        FileSystem.SYSTEM.write(TASKS_FILE.toPath()) {
-            updatedTasks.forEach { task ->
-                writeUtf8(taskCsvParser.toCsvRow(task) + "\n")
+    override fun assignTaskToUser(taskId: String, userId: String): Boolean {
+        return try {
+            val updatedTask = getTaskById(taskId)?.let { task ->
+                if (task.id == taskId) {
+                    task.copy(
+                        assignedUserId = userId,
+                        lastUpdatedAt = kotlinx.datetime.Clock.System.now()
+                            .toLocalDateTime(TimeZone.currentSystemDefault())
+                    )
+                } else task
             }
+            FileSystem.SYSTEM.write(TASKS_FILE.toPath()) {
+                writeUtf8(taskCsvParser.toCsvRow(updatedTask!!) + "\n")
+            }
+            true
+        } catch (e: Exception) {
+            throw e
         }
     }
-
 
     override fun unAssignTask(taskId: String) {
         val updatedTasks = getAllTasks().map { task ->
@@ -102,7 +104,6 @@ class CsvTaskDataSource(
             }
         }
     }
-
 
     private fun getAllTasks(): List<Task> {
         return csvReader.read(TASKS_FILE).mapNotNull { line ->
