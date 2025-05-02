@@ -1,4 +1,4 @@
-package logic.usecases.tasks
+package logic.useCases.tasks
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.mockk.mockk
@@ -6,6 +6,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.exceptions.EmptyValuesException
+import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.useCases.tasks.EditTaskUseCse
 import org.qudus.squad.model.entity.Task
@@ -14,11 +15,13 @@ import org.qudus.squad.model.entity.TaskState
 class EditTaskUseCseTest {
     private lateinit var taskRepository: TaskRepository
     private lateinit var editTaskUseCse: EditTaskUseCse
+    private lateinit var logRepository: LogRepository
 
     @BeforeEach
     fun setup() {
         taskRepository = mockk(relaxed = true)
-        editTaskUseCse = EditTaskUseCse(taskRepository)
+        logRepository = mockk(relaxed = true)
+        editTaskUseCse = EditTaskUseCse(taskRepository,logRepository)
     }
 
     @Test
@@ -32,7 +35,8 @@ class EditTaskUseCseTest {
             creatorUserID = "fsdfs2356"
         )
         // When
-        editTaskUseCse.editTask(updatedTask)
+        editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+            oldValue = "Note", newValue = "My note")
         // Then
         verify(exactly = 1) { taskRepository.editExistingTask(updatedTask = updatedTask) }
     }
@@ -49,7 +53,8 @@ class EditTaskUseCseTest {
         )
         // When & Then
         shouldThrow<EmptyValuesException> {
-            editTaskUseCse.editTask(updatedTask)
+            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+                oldValue = "Note", newValue = "My note")
         }
     }
 
@@ -65,7 +70,8 @@ class EditTaskUseCseTest {
         )
         // When & Then
         shouldThrow<EmptyValuesException> {
-            editTaskUseCse.editTask(updatedTask)
+            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+                oldValue = "Note", newValue = "My note")
         }
     }
 
@@ -81,7 +87,8 @@ class EditTaskUseCseTest {
         )
         // When & Then
         shouldThrow<EmptyValuesException> {
-            editTaskUseCse.editTask(updatedTask)
+            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+                oldValue = "Note", newValue = "My note")
         }
     }
 
@@ -97,7 +104,8 @@ class EditTaskUseCseTest {
         )
         // When & Then
         shouldThrow<EmptyValuesException> {
-            editTaskUseCse.editTask(updatedTask)
+            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+                oldValue = "Note", newValue = "My note")
         }
     }
 }
