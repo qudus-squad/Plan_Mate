@@ -3,11 +3,11 @@ package logic.useCases
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.string.shouldNotContain
 import io.mockk.mockk
+import logic.useCases.project.CreateNewProjectUseCase
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource.Companion.PROJECTS_FILE
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.useCases.project.CreateNewProjectUseCase
 
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
