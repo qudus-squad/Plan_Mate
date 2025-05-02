@@ -1,7 +1,7 @@
-package org.qudus.squad.logic.usecases.project
+package logic.useCases.project
 
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.model.Project
+import org.qudus.squad.model.entity.Project
 
 class GetAllProjectsUseCase(
     private val projectRepository: ProjectRepository
