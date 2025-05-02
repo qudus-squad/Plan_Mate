@@ -4,9 +4,9 @@ import org.qudus.squad.data.data_source.log_data_source.LogDataSource
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.model.entity.LogEntry
 
-abstract class LogRepositoryImpl(
-   private val logDataSource: LogDataSource
-): LogRepository {
+class LogRepositoryImpl(
+    private val logDataSource: LogDataSource
+) : LogRepository {
     override fun addLog(logEntry: LogEntry) {
         TODO("Not yet implemented")
     }
@@ -16,6 +16,10 @@ abstract class LogRepositoryImpl(
     }
 
     override fun getAllLogs(): List<LogEntry> {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteLogByTargetId(targetId: String) {
         TODO("Not yet implemented")
     }
 }
