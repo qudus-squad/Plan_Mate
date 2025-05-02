@@ -8,16 +8,16 @@ import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.entity.TargetType
 import org.qudus.squad.model.entity.Task
 
-class CreateNewTaskUseCase(
+class EditTaskUseCse(
     private val taskRepository: TaskRepository,
     private val logRepository: LogRepository
 ) {
-    fun createNewTask(userName: String, task: Task){
-        if (TaskDataValidator.validateTaskValues(task)){
-            taskRepository.createNewTask(task)
+    fun editTask(userName: String, updatedTask: Task,action: String,oldValue: String, newValue: String){
+        if (TaskDataValidator.validateTaskValues(updatedTask)){
+            taskRepository.editExistingTask(updatedTask)
             logRepository.addLog(
                 LogEntry(
-                    userName, task.id, TargetType.TASK, "add new task", null, null
+                    userName, updatedTask.id, TargetType.TASK, action, oldValue, newValue
                 )
             )
         }else
