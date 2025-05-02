@@ -11,7 +11,9 @@ import org.qudus.squad.logic.useCases.tasks.CreateNewTaskUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.junit.jupiter.api.Test
+
 import org.qudus.squad.logic.validation.TaskDataValidator
+
 
 class CreateNewTaskUseCaseTest {
     private lateinit var taskRepository: TaskRepository
