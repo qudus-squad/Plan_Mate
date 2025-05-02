@@ -1,5 +1,8 @@
 package logic.useCases.tasks
 
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.Clock
@@ -13,7 +16,6 @@ import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.exceptions.NoTasksFoundException
 import kotlin.test.Test
-import kotlin.test.assertFailsWith
 
 
 class GetAllTasksByProjectIdUseCaseTest {
@@ -59,7 +61,7 @@ class GetAllTasksByProjectIdUseCaseTest {
         val result = taskRepository.getAllTasksByProjectId("1")
 
         // Then
-        assertEquals(listOf(task1, task2), result)
+        result shouldContainExactly listOf(task1, task2)
     }
 
     @Test
@@ -68,8 +70,8 @@ class GetAllTasksByProjectIdUseCaseTest {
         every { taskRepository.getAllTasksByProjectId("1") } returns emptyList()
 
         // When & Then
-        assertFailsWith<NoTasksFoundException> {
+        shouldThrow<NoTasksFoundException> {
             getAllTasksByProjectIdUseCase.getAllTasksByProjectId("1")
-        }
+        }.message shouldBe GetAllTasksByProjectIdUseCase.NO_TASK_FOUND
     }
 }
