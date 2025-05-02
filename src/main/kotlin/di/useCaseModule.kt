@@ -3,6 +3,7 @@ package org.qudus.squad.di
 import logic.useCases.authentication.CreateNewUserUseCase
 import logic.useCases.authentication.SignInUseCase
 import logic.useCases.project.CreateNewProjectUseCase
+import logic.useCases.project.DeleteProjectUseCase
 import logic.useCases.project.GetAllProjectsUseCase
 import org.koin.dsl.module
 import org.qudus.squad.logic.useCases.log.GetLogByTargetIdUseCase
@@ -12,7 +13,6 @@ import org.qudus.squad.logic.useCases.taskState.DeleteTaskStateUseCase
 import org.qudus.squad.logic.useCases.taskState.EditTaskStateUseCase
 import org.qudus.squad.logic.useCases.taskState.GetAllTaskStatesByProjectIdUseCase
 import org.qudus.squad.logic.useCases.tasks.AssignTaskToUserUseCase
-import org.qudus.squad.logic.usecases.project.DeleteProjectUseCase
 import org.qudus.squad.logic.validation.UserDataValidator
 
 val useCaseModule = module {
