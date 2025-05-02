@@ -20,7 +20,7 @@ class GetAllLogsUseCaseTest{
 
     @BeforeEach
     fun setUp() {
-        logRepository = mockk()
+        logRepository = mockk(relaxed = true)
         getAllLogsUseCase = GetAllLogsUseCase(logRepository)
     }
 
