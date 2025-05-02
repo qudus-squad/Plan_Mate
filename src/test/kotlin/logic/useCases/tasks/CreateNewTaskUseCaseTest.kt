@@ -12,6 +12,9 @@ import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.junit.jupiter.api.Test
 
+import org.qudus.squad.logic.validation.TaskDataValidator
+
+
 class CreateNewTaskUseCaseTest {
     private lateinit var taskRepository: TaskRepository
     private lateinit var createNewTaskUseCase: CreateNewTaskUseCase
@@ -21,7 +24,7 @@ class CreateNewTaskUseCaseTest {
     fun setup() {
         taskRepository = mockk(relaxed = true)
         logRepository = mockk(relaxed = true)
-        createNewTaskUseCase = CreateNewTaskUseCase(taskRepository,logRepository)
+        createNewTaskUseCase = CreateNewTaskUseCase(taskRepository,logRepository, TaskDataValidator())
     }
 
     @Test

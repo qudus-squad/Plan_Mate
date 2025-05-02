@@ -10,10 +10,11 @@ import org.qudus.squad.model.entity.Task
 
 class EditTaskUseCse(
     private val taskRepository: TaskRepository,
-    private val logRepository: LogRepository
+    private val logRepository: LogRepository,
+    private val taskDataValidator: TaskDataValidator
 ) {
     fun editTask(userName: String, updatedTask: Task,action: String,oldValue: String, newValue: String){
-        if (TaskDataValidator.validateTaskValues(updatedTask)){
+        if (taskDataValidator.validateTaskValues(updatedTask)){
             taskRepository.editExistingTask(updatedTask)
             logRepository.addLog(
                 LogEntry(

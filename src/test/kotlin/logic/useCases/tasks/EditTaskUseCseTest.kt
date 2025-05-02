@@ -9,6 +9,7 @@ import org.qudus.squad.logic.exceptions.EmptyValuesException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.useCases.tasks.EditTaskUseCse
+import org.qudus.squad.logic.validation.TaskDataValidator
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 
@@ -21,7 +22,7 @@ class EditTaskUseCseTest {
     fun setup() {
         taskRepository = mockk(relaxed = true)
         logRepository = mockk(relaxed = true)
-        editTaskUseCse = EditTaskUseCse(taskRepository,logRepository)
+        editTaskUseCse = EditTaskUseCse(taskRepository,logRepository, TaskDataValidator())
     }
 
     @Test

@@ -6,26 +6,22 @@ import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidator
 import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.entity.TargetType
-import org.qudus.squad.model.entity.Task
 
-class CreateNewTaskUseCase(
+class DeleteTaskUseCase(
     private val taskRepository: TaskRepository,
     private val logRepository: LogRepository,
     private val taskDataValidator: TaskDataValidator
 ) {
-    fun createNewTask(userName: String, task: Task){
-        if (taskDataValidator.validateTaskValues(task)){
-            taskRepository.createNewTask(task)
-            logRepository.addLog(
-                LogEntry(
-                    userName, task.id, TargetType.TASK, "add new task", null, null
-                )
-            )
-        }else
-            throw EmptyValuesException(TASK_HAS_EMPTY_VALUES)
+    fun deleteTask(userName: String, taskId: String, taskName: String){
+        if (taskDataValidator.validateDeleteTaskValues(userName,taskId,taskName)){
+            taskRepository.deleteTaskById(taskId)
+            logRepository.addLog(LogEntry(userName,taskId, TargetType.TASK,"$taskName Task Deleted",null,null))
+        }
+        else
+            throw EmptyValuesException(TASK_ID_IS_EMPTY)
     }
 
     companion object{
-        const val TASK_HAS_EMPTY_VALUES = "Task has empty values"
+        const val TASK_ID_IS_EMPTY = "Task Id is Empty"
     }
 }
