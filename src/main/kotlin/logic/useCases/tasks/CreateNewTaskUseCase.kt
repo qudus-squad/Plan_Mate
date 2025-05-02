@@ -10,10 +10,11 @@ import org.qudus.squad.model.entity.Task
 
 class CreateNewTaskUseCase(
     private val taskRepository: TaskRepository,
-    private val logRepository: LogRepository
+    private val logRepository: LogRepository,
+    private val taskDataValidator: TaskDataValidator
 ) {
     fun createNewTask(userName: String, task: Task){
-        if (TaskDataValidator.validateTaskValues(task)){
+        if (taskDataValidator.validateTaskValues(task)){
             taskRepository.createNewTask(task)
             logRepository.addLog(
                 LogEntry(
