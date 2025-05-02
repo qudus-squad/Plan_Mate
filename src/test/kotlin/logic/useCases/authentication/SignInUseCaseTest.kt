@@ -1,10 +1,9 @@
-package logic.useCases
+package logic.useCases.authentication
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import logic.useCases.authentication.SignInUseCase
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.repositories.AuthenticationRepository
@@ -64,4 +63,5 @@ class SignInUseCaseTest {
         // Then
         result shouldBe true
     }
+
 }
