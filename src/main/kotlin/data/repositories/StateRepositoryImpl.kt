@@ -1,10 +1,9 @@
 package org.qudus.squad.data.repositories
 
-import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
 import org.qudus.squad.logic.repositories.StateRepository
 import org.qudus.squad.model.entity.TaskState
 
-class StateRepositoryImpl (private val dataSource: TaskDataSource) : StateRepository {
+class StateRepositoryImpl (private val dataSource: StateRepository) : StateRepository {
     override fun addTaskStateToProject(projectId: String, taskState: TaskState): Result<Unit> {
         TODO("Not yet implemented")
     }

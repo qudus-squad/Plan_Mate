@@ -1,9 +1,8 @@
 package org.qudus.squad.data.csv.parser
 
-enum class UserCsvColumnIndex(val index:Int) {
-    //Change to constants
-    USERNAME(0),
-    PASSWORD_HASH(1),
-    USER_ID(2),
-    USER_ROLE(3)
+object UserCsvColumnIndex {
+    const val USERNAME = 0
+    const val PASSWORD_HASH = 1
+    const val USER_ID = 2
+    const val USER_ROLE = 3
 }

@@ -20,10 +20,6 @@ class CsvProjectDataSource(
         }
     }
 
-    override fun getProjectById(id: String): Project {
-        return getAllProjects().first { task -> task.id == id }
-    }
-
     override fun deleteProjectById(id: String) {
         val projects = getAllProjects().filterNot {  project ->  project.id == id }
 
@@ -35,13 +31,29 @@ class CsvProjectDataSource(
         }
     }
 
-    override fun createNewProject(project: Project) {
+    override fun createNewProject(project: Project): Project{
         val csvLine = projectCsvCsvParser.toCsvRow(project)
         FileSystem.SYSTEM.appendingSink(PROJECTS_FILE.toPath()).buffer().use { sink ->
             sink.writeUtf8(csvLine + "\n")
         }
+        return project
     }
 
+    override fun getProjectById(id: String): Project? {
+        return getAllProjects().firstOrNull{ task -> task.id == id }
+    }
+
+    override fun editProject(project: Project) {
+        val updatedProjects = getAllProjects().map {
+            if (it.id == project.id) project else it
+        }
+
+        FileSystem.SYSTEM.write(PROJECTS_FILE.toPath()) {
+            updatedProjects.forEach { updatedProject ->
+                writeUtf8(projectCsvCsvParser.toCsvRow(updatedProject) + "\n")
+            }
+        }
+    }
     companion object {
         const val PROJECTS_FILE = "projects.csv"
     }

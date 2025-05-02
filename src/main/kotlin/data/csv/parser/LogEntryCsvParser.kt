@@ -10,13 +10,13 @@ class LogEntryCsvParser : CsvParser<LogEntry> {
         val cleanedLine = row.trim().removeSuffix("\n")
         val logEntryList = cleanedLine.split(',')
         return LogEntry(
-            userName = logEntryList[LogEntryCsvColumnIndex.USERNAME.index],
-            targetId = logEntryList[LogEntryCsvColumnIndex.TARGET_ID.index],
-            targetType = TargetType.valueOf(logEntryList[LogEntryCsvColumnIndex.TARGET_TYPE.index]),
-            action = logEntryList[LogEntryCsvColumnIndex.ACTION.index],
-            oldValue = logEntryList[LogEntryCsvColumnIndex.OLD_VALUE.index],
-            newValue = logEntryList[LogEntryCsvColumnIndex.NEW_VALUE.index],
-            loggedAt = logEntryList[LogEntryCsvColumnIndex.LOGGED_AT.index].toLocalDateTime()
+            userName = logEntryList[LogEntryCsvColumnIndex.USERNAME],
+            targetId = logEntryList[LogEntryCsvColumnIndex.TARGET_ID],
+            targetType = TargetType.valueOf(logEntryList[LogEntryCsvColumnIndex.TARGET_TYPE]),
+            action = logEntryList[LogEntryCsvColumnIndex.ACTION],
+            oldValue = logEntryList[LogEntryCsvColumnIndex.OLD_VALUE],
+            newValue = logEntryList[LogEntryCsvColumnIndex.NEW_VALUE],
+            loggedAt = logEntryList[LogEntryCsvColumnIndex.LOGGED_AT].toLocalDateTime()
         )
     }
 
