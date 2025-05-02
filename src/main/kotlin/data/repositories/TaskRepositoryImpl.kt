@@ -1,41 +1,51 @@
 package org.qudus.squad.data.repositories
 
+import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
+import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
+import org.qudus.squad.model.entity.LogEntry
+import org.qudus.squad.model.entity.TargetType
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.Task
 
 class TaskRepositoryImpl(
-    private val taskRepository: TaskRepository
-): TaskRepository {
-    override fun createNewTask(task: Task){
-        taskRepository.createNewTask(task)
+    private val taskDataSource: TaskDataSource,
+    private val logRepository: LogRepository
+) : TaskRepository {
+    override fun createNewTask(task: Task) {
+        taskDataSource.createNewTask(task)
+        logRepository.addLog(
+            LogEntry(
+                task.creatorUserID, task.id, TargetType.TASK, "add new task", null, null
+            )
+        )
     }
 
-    override fun editExistingTask(updatedTask: Task){
-        taskRepository.editExistingTask(updatedTask)
+    override fun editExistingTask(updatedTask: Task) {
+        taskDataSource.editExistingTask(updatedTask)
     }
 
     override fun getAllTasksByProjectId(id: String): List<Task> {
-        return taskRepository.getAllTasksByProjectId(id)
+        return taskDataSource.getAllTasksByProjectId(id)
     }
 
     override fun getTaskById(id: String): Task {
-       return taskRepository.getTaskById(id)
+        return taskDataSource.getTaskById(id)
     }
 
     override fun switchTaskState(taskId: String, newTaskState: TaskState) {
-        taskRepository.switchTaskState(taskId , newTaskState)
+        taskDataSource.switchTaskState(taskId, newTaskState)
     }
 
     override fun deleteTaskById(id: String) {
-       taskRepository.deleteTaskById(id)
+        taskDataSource.deleteTaskById(id)
     }
 
     override fun assignTaskToUser(taskId: String, userId: String) {
-        taskRepository.assignTaskToUser(taskId , userId)
+        taskDataSource.assignTaskToUser(taskId, userId)
     }
 
     override fun unAssignTask(taskId: String) {
-        taskRepository.unAssignTask(taskId)
+        taskDataSource.unAssignTask(taskId)
     }
 }
