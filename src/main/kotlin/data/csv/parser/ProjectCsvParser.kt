@@ -10,13 +10,13 @@ class ProjectCsvParser : CsvParser<Project> {
     override fun fromCsvRow(row: String): Project {
         val projectList = row.smartCsvParser()
         return Project(
-            id = projectList[ProjectCsvColumnIndex.ID.index],
-            title = projectList[ProjectCsvColumnIndex.TITLE.index],
-            description = projectList[ProjectCsvColumnIndex.DESCRIPTION.index],
-            creatorUserId = projectList[ProjectCsvColumnIndex.CREATOR_USER_ID.index],
-            createdAt = projectList[ProjectCsvColumnIndex.CREATED_AT.index].toLocalDateTime(),
-            lastUpdateAt = projectList[ProjectCsvColumnIndex.LAST_UPDATED_AT.index].toLocalDateTime(),
-            taskState = projectList[ProjectCsvColumnIndex.STATE.index].parseStateList()
+            id = projectList[ProjectCsvColumnIndex.ID],
+            title = projectList[ProjectCsvColumnIndex.TITLE],
+            description = projectList[ProjectCsvColumnIndex.DESCRIPTION],
+            creatorUserId = projectList[ProjectCsvColumnIndex.CREATOR_USER_ID],
+            createdAt = projectList[ProjectCsvColumnIndex.CREATED_AT].toLocalDateTime(),
+            lastUpdateAt = projectList[ProjectCsvColumnIndex.LAST_UPDATED_AT].toLocalDateTime(),
+            taskState = projectList[ProjectCsvColumnIndex.STATE].parseStateList()
         )
     }
 

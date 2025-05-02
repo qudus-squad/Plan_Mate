@@ -4,32 +4,38 @@ import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.Task
 
-class TaskRepositoryImpl: TaskRepository {
+class TaskRepositoryImpl(
+    private val taskRepository: TaskRepository
+): TaskRepository {
     override fun createNewTask(task: Task){
-        TODO("Not yet implemented")
+        taskRepository.createNewTask(task)
     }
 
     override fun editExistingTask(updatedTask: Task){
-        TODO("Not yet implemented")
+        taskRepository.editExistingTask(updatedTask)
     }
 
-    override fun deleteTask(taskId: String) {
-        TODO("Not yet implemented")
+    override fun getAllTasksByProjectId(id: String): List<Task> {
+        return taskRepository.getAllTasksByProjectId(id)
     }
 
-    override fun getAllTasksByProjectId(): List<Task> {
-        TODO("Not yet implemented")
+    override fun getTaskById(id: String): Task {
+       return taskRepository.getTaskById(id)
     }
 
     override fun switchTaskState(taskId: String, newTaskState: TaskState) {
-        TODO("Not yet implemented")
+        taskRepository.switchTaskState(taskId , newTaskState)
+    }
+
+    override fun deleteTaskById(id: String) {
+       taskRepository.deleteTaskById(id)
     }
 
     override fun assignTaskToUser(taskId: String, userId: String) {
-        TODO("Not yet implemented")
+        taskRepository.assignTaskToUser(taskId , userId)
     }
 
     override fun unAssignTask(taskId: String) {
-        TODO("Not yet implemented")
+        taskRepository.unAssignTask(taskId)
     }
 }
