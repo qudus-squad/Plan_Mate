@@ -109,7 +109,7 @@ class CsvTaskDataSource(
         return csvReader.read(TASKS_FILE).mapNotNull { line ->
             try {
                 taskCsvParser.fromCsvRow(line)
-            } catch (e: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
                 null
             }
         }

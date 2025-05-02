@@ -16,17 +16,17 @@ class AssignTaskToUserUI(
             } else {
                 print(FAILED_TO_ASSIGN_USER_TO_THIS_TASK)
             }
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             println("$FAILED_TO_ASSIGN_USER_TO_THIS_TASK  $IO_ERROR")
-        } catch (e: FileSystemException) {
+        } catch (_: FileSystemException) {
             println("$FAILED_TO_ASSIGN_USER_TO_THIS_TASK  $FILE_SYSTEM_ERROR")
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             println("$FAILED_TO_ASSIGN_USER_TO_THIS_TASK  $INVALID_ARGUMENT_ERROR")
-        } catch (e: DateTimeParseException) {
+        } catch (_: DateTimeParseException) {
             println("$FAILED_TO_ASSIGN_USER_TO_THIS_TASK  $DATE_TIME_PARSE_ERROR")
-        } catch (e: AccessDeniedException) {
+        } catch (_: AccessDeniedException) {
             println("$FAILED_TO_ASSIGN_USER_TO_THIS_TASK  $ACCESS_DENIED_ERROR")
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             println("$FAILED_TO_ASSIGN_USER_TO_THIS_TASK  $UNEXPECTED_ERROR")
         }
     }
