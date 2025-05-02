@@ -24,8 +24,4 @@ class LogRepositoryImpl(
     override fun deleteLogByTargetId(targetId: String) {
         logDataSource.deleteLogByTargetId(targetId)
     }
-
-    override fun deleteLogByTargetId(targetId: String) {
-        TODO("Not yet implemented")
-    }
 }
