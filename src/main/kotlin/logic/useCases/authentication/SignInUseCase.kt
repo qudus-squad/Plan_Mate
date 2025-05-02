@@ -1,8 +1,8 @@
-package org.qudus.squad.logic.usecases.authentication
+package logic.useCases.authentication
 
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.validation.UserDataValidator
-import org.qudus.squad.model.User
+import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.exceptions.InvalidUserDataException
 
 class SignInUseCase(
