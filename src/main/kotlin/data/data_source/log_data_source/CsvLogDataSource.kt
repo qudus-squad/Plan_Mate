@@ -11,6 +11,19 @@ import org.qudus.squad.model.entity.LogEntry
 class CsvLogDataSource(
     private val csvReader: CsvReader, private val logEntryCsvParser: LogEntryCsvParser
 ) : LogDataSource {
+
+    override fun addLog(logEntry: LogEntry) {
+        val csvLine = logEntryCsvParser.toCsvRow(logEntry)
+        FileSystem.SYSTEM.appendingSink(PROJECTS_FILE.toPath()).buffer().use { sink ->
+            sink.writeUtf8(csvLine + "\n")
+
+        }
+    }
+
+    override fun getProjectByTargetId(targetId: String): LogEntry {
+        return getAllLogs().first { log -> log.targetId == targetId }
+    }
+
     override fun getAllLogs(): List<LogEntry> {
         return csvReader.read(LOGS_FILE).mapNotNull { line ->
             try {
@@ -21,10 +34,6 @@ class CsvLogDataSource(
         }
     }
 
-    override fun getProjectByTargetId(targetId: String): LogEntry {
-        return getAllLogs().first { log -> log.targetId == targetId }
-    }
-
     override fun deleteLogByTargetId(targetId: String) {
         val logs = getAllLogs().filterNot { it.targetId == targetId }
         FileSystem.SYSTEM.sink(PROJECTS_FILE.toPath()).buffer().use { sink ->
@@ -32,14 +41,6 @@ class CsvLogDataSource(
                 val csvLine = logEntryCsvParser.toCsvRow(log)
                 sink.writeUtf8(csvLine + "\n")
             }
-        }
-    }
-
-    override fun addLog(logEntry: LogEntry) {
-        val csvLine = logEntryCsvParser.toCsvRow(logEntry)
-        FileSystem.SYSTEM.appendingSink(PROJECTS_FILE.toPath()).buffer().use { sink ->
-            sink.writeUtf8(csvLine + "\n")
-
         }
     }
 

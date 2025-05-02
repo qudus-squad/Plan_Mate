@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource.Companion.PROJECTS_FILE
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.useCases.project.CreateNewProjectUseCase
-
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole

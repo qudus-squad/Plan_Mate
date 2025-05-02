@@ -13,7 +13,11 @@ class TaskRepositoryImpl: TaskRepository {
         TODO("Not yet implemented")
     }
 
-    override fun deleteTask(taskId: String) {
+    override fun switchTaskState(taskId: String, newTaskState: TaskState) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteTaskById(taskId: String) {
         TODO("Not yet implemented")
     }
 
@@ -21,9 +25,9 @@ class TaskRepositoryImpl: TaskRepository {
         TODO("Not yet implemented")
     }
 
-    override fun switchTaskState(taskId: String, newTaskState: TaskState) {
-        TODO("Not yet implemented")
-    }
+   override fun getTaskById(id: String): Task {
+       TODO("Not yet implemented")
+   }
 
     override fun assignTaskToUser(taskId: String, userId: String) {
         TODO("Not yet implemented")

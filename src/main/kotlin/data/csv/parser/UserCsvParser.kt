@@ -1,7 +1,9 @@
-/*package org.qudus.squad.data.csv.parser
+package org.qudus.squad.data.csv.parser
 
 import org.qudus.squad.data.csv.CsvParser
-import org.qudus.squad.model.User
+import org.qudus.squad.logic.utils.GenerateUUID
+import org.qudus.squad.model.entity.User
+import org.qudus.squad.model.entity.UserRole
 
 class UserCsvParser : CsvParser<User> {
     override fun fromCsvRow(row: String): User {
@@ -10,8 +12,9 @@ class UserCsvParser : CsvParser<User> {
         return User(
             username = userList[UserCsvColumnIndex.USERNAME.index],
             passwordHash =  userList[UserCsvColumnIndex.PASSWORD_HASH.index],
-            userId = userList[UserCsvColumnIndex.USER_ID.index]
-
+            userId  = GenerateUUID().generate(),
+            role = UserRole.MATE
+            //edited this part
         )
     }
 
@@ -20,4 +23,4 @@ class UserCsvParser : CsvParser<User> {
             model.username, model.passwordHash, model.userId, model.role
         ).joinToString(",")
     }
-}*/
+}

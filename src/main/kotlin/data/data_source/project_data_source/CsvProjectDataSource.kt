@@ -10,6 +10,7 @@ import org.qudus.squad.model.entity.Project
 class CsvProjectDataSource(
     private val csvReader: CsvReader, private val projectCsvCsvParser: ProjectCsvParser
 ) : ProjectDataSource {
+
     override fun getAllProjects(): List<Project> {
         return csvReader.read(PROJECTS_FILE).mapNotNull { line ->
             try {
@@ -20,12 +21,8 @@ class CsvProjectDataSource(
         }
     }
 
-    override fun getProjectById(id: String): Project {
-        return getAllProjects().first { task -> task.id == id }
-    }
-
     override fun deleteProjectById(id: String) {
-        val projects = getAllProjects().filterNot {  project ->  project.id == id }
+        val projects = getAllProjects().filterNot { project -> project.id == id }
 
         FileSystem.SYSTEM.sink(PROJECTS_FILE.toPath()).buffer().use { sink ->
             projects.forEach { task ->
@@ -40,6 +37,14 @@ class CsvProjectDataSource(
         FileSystem.SYSTEM.appendingSink(PROJECTS_FILE.toPath()).buffer().use { sink ->
             sink.writeUtf8(csvLine + "\n")
         }
+    }
+
+    override fun getProjectById(id: String): Project {
+        return getAllProjects().first { task -> task.id == id }
+    }
+
+    override fun editProject(project: Project) {
+        TODO("Not yet implemented")
     }
 
     companion object {

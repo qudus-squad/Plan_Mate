@@ -18,4 +18,8 @@ abstract class LogRepositoryImpl(
     override fun getAllLogs(): List<LogEntry> {
         TODO("Not yet implemented")
     }
+
+    override fun deleteLogByTargetId(targetId: String) {
+        TODO("Not yet implemented")
+    }
 }

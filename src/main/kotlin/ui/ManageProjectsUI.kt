@@ -1,4 +1,4 @@
-package org.qudus.squad.ui.features
+package org.qudus.squad.ui
 
 import org.qudus.squad.logic.useCases.project.CreateNewProjectUseCase
 import org.qudus.squad.model.entity.TaskState
