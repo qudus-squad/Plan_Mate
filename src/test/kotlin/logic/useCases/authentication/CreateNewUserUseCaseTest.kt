@@ -1,7 +1,6 @@
-package logic.useCases
+package logic.useCases.authentication
 
 import io.mockk.mockk
-import logic.useCases.authentication.CreateNewUserUseCase
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.data.CredentialManager
