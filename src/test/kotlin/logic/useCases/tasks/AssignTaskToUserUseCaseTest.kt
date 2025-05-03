@@ -6,11 +6,11 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
+import org.qudus.squad.logic.exceptions.NoTasksFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.useCases.tasks.AssignTaskToUserUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
-import org.qudus.squad.model.exceptions.NoTasksFoundException
 import java.io.IOException
 import kotlin.test.Test
 

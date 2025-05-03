@@ -1,12 +1,12 @@
 package logic.useCases.authentication
 
+import org.qudus.squad.logic.exceptions.AccessDeniedException
+import org.qudus.squad.logic.exceptions.InvalidUserDataException
+import org.qudus.squad.logic.exceptions.UserAlreadyExistException
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.validation.UserDataValidator
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
-import org.qudus.squad.model.exceptions.AccessDeniedException
-import org.qudus.squad.model.exceptions.InvalidUserDataException
-import org.qudus.squad.model.exceptions.UserAlreadyExistException
 
 class CreateNewUserUseCase(
     private val authenticationRepository: AuthenticationRepository,

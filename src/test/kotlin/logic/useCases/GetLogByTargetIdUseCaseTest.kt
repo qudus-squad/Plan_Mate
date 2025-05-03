@@ -10,10 +10,10 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.qudus.squad.logic.exceptions.NoChangeHistoryFoundException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.useCases.log.GetLogByTargetIdUseCase
 import org.qudus.squad.model.entity.LogEntry
-import org.qudus.squad.model.exceptions.NoChangeHistoryFoundException
 import org.qudus.squad.model.entity.TargetType
 import org.qudus.squad.utils.DateTimeFormatter
 

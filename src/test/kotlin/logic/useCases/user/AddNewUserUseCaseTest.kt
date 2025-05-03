@@ -5,15 +5,14 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
+import org.qudus.squad.logic.exceptions.InvalidUserDataException
+import org.qudus.squad.logic.exceptions.UserAlreadyExistException
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.useCases.user.AddNewUserUseCase
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.UserDataValidator
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
-import org.qudus.squad.model.exceptions.AccessDeniedException
-import org.qudus.squad.model.exceptions.InvalidUserDataException
-import org.qudus.squad.model.exceptions.UserAlreadyExistException
 import kotlin.test.Test
 
 class AddNewUserUseCaseTest {
