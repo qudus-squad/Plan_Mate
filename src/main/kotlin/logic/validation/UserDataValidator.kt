@@ -1,13 +1,12 @@
 package org.qudus.squad.logic.validation
 
-import org.qudus.squad.model.entity.User
 
 class UserDataValidator {
 
-    fun validateUserData(user: User): Boolean {
-        return !(user.username.isEmpty() ||
-                user.passwordHash.isEmpty() ||
-                user.username.all { !it.isLetterOrDigit() }
+    fun validateUserData(username: String, password: String): Boolean {
+        return !(username.isEmpty() ||
+                password.isEmpty() ||
+                username.all { !it.isLetterOrDigit() }
                 )
     }
 }

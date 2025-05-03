@@ -1,6 +1,6 @@
 package org.qudus.squad.ui
 
-import org.qudus.squad.logic.useCases.tasks.AssignTaskToUserUseCase
+import logic.use_cases.tasks.AssignTaskToUserUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.User
 import java.io.IOException

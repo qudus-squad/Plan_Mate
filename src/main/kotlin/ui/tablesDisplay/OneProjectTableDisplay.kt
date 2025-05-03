@@ -5,7 +5,7 @@ import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.di.appModule
 import org.qudus.squad.di.uiModule
 import org.qudus.squad.di.useCaseModule
-import org.qudus.squad.logic.useCases.tasks.GetTasksByStateUseCase
+import logic.use_cases.tasks.GetTasksByStateUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 
