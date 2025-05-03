@@ -1,4 +1,4 @@
-package org.qudus.squad.ui.features
+package org.qudus.squad.ui
 
 import logic.useCases.authentication.CreateNewUserUseCase
 import org.qudus.squad.model.entity.User
