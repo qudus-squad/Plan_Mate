@@ -14,14 +14,8 @@ import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource
 import org.qudus.squad.data.data_source.project_data_source.ProjectDataSource
 import org.qudus.squad.data.data_source.task_data_source.CsvTaskDataSource
 import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
-import org.qudus.squad.data.repositories.AuthenticationRepositoryImplementation
-import org.qudus.squad.data.repositories.LogRepositoryImpl
-import org.qudus.squad.data.repositories.ProjectRepositoryImpl
-import org.qudus.squad.data.repositories.StateRepositoryImpl
-import org.qudus.squad.logic.repositories.AuthenticationRepository
-import org.qudus.squad.logic.repositories.LogRepository
-import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.repositories.StateRepository
+import org.qudus.squad.data.repositories.*
+import org.qudus.squad.logic.repositories.*
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 
 val appModule = module {
@@ -57,6 +51,12 @@ val appModule = module {
     single<ProjectRepository> { ProjectRepositoryImpl(get()) }
 
     single { TaskCsvParser() }
+
+    single<TaskDataSource> {CsvTaskDataSource(get(),get())  }
+
+    single<TaskRepository> {
+        TaskRepositoryImpl(get())
+    }
 
     single<TaskDataSource> { CsvTaskDataSource(get(),get()) }
 

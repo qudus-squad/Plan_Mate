@@ -1,4 +1,4 @@
-package org.qudus.squad.ui.features
+package org.qudus.squad.ui
 
 import logic.useCases.authentication.SignInUseCase
 import org.qudus.squad.data.CredentialManager

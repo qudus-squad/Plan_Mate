@@ -13,6 +13,8 @@ import org.qudus.squad.logic.useCases.taskState.DeleteTaskStateUseCase
 import org.qudus.squad.logic.useCases.taskState.EditTaskStateUseCase
 import org.qudus.squad.logic.useCases.taskState.GetAllTaskStatesByProjectIdUseCase
 import org.qudus.squad.logic.useCases.tasks.AssignTaskToUserUseCase
+import org.qudus.squad.logic.useCases.tasks.GetAllTasksByProjectIdUseCase
+import org.qudus.squad.logic.useCases.tasks.GetTasksByStateUseCase
 import org.qudus.squad.logic.validation.UserDataValidator
 
 val useCaseModule = module {
@@ -42,4 +44,6 @@ val useCaseModule = module {
     single { GetAllTaskStatesByProjectIdUseCase(get()) }
 
     single { AssignTaskToUserUseCase(get()) }
+    single { GetAllTasksByProjectIdUseCase(get()) }
+    single { GetTasksByStateUseCase(get()) }
 }

@@ -8,7 +8,7 @@ class GetAllTasksByProjectIdUseCase(
     private val taskRepository: TaskRepository
 ) {
 
-    fun getAllTasksByProjectId(id: String) : List<Task>? {
+    fun getAllTasksByProjectId(id: String) : List<Task> {
         return taskRepository.getAllTasksByProjectId(id).takeIf { it.isNotEmpty() } ?: throw NoTasksFoundException(NO_TASK_FOUND)
     }
 
