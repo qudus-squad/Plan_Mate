@@ -15,6 +15,8 @@ import org.qudus.squad.logic.useCases.taskState.GetAllTaskStatesByProjectIdUseCa
 import org.qudus.squad.logic.useCases.tasks.AssignTaskToUserUseCase
 import org.qudus.squad.logic.useCases.tasks.GetAllTasksByProjectIdUseCase
 import org.qudus.squad.logic.useCases.tasks.GetTasksByStateUseCase
+import org.qudus.squad.logic.useCases.user.AddNewUserUseCase
+import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.UserDataValidator
 
 val useCaseModule = module {
@@ -44,6 +46,12 @@ val useCaseModule = module {
     single { GetAllTaskStatesByProjectIdUseCase(get()) }
 
     single { AssignTaskToUserUseCase(get()) }
+
     single { GetAllTasksByProjectIdUseCase(get()) }
+
     single { GetTasksByStateUseCase(get()) }
+
+    single { EncryptionByUsingMD5() }
+
+    single { AddNewUserUseCase(get(), get(), get()) }
 }
