@@ -1,86 +1,74 @@
 package org.qudus.squad.data.data_source.task_data_source
 
+import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import okio.FileSystem
-import okio.Path.Companion.toPath
-import okio.buffer
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.TaskCsvParser
+import org.qudus.squad.data.data_source.WriteInFileUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 
 class CsvTaskDataSource(
-    private val csvReader: CsvReader, private val taskCsvParser: TaskCsvParser
+    private val csvReader: CsvReader,
+    private val taskCsvParser: TaskCsvParser,
+    private val writeInFileUseCase: WriteInFileUseCase
 ) : TaskDataSource {
+
     override fun createNewTask(task: Task) {
-        val csvLine = taskCsvParser.toCsvRow(task) + "\n"
-        FileSystem.SYSTEM.appendingSink(TASKS_FILE.toPath()).buffer().use { sink ->
-            sink.writeUtf8(csvLine)
-        }
+        val newTaskCsvRow = taskCsvParser.toCsvRow(task) + "\n"
+        writeInFileUseCase.writeLineToFile(TASKS_FILE, newTaskCsvRow)
     }
 
     override fun editExistingTask(updatedTask: Task) {
-        val updatedLines = getAllTasks().map {
-            if (it.id == updatedTask.id) taskCsvParser.toCsvRow(updatedTask)
-            else taskCsvParser.toCsvRow(it)
+        val taskCsvLines = getAllTasks().map { task ->
+            if (task.id == updatedTask.id) taskCsvParser.toCsvRow(updatedTask)
+            else taskCsvParser.toCsvRow(task)
         }
-
-        FileSystem.SYSTEM.write(TASKS_FILE.toPath()) {
-            updatedLines.forEach { line -> writeUtf8(line + "\n") }
-        }
+        writeInFileUseCase.writeLinesToFile(TASKS_FILE, taskCsvLines)
     }
 
     override fun switchTaskState(taskId: String, newTaskState: TaskState) {
-        val updatedLines = getAllTasks().map {
-            if (it.id == taskId) {
-                val updatedTask = it.copy(
+        val taskCsvLines = getAllTasks().map { task ->
+            if (task.id == taskId) {
+                val updatedTask = task.copy(
                     taskState = newTaskState,
-                    lastUpdatedAt = kotlinx.datetime.Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                    lastUpdatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
                 )
                 taskCsvParser.toCsvRow(updatedTask)
             } else {
-                taskCsvParser.toCsvRow(it)
+                taskCsvParser.toCsvRow(task)
             }
         }
-
-        FileSystem.SYSTEM.write(TASKS_FILE.toPath()) {
-            updatedLines.forEach { line -> writeUtf8(line + "\n") }
-        }
+        writeInFileUseCase.writeLinesToFile(TASKS_FILE, taskCsvLines)
     }
 
     override fun deleteTaskById(id: String) {
-        val remainingTasks = getAllTasks().filter { it.id != id }
-        FileSystem.SYSTEM.write(TASKS_FILE.toPath()) {
-            remainingTasks.forEach { task -> writeUtf8(taskCsvParser.toCsvRow(task) + "\n") }
-        }
+        val filteredTasks = getAllTasks().filter { it.id != id }
+        val csvLines = filteredTasks.map { project -> taskCsvParser.toCsvRow(project) }
+        writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
     }
-
 
     override fun getAllTasksByProjectId(id: String): List<Task> {
         return getAllTasks().filter { it.projectId == id }
     }
 
     override fun getTaskById(id: String): Task? {
-        return getAllTasks().firstOrNull() { task -> task.id == id }
-
-
+        return getAllTasks().firstOrNull { it.id == id }
     }
 
     override fun assignTaskToUser(taskId: String, userId: String): Boolean {
         return try {
-            val updatedTask = getTaskById(taskId)?.let { task ->
+            val updatedTaskList = getAllTasks().map { task ->
                 if (task.id == taskId) {
                     task.copy(
                         assignedUserId = userId,
-                        lastUpdatedAt = kotlinx.datetime.Clock.System.now()
-                            .toLocalDateTime(TimeZone.currentSystemDefault())
+                        lastUpdatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
                     )
                 } else task
             }
-            FileSystem.SYSTEM.write(TASKS_FILE.toPath()) {
-                writeUtf8(taskCsvParser.toCsvRow(updatedTask!!) + "\n")
-            }
+            val csvLines = updatedTaskList.map { task -> taskCsvParser.toCsvRow(task) }
+            writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
             true
         } catch (e: Exception) {
             throw e
@@ -88,27 +76,22 @@ class CsvTaskDataSource(
     }
 
     override fun unAssignTask(taskId: String) {
-        val updatedTasks = getAllTasks().map { task ->
+        val updatedTaskList = getAllTasks().map { task ->
             if (task.id == taskId) {
                 task.copy(
                     assignedUserId = null,
-                    lastUpdatedAt = kotlinx.datetime.Clock.System.now()
-                        .toLocalDateTime(TimeZone.currentSystemDefault())
+                    lastUpdatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
                 )
             } else task
         }
-
-        FileSystem.SYSTEM.write(TASKS_FILE.toPath()) {
-            updatedTasks.forEach { task ->
-                writeUtf8(taskCsvParser.toCsvRow(task) + "\n")
-            }
-        }
+        val csvLines = updatedTaskList.map { task -> taskCsvParser.toCsvRow(task) }
+        writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
     }
 
     private fun getAllTasks(): List<Task> {
-        return csvReader.read(TASKS_FILE).mapNotNull { line ->
+        return csvReader.read(TASKS_FILE).mapNotNull { csvRow ->
             try {
-                taskCsvParser.fromCsvRow(line)
+                taskCsvParser.fromCsvRow(csvRow)
             } catch (_: IllegalArgumentException) {
                 null
             }
