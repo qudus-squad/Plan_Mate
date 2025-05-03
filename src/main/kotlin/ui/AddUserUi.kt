@@ -1,10 +1,9 @@
 package org.qudus.squad.ui
 
+import org.qudus.squad.logic.exceptions.InvalidUserDataException
+import org.qudus.squad.logic.exceptions.UserAlreadyExistException
 import org.qudus.squad.logic.useCases.user.AddNewUserUseCase
-import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.model.entity.UserRole
-import org.qudus.squad.model.exceptions.InvalidUserDataException
-import org.qudus.squad.model.exceptions.UserAlreadyExistException
 
 class AddUserUi(
     private val addNewUserUseCase: AddNewUserUseCase,

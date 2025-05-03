@@ -1,7 +1,7 @@
 package org.qudus.squad.logic.useCases.tasks
 
+import org.qudus.squad.logic.exceptions.NoTasksFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
-import org.qudus.squad.model.exceptions.NoTasksFoundException
 
 class AssignTaskToUserUseCase(
     private val taskRepository: TaskRepository,

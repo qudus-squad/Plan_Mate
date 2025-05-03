@@ -1,11 +1,11 @@
 package org.qudus.squad.ui
 
 import logic.useCases.authentication.CreateNewUserUseCase
+import org.qudus.squad.logic.exceptions.InvalidUserDataException
+import org.qudus.squad.logic.exceptions.UnknownException
+import org.qudus.squad.logic.exceptions.UserAlreadyExistException
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
-import org.qudus.squad.model.exceptions.InvalidUserDataException
-import org.qudus.squad.model.exceptions.UnknownException
-import org.qudus.squad.model.exceptions.UserAlreadyExistException
 
 class CreateNewMateUser(
     private val createNewUserUseCase: CreateNewUserUseCase

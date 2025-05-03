@@ -6,11 +6,10 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.qudus.squad.logic.exceptions.InvalidProjectInfo
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
-import org.qudus.squad.model.exceptions.AccessDeniedException
-import org.qudus.squad.model.exceptions.InvalidProjectInfo
 
 class CreateNewProjectUseCaseTest {
 

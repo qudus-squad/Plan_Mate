@@ -4,14 +4,17 @@ import logic.useCases.authentication.SignInUseCase
 import org.qudus.squad.data.CredentialManager
 import org.qudus.squad.data.data_source.authntication_data_source.CsvAuthenticationDataSource
 import org.qudus.squad.data.repositories.AuthenticationRepositoryImplementation
+import org.qudus.squad.logic.exceptions.InvalidUserDataException
 import org.qudus.squad.logic.validation.UserDataValidator
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
-import org.qudus.squad.model.exceptions.InvalidUserDataException
 
 class SignIn(
+
     private val signInUseCase: SignInUseCase
 ) {
+
+
     fun signIn() {
         println("Enter your username: ")
         val userName = readln()
@@ -41,5 +44,11 @@ fun main() {
     val signInUseCase = SignInUseCase(authenticationRepository, userValidator)
     val signIn = SignIn(signInUseCase)
 
+    println("ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ   PLAN MATE  ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ")
+    println("┌───────────────────────────────────────────┐")
+    println("│                 SIGN IN                   │")
+    println("│           1- SIGN IN AS ADMIN \uD83D\uDD75\uFE0F\u200D♂\uFE0F")
+    println("│           2- SIGN IN AS MATE \uD83E\uDD35\uFE0F")
+    println("└───────────────────────────────────────────┘")
     signIn.signIn()
 }
