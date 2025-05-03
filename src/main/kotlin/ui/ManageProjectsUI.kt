@@ -1,6 +1,6 @@
 package org.qudus.squad.ui
 
-import logic.useCases.project.CreateNewProjectUseCase
+import logic.use_cases.project.CreateNewProjectUseCase
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole

@@ -1,7 +1,6 @@
 package org.qudus.squad.di
 
 import org.koin.dsl.module
-import org.qudus.squad.data.CredentialManager
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.LogEntryCsvParser
 import org.qudus.squad.data.csv.parser.ProjectCsvParser
@@ -33,27 +32,26 @@ import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 
 val appModule = module {
+    single { UserCsvParser() }
 
     single { EncryptionByUsingMD5() }
 
-    single { CredentialManager() }
+    single { CsvReader() }
 
     single<AuthenticationDataSource> {
-        CsvAuthenticationDataSource(get())
+        CsvAuthenticationDataSource(get(), get(), get())
     }
 
     single<AuthenticationRepository> {
         AuthenticationRepositoryImplementation(get())
     }
 
-    single { CsvReader() }
-
     single { LogEntryCsvParser() }
 
     single { WriteInFileUseCase() }
 
     single<LogDataSource> {
-        CsvLogDataSource(get(), get(),get())
+        CsvLogDataSource(get(), get(), get())
     }
 
     single<LogRepository> {
@@ -62,26 +60,24 @@ val appModule = module {
 
     single { ProjectCsvParser() }
 
-    single<ProjectDataSource> { CsvProjectDataSource(get(), get(),get()) }
+    single<ProjectDataSource> { CsvProjectDataSource(get(), get(), get()) }
 
     single<ProjectRepository> { ProjectRepositoryImpl(get()) }
 
     single { TaskCsvParser() }
 
-    single<TaskDataSource> {CsvTaskDataSource(get(),get(),get())  }
+    single<TaskDataSource> { CsvTaskDataSource(get(), get(), get()) }
 
     single<TaskRepository> {
         TaskRepositoryImpl(get())
     }
 
-    single<TaskDataSource> { CsvTaskDataSource(get(),get(),get()) }
+    single<TaskDataSource> { CsvTaskDataSource(get(), get(), get()) }
 
     single<StateRepository> { StateRepositoryImpl(get()) }
 
-    single { UserCsvParser() }
-
     single<UserDataSource> { CsvUserDataSource(get(), get()) }
 
-    single<UserRepository> { UserRepositoryImplementation(get(  )) }
+    single<UserRepository> { UserRepositoryImplementation(get()) }
 
 }

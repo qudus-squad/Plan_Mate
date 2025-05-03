@@ -1,21 +1,20 @@
 package org.qudus.squad.di
 
-import logic.useCases.authentication.CreateNewUserUseCase
-import logic.useCases.authentication.SignInUseCase
-import logic.useCases.project.CreateNewProjectUseCase
-import logic.useCases.project.DeleteProjectUseCase
-import logic.useCases.project.GetAllProjectsUseCase
+import logic.use_cases.authentication.SignInUseCase
+import logic.use_cases.project.CreateNewProjectUseCase
+import logic.use_cases.project.DeleteProjectUseCase
+import logic.use_cases.project.GetAllProjectsUseCase
 import org.koin.dsl.module
-import org.qudus.squad.logic.useCases.log.GetLogByTargetIdUseCase
-import org.qudus.squad.logic.useCases.project.EditProjectUseCase
-import org.qudus.squad.logic.useCases.taskState.CreateNewTaskStateUseCase
-import org.qudus.squad.logic.useCases.taskState.DeleteTaskStateUseCase
-import org.qudus.squad.logic.useCases.taskState.EditTaskStateUseCase
-import org.qudus.squad.logic.useCases.taskState.GetAllTaskStatesByProjectIdUseCase
-import org.qudus.squad.logic.useCases.tasks.AssignTaskToUserUseCase
-import org.qudus.squad.logic.useCases.tasks.GetAllTasksByProjectIdUseCase
-import org.qudus.squad.logic.useCases.tasks.GetTasksByStateUseCase
-import org.qudus.squad.logic.useCases.user.AddNewUserUseCase
+import logic.use_cases.log.GetLogByTargetIdUseCase
+import logic.use_cases.project.EditProjectUseCase
+import logic.use_cases.taskState.CreateNewTaskStateUseCase
+import logic.use_cases.taskState.DeleteTaskStateUseCase
+import logic.use_cases.taskState.EditTaskStateUseCase
+import logic.use_cases.taskState.GetAllTaskStatesByProjectIdUseCase
+import logic.use_cases.tasks.AssignTaskToUserUseCase
+import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase
+import logic.use_cases.tasks.GetTasksByStateUseCase
+import logic.use_cases.user.AddNewUserUseCase
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.UserDataValidator
 
@@ -23,9 +22,7 @@ val useCaseModule = module {
 
     single { UserDataValidator() }
 
-    single { CreateNewUserUseCase(get(), get()) }
-
-    single { SignInUseCase(get(), get()) }
+    single { SignInUseCase(get(),get()) }
 
     single { GetLogByTargetIdUseCase(get()) }
 
