@@ -6,6 +6,7 @@ import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.LogEntryCsvParser
 import org.qudus.squad.data.csv.parser.ProjectCsvParser
 import org.qudus.squad.data.csv.parser.TaskCsvParser
+import org.qudus.squad.data.data_source.WriteInFileUseCase
 import org.qudus.squad.data.data_source.authntication_data_source.AuthenticationDataSource
 import org.qudus.squad.data.data_source.authntication_data_source.CsvAuthenticationDataSource
 import org.qudus.squad.data.data_source.log_data_source.CsvLogDataSource
@@ -36,8 +37,10 @@ val appModule = module {
 
     single { LogEntryCsvParser() }
 
+    single { WriteInFileUseCase() }
+
     single<LogDataSource> {
-        CsvLogDataSource(get(), get())
+        CsvLogDataSource(get(), get(),get())
     }
 
     single<LogRepository> {
@@ -46,19 +49,19 @@ val appModule = module {
 
     single { ProjectCsvParser() }
 
-    single<ProjectDataSource> { CsvProjectDataSource(get(), get()) }
+    single<ProjectDataSource> { CsvProjectDataSource(get(), get(),get()) }
 
     single<ProjectRepository> { ProjectRepositoryImpl(get()) }
 
     single { TaskCsvParser() }
 
-    single<TaskDataSource> {CsvTaskDataSource(get(),get())  }
+    single<TaskDataSource> {CsvTaskDataSource(get(),get(),get())  }
 
     single<TaskRepository> {
         TaskRepositoryImpl(get())
     }
 
-    single<TaskDataSource> { CsvTaskDataSource(get(),get()) }
+    single<TaskDataSource> { CsvTaskDataSource(get(),get(),get()) }
 
     single<StateRepository> { StateRepositoryImpl(get()) }
 
