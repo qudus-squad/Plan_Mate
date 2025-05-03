@@ -5,12 +5,12 @@ import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.result.shouldBeFailure
 import io.kotest.matchers.result.shouldBeSuccess
 import org.junit.jupiter.api.BeforeEach
+import org.qudus.squad.logic.exceptions.UnauthorizedAccessException
 import org.qudus.squad.logic.useCases.taskState.CreateNewTaskStateUseCase
 import org.qudus.squad.logic.useCases.taskState.DeleteTaskStateUseCase
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
-import org.qudus.squad.model.exceptions.UnauthorizedAccessException
 import kotlin.test.Test
 
 

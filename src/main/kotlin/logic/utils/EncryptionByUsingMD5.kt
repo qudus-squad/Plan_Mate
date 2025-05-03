@@ -1,6 +1,6 @@
 package org.qudus.squad.logic.utils
 
-import org.qudus.squad.model.exceptions.InvalidUserDataException
+import org.qudus.squad.logic.exceptions.InvalidUserDataException
 
 class EncryptionByUsingMD5 {
     private val md5Constants = IntArray(64) { i ->

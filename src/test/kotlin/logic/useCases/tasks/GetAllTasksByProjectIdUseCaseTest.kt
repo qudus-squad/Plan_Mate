@@ -8,13 +8,12 @@ import io.mockk.mockk
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.qudus.squad.logic.exceptions.NoTasksFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.useCases.tasks.GetAllTasksByProjectIdUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
-import org.qudus.squad.model.exceptions.NoTasksFoundException
 import kotlin.test.Test
 
 

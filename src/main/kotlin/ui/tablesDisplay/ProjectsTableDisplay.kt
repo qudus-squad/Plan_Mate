@@ -13,38 +13,59 @@ class ProjectsTableDisplay(
 ) {
     fun displayProjectsTable(projects: List<Project>) {
 
-        println("Ξ".repeat(TOTAL_WIDTH - 10) + "   PLAN MATE   " + "Ξ".repeat(TOTAL_WIDTH - 10))
-        println("┌" + "─".repeat(TOTAL_WIDTH - 2) + "┐")
         println(
-            "│" + "FIND PROJECT".
-            padStart((TOTAL_WIDTH - 2 + "FIND PROJECT".length) / 2)
+            "Ξ"
+                .repeat(TOTAL_WIDTH - 10) + "   PLAN MATE   " + "Ξ"
+                .repeat(TOTAL_WIDTH - 10)
+        )
+        println(
+            "┌" + "─"
+                .repeat(TOTAL_WIDTH - 2) + "┐"
+        )
+        println(
+            "│" + "FIND PROJECT".padStart((TOTAL_WIDTH - 2 + "FIND PROJECT".length) / 2)
                 .padEnd(TOTAL_WIDTH - 2) + "│"
         )
-        println("│" + "─".repeat(TOTAL_WIDTH - 2) + "│")
+
         println(
-            "│" +
-                    "ID".padEnd(ID_WIDTH) + "│" +
-                    "NAME".padEnd(NAME_WIDTH) + "│" +
-                    "DATE CREATED".padEnd(19) + "│"
+            "│" + "─"
+                .repeat(TOTAL_WIDTH - 2) + "│"
+        )
+        println(
+            "│" + "ID"
+                .padEnd(ID_WIDTH) + "│" + "NAME"
+                .padEnd(NAME_WIDTH) + "│" + "DATE CREATED"
+                .padEnd(19) + "│"
         )
         projects.forEach { project ->
             val formatedDate = dateFormater.formatDateTimeForDisplay(project.createdAt)
             println(
-                "│" +
-                        project.id.padEnd(ID_WIDTH) + "│" +
-                        project.title.take(NAME_WIDTH - 3).padEnd(NAME_WIDTH) + "│" +
-                        formatedDate.padEnd(DATE_WIDTH) + "│"
+                "│" + project.id
+                    .padEnd(ID_WIDTH) + "│" + project.title
+                    .take(NAME_WIDTH - 3)
+                    .padEnd(NAME_WIDTH) + "│" + formatedDate
+                    .padEnd(DATE_WIDTH) + "│"
             )
         }
-        println("└" + "─".repeat(TOTAL_WIDTH - 2) + "┘")
-        println("┌" + "─".repeat(TOTAL_WIDTH - 2) + "┐")
+        println(
+            "└" + "─"
+                .repeat(TOTAL_WIDTH - 2) + "┘"
+        )
+        println(
+            "┌" + "─"
+                .repeat(TOTAL_WIDTH - 2) + "┐"
+        )
         println(
             "│" + "ENTER PROJECT NAME OR ID TO OPEN PROJECT"
                 .padStart((TOTAL_WIDTH - 2 + "ENTER PROJECT NAME OR ID TO OPEN PROJECT".length) / 2)
                 .padEnd(TOTAL_WIDTH - 2) + "│"
         )
-        println("└" + "─".repeat(TOTAL_WIDTH - 2) + "┘")
+        println(
+            "└" + "─"
+                .repeat(TOTAL_WIDTH - 2) + "┘"
+        )
     }
+
     object Utils {
         const val ID_WIDTH = 12
         const val NAME_WIDTH = 18

@@ -1,14 +1,13 @@
 package logic.useCases.project
 
+import org.qudus.squad.logic.exceptions.AccessDeniedException
+import org.qudus.squad.logic.exceptions.InvalidProjectInfo
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.utils.GenerateUUID
 import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
-
-import org.qudus.squad.model.exceptions.AccessDeniedException
-import org.qudus.squad.model.exceptions.InvalidProjectInfo
 
 class CreateNewProjectUseCase(
     private val projectRepository: ProjectRepository,

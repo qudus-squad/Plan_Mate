@@ -9,7 +9,6 @@ import org.qudus.squad.logic.useCases.user.AddNewUserUseCase
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.UserDataValidator
 import org.qudus.squad.model.entity.UserRole
-import org.qudus.squad.model.exceptions.AccessDeniedException
 import org.qudus.squad.model.exceptions.InvalidUserDataException
 import kotlin.test.Test
 

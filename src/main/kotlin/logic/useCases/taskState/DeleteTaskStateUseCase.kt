@@ -1,10 +1,10 @@
 package org.qudus.squad.logic.useCases.taskState
 
+import org.qudus.squad.logic.exceptions.UnauthorizedAccessException
 import org.qudus.squad.logic.repositories.StateRepository
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
-import org.qudus.squad.model.exceptions.UnauthorizedAccessException
 
 class DeleteTaskStateUseCase(private val stateRepository: StateRepository) {
 

@@ -2,8 +2,8 @@ package org.qudus.squad.data
 import okio.FileSystem
 import okio.Path.Companion.toPath
 import okio.buffer
+import org.qudus.squad.logic.exceptions.UserAlreadyExistException
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
-import org.qudus.squad.model.exceptions.UserAlreadyExistException
 
 class CredentialManager {
     private val folderPath = "src/main/kotlin/data/security".toPath()

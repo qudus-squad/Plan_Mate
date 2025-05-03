@@ -1,7 +1,7 @@
 package org.qudus.squad.logic.useCases.log
 
+import org.qudus.squad.logic.exceptions.NoChangeHistoryFoundException
 import org.qudus.squad.logic.repositories.LogRepository
-import org.qudus.squad.model.exceptions.NoChangeHistoryFoundException
 import org.qudus.squad.utils.DateTimeFormatter
 import org.qudus.squad.model.entity.LogEntry
 

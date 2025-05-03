@@ -1,7 +1,7 @@
 package org.qudus.squad.logic.useCases.tasks
 
+import org.qudus.squad.logic.exceptions.UnknownException
 import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.exceptions.UnknownException
 
 class GetTasksByStateUseCase (private val getAllTasksByProjectIdUseCase: GetAllTasksByProjectIdUseCase)   {
 
