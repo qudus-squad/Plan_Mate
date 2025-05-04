@@ -5,7 +5,7 @@ import logic.use_cases.project.CreateNewProjectUseCase
 import logic.use_cases.project.DeleteProjectUseCase
 import logic.use_cases.project.GetAllProjectsUseCase
 import org.koin.dsl.module
-import logic.use_cases.log.GetLogByTargetIdUseCase
+import logic.use_cases.log.GetChangeLogEntriesForTargetIdUseCase
 import logic.use_cases.project.EditProjectUseCase
 import logic.use_cases.taskState.CreateNewTaskStateUseCase
 import logic.use_cases.taskState.DeleteTaskStateUseCase
@@ -24,7 +24,7 @@ val useCaseModule = module {
 
     single { SignInUseCase(get(),get()) }
 
-    single { GetLogByTargetIdUseCase(get()) }
+    single { GetChangeLogEntriesForTargetIdUseCase(get()) }
 
     single { CreateNewProjectUseCase(get()) }
 
