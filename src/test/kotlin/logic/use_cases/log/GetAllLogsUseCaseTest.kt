@@ -48,7 +48,7 @@ class GetAllLogsUseCaseTest{
     }
 
     @Test
-    fun `returns all logs when repository has logs`() {
+    fun `should return all logs when repository has logs`() {
         // Given
         val logs = sampleLogEntries()
         every { logRepository.getAllLogs() } returns logs

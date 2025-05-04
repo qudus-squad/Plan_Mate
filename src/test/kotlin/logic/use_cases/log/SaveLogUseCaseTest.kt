@@ -22,7 +22,7 @@ class SaveLogUseCaseTest{
    saveLogUseCase = SaveLogUseCase(logRepository)
   }
  @Test
- fun `should save log entry in repository when called`() {
+ fun `should save log entry in repository when addLog called`() {
   // Given
   val dateTime = LocalDateTime(LocalDate(2025, 5, 1), LocalTime(10, 30))
   val logEntry = LogEntry(
