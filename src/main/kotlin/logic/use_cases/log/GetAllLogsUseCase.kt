@@ -5,6 +5,6 @@ import org.qudus.squad.model.entity.LogEntry
 
 class GetAllLogsUseCase(private val logRepository: LogRepository) {
     fun getAllLogsUseCas(): List<LogEntry>{
-        return logRepository.getAllLogs() ?: emptyList()
+        return logRepository.getAllLogs()
     }
 }
