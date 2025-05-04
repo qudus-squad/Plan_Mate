@@ -7,8 +7,8 @@ import org.qudus.squad.model.entity.User
 class UserRepositoryImplementation(
     private val userDataSource: UserDataSource
 ) : UserRepository {
-    override fun addNewUser(user: User) {
-        userDataSource.addUser(user)
+    override fun addNewUser(user: User): Boolean {
+        return userDataSource.addUser(user)
     }
 
     override fun getUserById(userId: String): User? {

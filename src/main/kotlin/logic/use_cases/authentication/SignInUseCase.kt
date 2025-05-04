@@ -1,28 +1,29 @@
 package logic.use_cases.authentication
 
-import org.qudus.squad.logic.exceptions.InvalidUserDataException
+import org.qudus.squad.logic.exceptions.InvalidPasswordException
+import org.qudus.squad.logic.exceptions.InvalidUserNameException
 import org.qudus.squad.logic.repositories.AuthenticationRepository
-import org.qudus.squad.logic.validation.UserDataValidator
+import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.User
 
 class SignInUseCase(
     private val authenticationRepository: AuthenticationRepository,
-    private val userDataValidator: UserDataValidator
+    private val userDataValidationUseCase: UserDataValidationUseCase
 ) {
     fun signIn(username: String, password: String): User {
-        if (!userDataValidator.validateUserData(username, password)) {
-            throw InvalidUserDataException(INVALID_USER_DATA)
+        if (!userDataValidationUseCase.isValidUserName(username)) {
+            throw InvalidUserNameException(INVALID_USER_NAME)
         }
-        return try {
-            authenticationRepository.signIn(username, password)
-        } catch (e: InvalidUserDataException) {
-            throw e
+        if (!userDataValidationUseCase.isValidPassword(password)) {
+            throw InvalidPasswordException(INVALID_PASSWORD)
         }
-
+        return authenticationRepository.signIn(username, password)
     }
 
     companion object {
-        const val INVALID_USER_DATA = "Invalid username or password"
+        const val INVALID_USER_NAME =
+            "Invalid username, username shouldn't be empty or contains symbols but \'.\' or \'_\' "
+        const val INVALID_PASSWORD = "Password should be 8 characters or more"
 
     }
 
