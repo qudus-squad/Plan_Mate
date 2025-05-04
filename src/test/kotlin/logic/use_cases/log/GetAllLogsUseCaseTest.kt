@@ -48,7 +48,7 @@ class GetAllLogsUseCaseTest{
     }
 
     @Test
-    fun `should return list of all logs when repository returns logs`() {
+    fun `returns all logs when repository has logs`() {
         // Given
         val logs = sampleLogEntries()
         every { logRepository.getAllLogs() } returns logs
@@ -61,9 +61,9 @@ class GetAllLogsUseCaseTest{
     }
 
     @Test
-    fun `should return empty list when repository returns null`() {
+    fun `should return empty list when repository has no logs`() {
         // Given
-        every { logRepository.getAllLogs() } returns null
+        every { logRepository.getAllLogs() } returns emptyList()
 
         // When
         val result = getAllLogsUseCase.getAllLogsUseCas()
