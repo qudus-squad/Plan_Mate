@@ -1,6 +1,5 @@
 package logic.use_cases.tasks
 
-import org.qudus.squad.logic.exceptions.EmptyValuesException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
@@ -16,16 +15,7 @@ class EditTaskUseCse(
     fun editTask(userName: String, updatedTask: Task,action: String,oldValue: String, newValue: String){
         if (taskDataValidator.validateTaskValues(updatedTask)){
             taskRepository.editExistingTask(updatedTask)
-            logRepository.addNewLog(
-                LogEntry(
-                    userName, updatedTask.id, TargetType.TASK, action, oldValue, newValue
-                )
-            )
-        }else
-            throw EmptyValuesException(TASK_HAS_EMPTY_VALUES)
-    }
-
-    companion object{
-        const val TASK_HAS_EMPTY_VALUES = "Task has empty values"
+            logRepository.addNewLog(LogEntry(userName, updatedTask.id, TargetType.TASK, action, oldValue, newValue))
+        }
     }
 }

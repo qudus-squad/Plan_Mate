@@ -6,11 +6,17 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.exceptions.EmptyValuesException
+import org.qudus.squad.logic.exceptions.InvalidTaskCreatorUserIdException
+import org.qudus.squad.logic.exceptions.InvalidTaskDescriptionException
+import org.qudus.squad.logic.exceptions.InvalidTaskProjectIdException
+import org.qudus.squad.logic.exceptions.InvalidTaskStateNameException
+import org.qudus.squad.logic.exceptions.InvalidTaskTitleException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
+import kotlin.test.assertFalse
 
 class EditTaskUseCseTest {
     private lateinit var taskRepository: TaskRepository
@@ -25,7 +31,7 @@ class EditTaskUseCseTest {
     }
 
     @Test
-    fun `editExistingTask should call repository with updated task`(){
+    fun `editExistingTask should delegate task editing to task repository`(){
         // Given
         val updatedTask = Task(
             title = "Notes",
@@ -42,24 +48,7 @@ class EditTaskUseCseTest {
     }
 
     @Test
-    fun `editExistingTask should throw EmptyValuesException when some arguments has empty value`(){
-        // Given
-        val updatedTask = Task(
-            title = "Notes",
-            description = " ",
-            projectId = "dasda144",
-            taskState = TaskState(name = "To-Do"),
-            creatorUserID = ""
-        )
-        // When & Then
-        shouldThrow<EmptyValuesException> {
-            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
-                oldValue = "Note", newValue = "My note")
-        }
-    }
-
-    @Test
-    fun `editExistingTask should throw EmptyValuesException when title has empty value`(){
+    fun `should throw InvalidTaskTitleException when title has empty value`(){
         // Given
         val updatedTask = Task(
             title = "",
@@ -69,14 +58,14 @@ class EditTaskUseCseTest {
             creatorUserID = "145826"
         )
         // When & Then
-        shouldThrow<EmptyValuesException> {
+        shouldThrow<InvalidTaskTitleException> {
             editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
                 oldValue = "Note", newValue = "My note")
         }
     }
 
     @Test
-    fun `editExistingTask should throw EmptyValuesException when project id has empty value`(){
+    fun `should throw InvalidTaskProjectIdException when project id has empty value`(){
         // Given
         val updatedTask = Task(
             title = "Note",
@@ -86,14 +75,14 @@ class EditTaskUseCseTest {
             creatorUserID = "145826"
         )
         // When & Then
-        shouldThrow<EmptyValuesException> {
+        shouldThrow<InvalidTaskProjectIdException> {
             editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
                 oldValue = "Note", newValue = "My note")
         }
     }
 
     @Test
-    fun `editExistingTask should throw EmptyValuesException when creator id has empty value`(){
+    fun `should throw InvalidTaskCreatorUserIdException when creator id has empty value`(){
         // Given
         val updatedTask = Task(
             title = "Note",
@@ -103,9 +92,44 @@ class EditTaskUseCseTest {
             creatorUserID = ""
         )
         // When & Then
-        shouldThrow<EmptyValuesException> {
+        shouldThrow<InvalidTaskCreatorUserIdException> {
             editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
                 oldValue = "Note", newValue = "My note")
         }
     }
+
+    @Test
+    fun `should throw InvalidTaskDescriptionException when description has empty value`(){
+        // Given
+        val updatedTask = Task(
+            title = "Note",
+            description = " ",
+            projectId = "125886f",
+            taskState = TaskState(name = "To-Do"),
+            creatorUserID = "12584"
+        )
+        // When & Then
+        shouldThrow<InvalidTaskDescriptionException> {
+            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+                oldValue = "Note", newValue = "My note")
+        }
+    }
+
+    @Test
+    fun `should throw InvalidTaskStateNameException when task state name has empty value`(){
+        // Given
+        val updatedTask = Task(
+            title = "Note",
+            description = "notes",
+            projectId = "125886f",
+            taskState = TaskState(name = ""),
+            creatorUserID = "12563"
+        )
+        // When & Then
+        shouldThrow<InvalidTaskStateNameException> {
+            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+                oldValue = "Note", newValue = "My note")
+        }
+    }
+
 }
