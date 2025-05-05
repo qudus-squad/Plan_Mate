@@ -32,7 +32,7 @@ class DeleteProjectUseCaseTest {
     }
 
     @Test
-    fun `deleteProject should remove project by ID and return true`() {
+    fun `should return true when remove project by ID and the project deleted successfully`() {
         // When
         val result = deleteProjectUseCase.deleteProjectUseCase(projectId)
 
@@ -43,7 +43,7 @@ class DeleteProjectUseCaseTest {
     }
 
     @Test
-    fun `deleteProject should not affect other projects and return true`() {
+    fun `should return true when project deleted and not affect other projects`() {
         // Given
         val otherProject = Project(
             id = "P002",
@@ -64,7 +64,7 @@ class DeleteProjectUseCaseTest {
     }
 
     @Test
-    fun `deleteProject should return false for non-existent project ID`() {
+    fun `should return false when delete non-existent project`() {
         // Given
         val nonExistentProjectId = "P999"
 
