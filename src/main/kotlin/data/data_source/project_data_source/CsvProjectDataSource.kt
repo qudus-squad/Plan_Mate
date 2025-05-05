@@ -27,11 +27,17 @@ class CsvProjectDataSource(
     }
 
     override fun deleteProjectById(id: String): Boolean {
-        val filteredProjects = getAllProjects().filterNot { it.id == id }
+        val allProject = getAllProjects()
+
+        val checkProjectIsExist = allProject.firstOrNull { it.id == id }
+        if (checkProjectIsExist == null) return false
+
+        val filteredProjects = allProject.filterNot { it.id == id }
+
         val csvLines = filteredProjects.map(projectCsvCsvParser::toCsvRow)
         writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
 
-        return getAllProjects().any { it.id != id }
+        return !filteredProjects.any { it.id == id }
     }
 
     override fun createNewProject(project: Project): Project {
