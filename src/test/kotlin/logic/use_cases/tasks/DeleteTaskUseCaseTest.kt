@@ -5,7 +5,9 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.qudus.squad.logic.exceptions.EmptyValuesException
+import org.qudus.squad.logic.exceptions.InvalidTaskIdException
+import org.qudus.squad.logic.exceptions.InvalidTaskTitleException
+import org.qudus.squad.logic.exceptions.InvalidUserNameException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
@@ -23,50 +25,50 @@ class DeleteTaskUseCaseTest {
     }
 
     @Test
-    fun `deleteTask should call delete function in task repository when values validated`(){
+    fun `deleteTask should delegate task deletion to task repository`(){
         // Given
         val userName = "hazem"
         val taskId = "147825"
-        val taskName = "My Favourites"
+        val taskTitle = "My Favourites"
          // when
-        deleteTaskUseCase.deleteTask(userName, taskId, taskName)
+        deleteTaskUseCase.deleteTask(userName, taskId, taskTitle)
         // Then
         verify(exactly = 1) { taskRepository.deleteTaskById(taskId) }
     }
 
     @Test
-    fun `deleteTask should throw exception when task id is empty value`(){
+    fun `should throw InvalidTaskIdException when task id is empty value`(){
         // Given
         val userName = "hazem"
         val taskId = " "
-        val taskName = "My Favourites"
+        val taskTitle = "My Favourites"
         // Then & when
-        shouldThrow<EmptyValuesException> {
-            deleteTaskUseCase.deleteTask(userName, taskId, taskName)
+        shouldThrow<InvalidTaskIdException> {
+            deleteTaskUseCase.deleteTask(userName, taskId, taskTitle)
         }
     }
 
     @Test
-    fun `deleteTask should throw exception when user name is empty value`(){
+    fun `should throw InvalidUserNameException when username is empty value`(){
         // Given
         val userName = ""
         val taskId = "1425836"
-        val taskName = "My Favourites"
+        val taskTitle = "My Favourites"
         // Then & when
-        shouldThrow<EmptyValuesException> {
-            deleteTaskUseCase.deleteTask(userName, taskId, taskName)
+        shouldThrow<InvalidUserNameException> {
+            deleteTaskUseCase.deleteTask(userName, taskId, taskTitle)
         }
     }
 
     @Test
-    fun `deleteTask should throw exception when task name is empty value`(){
+    fun `should throw InvalidTaskTitleException when task title is empty value`(){
         // Given
         val userName = "hazem"
         val taskId = "1425836"
-        val taskName = " "
+        val taskTitle = " "
         // Then & when
-        shouldThrow<EmptyValuesException> {
-            deleteTaskUseCase.deleteTask(userName, taskId, taskName)
+        shouldThrow<InvalidTaskTitleException> {
+            deleteTaskUseCase.deleteTask(userName, taskId, taskTitle)
         }
     }
 }

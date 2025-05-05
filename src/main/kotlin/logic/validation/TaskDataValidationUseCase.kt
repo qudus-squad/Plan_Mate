@@ -2,9 +2,11 @@ package org.qudus.squad.logic.validation
 
 import org.qudus.squad.logic.exceptions.InvalidTaskCreatorUserIdException
 import org.qudus.squad.logic.exceptions.InvalidTaskDescriptionException
+import org.qudus.squad.logic.exceptions.InvalidTaskIdException
 import org.qudus.squad.logic.exceptions.InvalidTaskProjectIdException
 import org.qudus.squad.logic.exceptions.InvalidTaskStateNameException
 import org.qudus.squad.logic.exceptions.InvalidTaskTitleException
+import org.qudus.squad.logic.exceptions.InvalidUserNameException
 import org.qudus.squad.model.entity.Task
 
 class TaskDataValidationUseCase {
@@ -28,8 +30,25 @@ class TaskDataValidationUseCase {
         return true
     }
 
-    fun validateDeleteTaskValues(userName: String, taskId: String,taskName: String): Boolean{
-        return userName.isNotBlank() && taskId.isNotBlank() && taskName.isNotBlank()
+    fun validateDeleteTaskValues(userName: String, taskId: String,taskTitle: String): Boolean{
+        if (!isValidTaskTitle(taskTitle)){
+            throw InvalidTaskTitleException(INVALID_TASK_TITLE)
+        }
+        if (!isValidUserName(userName)){
+            throw InvalidUserNameException(UserDataValidationUseCase.INVALID_USER_NAME)
+        }
+        if (!isValidTaskId(taskId)){
+            throw InvalidTaskIdException(INVALID_TASK_ID)
+        }
+        return true
+    }
+
+    private fun isValidUserName(userName: String): Boolean{
+        return userName.isNotBlank()
+    }
+
+    private fun isValidTaskId(taskId: String): Boolean{
+        return taskId.isNotBlank()
     }
 
     private fun isValidTaskTitle(title: String): Boolean{
@@ -53,6 +72,7 @@ class TaskDataValidationUseCase {
     }
 
     companion object{
+        const val INVALID_TASK_ID = "Task id should not be empty or blank."
         const val INVALID_TASK_TITLE = "Title should not be empty or blank."
         const val INVALID_TASK_DESCRIPTION = "Description should not be empty or blank."
         const val INVALID_TASK_CREATOR_ID = "Task creator id should not be empty or blank."
