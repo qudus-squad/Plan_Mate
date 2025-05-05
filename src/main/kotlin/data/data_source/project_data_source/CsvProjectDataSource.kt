@@ -10,8 +10,8 @@ import kotlin.io.path.appendText
 
 class CsvProjectDataSource(
     private val csvReader: CsvReader,
-    private val projectCsvCsvParser: ProjectCsvParser,
-    private val writeInFileUseCase: WriteInFileUseCase
+    private val projectCsvParser: ProjectCsvParser,
+    private val writeInFileUseCase: WriteInFileUseCase,
 ) : ProjectDataSource {
 
     private val projectFilePath: Path = Paths.get(PROJECTS_FILE)
@@ -19,21 +19,30 @@ class CsvProjectDataSource(
     override fun getAllProjects(): List<Project> {
         return csvReader.read(PROJECTS_FILE).mapNotNull {
             try {
-                projectCsvCsvParser.fromCsvRow(it)
+                projectCsvParser.fromCsvRow(it)
             } catch (_: IllegalArgumentException) {
                 null
             }
         }
     }
 
-    override fun deleteProjectById(id: String) {
-        val filteredProjects = getAllProjects().filterNot { it.id == id }
-        val csvLines = filteredProjects.map(projectCsvCsvParser::toCsvRow)
+    override fun deleteProjectById(id: String): Boolean {
+        val allProjects = getAllProjects()
+
+        val isProjectExists = allProjects.firstOrNull { it.id == id }
+        if (isProjectExists == null) return false
+
+        val updatedProjects = allProjects.filterNot { it.id == id }
+
+
+        val csvLines = updatedProjects.map(projectCsvParser::toCsvRow)
         writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
+
+        return !updatedProjects.any { it.id == id }
     }
 
     override fun createNewProject(project: Project): Project {
-        val csvLine = projectCsvCsvParser.toCsvRow(project) + "\n"
+        val csvLine = projectCsvParser.toCsvRow(project) + "\n"
         projectFilePath.appendText(csvLine)
         return project
     }
@@ -46,7 +55,7 @@ class CsvProjectDataSource(
         val updatedProjects = getAllProjects().map {
             if (it.id == project.id) project else it
         }
-        val csvLines = updatedProjects.map(projectCsvCsvParser::toCsvRow)
+        val csvLines = updatedProjects.map(projectCsvParser::toCsvRow)
         writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
     }
 
