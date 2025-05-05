@@ -40,6 +40,6 @@ class SaveLogUseCaseTest{
 
   // Then
   verify {
-   logRepository.addLog(logEntry)
+   logRepository.addNewLog(logEntry)
   }
  }}

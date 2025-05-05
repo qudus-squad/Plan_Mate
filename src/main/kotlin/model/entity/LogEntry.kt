@@ -10,8 +10,8 @@ data class LogEntry(
     val targetId: String,
     val targetType: TargetType,
     val action: String,
-    val oldValue: String?,
-    val newValue: String?,
+    val oldValue: String?=null,
+    val newValue: String?=null,
     val loggedAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 )
 

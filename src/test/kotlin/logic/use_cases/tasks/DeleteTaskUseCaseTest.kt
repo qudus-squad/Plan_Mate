@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.exceptions.EmptyValuesException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
-import org.qudus.squad.logic.validation.TaskDataValidator
+import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 
 class DeleteTaskUseCaseTest {
     private lateinit var taskRepository: TaskRepository
@@ -19,7 +19,7 @@ class DeleteTaskUseCaseTest {
     fun setup(){
         taskRepository = mockk(relaxed = true)
         logRepository = mockk(relaxed = true)
-        deleteTaskUseCase = DeleteTaskUseCase(taskRepository,logRepository, TaskDataValidator())
+        deleteTaskUseCase = DeleteTaskUseCase(taskRepository,logRepository, TaskDataValidationUseCase())
     }
 
     @Test
