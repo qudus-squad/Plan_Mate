@@ -6,7 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.datetime.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
-import org.qudus.squad.logic.exceptions.NoTasksFoundException
+import org.qudus.squad.logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
@@ -32,7 +32,7 @@ class AssignTaskToUserUseCaseTest {
         every { taskRepository.getTaskById(taskId) } returns null
 
         // When & Then
-        shouldThrow<NoTasksFoundException> {
+        shouldThrow<TaskNotFoundException> {
             assignTaskToUserUseCase.assignTaskToUser(userId, taskId)
         }
     }

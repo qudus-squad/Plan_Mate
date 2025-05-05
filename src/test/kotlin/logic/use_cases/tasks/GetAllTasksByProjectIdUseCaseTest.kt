@@ -9,7 +9,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.junit.jupiter.api.BeforeEach
-import org.qudus.squad.logic.exceptions.NoTasksFoundException
+import org.qudus.squad.logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
@@ -68,7 +68,7 @@ class GetAllTasksByProjectIdUseCaseTest {
         every { taskRepository.getAllTasksByProjectId("1") } returns emptyList()
 
         // When & Then
-        shouldThrow<NoTasksFoundException> {
+        shouldThrow<TaskNotFoundException> {
             getAllTasksByProjectIdUseCase.getAllTasksByProjectId("1")
         }.message shouldBe GetAllTasksByProjectIdUseCase.NO_TASK_FOUND
     }

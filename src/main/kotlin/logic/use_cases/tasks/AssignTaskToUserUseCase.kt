@@ -1,25 +1,17 @@
 package logic.use_cases.tasks
 
-import org.qudus.squad.logic.exceptions.NoTasksFoundException
+import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase.Companion.NO_TASK_FOUND
+import org.qudus.squad.logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
+import org.qudus.squad.logic.utils.GenerateUUID
 
 class AssignTaskToUserUseCase(
     private val taskRepository: TaskRepository,
 ) {
-    fun assignTaskToUser(userId: String, taskId: String): Boolean {
-        return if (taskRepository.getTaskById(taskId) == null) {
-            throw NoTasksFoundException(NO_TASK_FOUND)
-        } else {
-            try {
-                taskRepository.assignTaskToUser(taskId, userId)
-            } catch (e: Exception) {
-                throw e
-            }
-        }
-    }
+    fun assignTaskToUser(userId : String = GenerateUUID().generate(), taskId : String = GenerateUUID().generate()): Boolean {
+        taskRepository.getTaskById(taskId)
+            ?: throw TaskNotFoundException(NO_TASK_FOUND)
 
-
-    companion object {
-        const val NO_TASK_FOUND = "No tasks found"
+        return taskRepository.assignTaskToUser(taskId, userId)
     }
 }

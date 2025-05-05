@@ -72,7 +72,7 @@ class EditProjectUseCaseTest {
     @Test
     fun `editProject should return false when input is invalid`() {
         // Given
-        val projectId = GenerateUUID().generate()
+        val projectId : String = GenerateUUID().generate()
         val invalidProject = Project(
             id = projectId,
             title = "",
