@@ -1,6 +1,8 @@
 package logic.use_cases.project
 
 import fakes.FakeProjectRepository
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.BeforeEach
@@ -30,17 +32,18 @@ class DeleteProjectUseCaseTest {
     }
 
     @Test
-    fun `deleteProject should remove project by ID`() {
+    fun `deleteProject should remove project by ID and return true`() {
         // When
-        deleteProjectUseCase.deleteProjectUseCase(projectId)
+        val result = deleteProjectUseCase.deleteProjectUseCase(projectId)
 
         // Then
+        result.shouldBeTrue()
         val projects = fakeProjectRepository.getAllProjects()
         projects.shouldBeEmpty()
     }
 
     @Test
-    fun `deleteProject should not affect other projects`() {
+    fun `deleteProject should not affect other projects and return true`() {
         // Given
         val otherProject = Project(
             id = "P002",
@@ -52,11 +55,26 @@ class DeleteProjectUseCaseTest {
         fakeProjectRepository.createNewProject(otherProject)
 
         // When
-        deleteProjectUseCase.deleteProjectUseCase(projectId)
+        val result = deleteProjectUseCase.deleteProjectUseCase(projectId)
 
         // Then
+        result.shouldBeTrue()
         val otherProjects = fakeProjectRepository.getAllProjects()
         otherProjects.map { project -> project.id } shouldContainExactly listOf("P002")
+    }
+
+    @Test
+    fun `deleteProject should return false for non-existent project ID`() {
+        // Given
+        val nonExistentProjectId = "P999"
+
+        // When
+        val result = deleteProjectUseCase.deleteProjectUseCase(nonExistentProjectId)
+
+        // Then
+        result.shouldBeFalse()
+        val projects = fakeProjectRepository.getAllProjects()
+        projects.map { project -> project.id } shouldContainExactly listOf(projectId)
     }
 
 }
