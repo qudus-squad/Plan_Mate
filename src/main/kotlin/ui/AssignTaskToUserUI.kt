@@ -1,6 +1,6 @@
 package org.qudus.squad.ui
 
-import logic.use_cases.tasks.AssignTaskToUserUseCase
+import logic.use_cases.tasks.AssignTaskToUserUseCase import org.qudus.squad.logic.exceptions.TaskNotFoundException
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.User
 import java.io.IOException
@@ -28,7 +28,10 @@ class AssignTaskToUserUI(
             println("$FAILED_TO_ASSIGN_USER_TO_THIS_TASK  $ACCESS_DENIED_ERROR")
         } catch (_: Exception) {
             println("$FAILED_TO_ASSIGN_USER_TO_THIS_TASK  $UNEXPECTED_ERROR")
+        }catch (_: TaskNotFoundException) {
+            println("$FAILED_TO_ASSIGN_USER_TO_THIS_TASK  $TASK_NOT_FOUND_ERROR")
         }
+
     }
 
     companion object {
@@ -42,6 +45,8 @@ class AssignTaskToUserUI(
             "There was an issue parsing the date and time. Please ensure the format is correct."
         const val ACCESS_DENIED_ERROR = "Access to the requested resource is denied. Please check your permissions."
         const val UNEXPECTED_ERROR = "An unexpected error occurred. Please try again later or contact support."
+        const val TASK_NOT_FOUND_ERROR = "The task you are trying to assign was not found. Please check the task ID."
+
     }
 
 
