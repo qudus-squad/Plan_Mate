@@ -5,7 +5,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.qudus.squad.logic.exceptions.EmptyValuesException
 import org.qudus.squad.logic.exceptions.InvalidTaskCreatorUserIdException
 import org.qudus.squad.logic.exceptions.InvalidTaskDescriptionException
 import org.qudus.squad.logic.exceptions.InvalidTaskProjectIdException
@@ -16,18 +15,17 @@ import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
-import kotlin.test.assertFalse
 
-class EditTaskUseCseTest {
+class EditTaskUseCaseTest {
     private lateinit var taskRepository: TaskRepository
-    private lateinit var editTaskUseCse: EditTaskUseCse
+    private lateinit var editTaskUseCase: EditTaskUseCase
     private lateinit var logRepository: LogRepository
 
     @BeforeEach
     fun setup() {
         taskRepository = mockk(relaxed = true)
         logRepository = mockk(relaxed = true)
-        editTaskUseCse = EditTaskUseCse(taskRepository,logRepository, TaskDataValidationUseCase())
+        editTaskUseCase = EditTaskUseCase(taskRepository,logRepository, TaskDataValidationUseCase())
     }
 
     @Test
@@ -41,7 +39,7 @@ class EditTaskUseCseTest {
             creatorUserID = "fsdfs2356"
         )
         // When
-        editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+        editTaskUseCase.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
             oldValue = "Note", newValue = "My note")
         // Then
         verify(exactly = 1) { taskRepository.editExistingTask(updatedTask = updatedTask) }
@@ -59,7 +57,7 @@ class EditTaskUseCseTest {
         )
         // When & Then
         shouldThrow<InvalidTaskTitleException> {
-            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+            editTaskUseCase.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
                 oldValue = "Note", newValue = "My note")
         }
     }
@@ -76,7 +74,7 @@ class EditTaskUseCseTest {
         )
         // When & Then
         shouldThrow<InvalidTaskProjectIdException> {
-            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+            editTaskUseCase.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
                 oldValue = "Note", newValue = "My note")
         }
     }
@@ -93,7 +91,7 @@ class EditTaskUseCseTest {
         )
         // When & Then
         shouldThrow<InvalidTaskCreatorUserIdException> {
-            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+            editTaskUseCase.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
                 oldValue = "Note", newValue = "My note")
         }
     }
@@ -110,7 +108,7 @@ class EditTaskUseCseTest {
         )
         // When & Then
         shouldThrow<InvalidTaskDescriptionException> {
-            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+            editTaskUseCase.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
                 oldValue = "Note", newValue = "My note")
         }
     }
@@ -127,7 +125,7 @@ class EditTaskUseCseTest {
         )
         // When & Then
         shouldThrow<InvalidTaskStateNameException> {
-            editTaskUseCse.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
+            editTaskUseCase.editTask(userName = "sami",updatedTask = updatedTask, action = "edit task name",
                 oldValue = "Note", newValue = "My note")
         }
     }

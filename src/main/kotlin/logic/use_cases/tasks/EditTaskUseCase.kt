@@ -7,7 +7,7 @@ import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.entity.TargetType
 import org.qudus.squad.model.entity.Task
 
-class EditTaskUseCse(
+class EditTaskUseCase(
     private val taskRepository: TaskRepository,
     private val logRepository: LogRepository,
     private val taskDataValidator: TaskDataValidationUseCase
