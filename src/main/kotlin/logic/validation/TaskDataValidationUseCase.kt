@@ -32,23 +32,23 @@ class TaskDataValidationUseCase {
         return userName.isNotBlank() && taskId.isNotBlank() && taskName.isNotBlank()
     }
 
-    fun isValidTaskTitle(title: String): Boolean{
+    private fun isValidTaskTitle(title: String): Boolean{
         return title.isNotBlank()
     }
 
-    fun isValidTaskDescription(description:String): Boolean{
+    private fun isValidTaskDescription(description:String): Boolean{
         return description.isNotBlank()
     }
 
-    fun isValidTaskCreatorId(creatorId: String): Boolean{
+    private fun isValidTaskCreatorId(creatorId: String): Boolean{
         return creatorId.isNotBlank()
     }
 
-    fun isValidTaskProjectId(projectId: String): Boolean{
+    private fun isValidTaskProjectId(projectId: String): Boolean{
         return projectId.isNotBlank()
     }
 
-    fun isValidTaskStateName(stateName: String): Boolean{
+    private fun isValidTaskStateName(stateName: String): Boolean{
         return stateName.isNotBlank()
     }
 
