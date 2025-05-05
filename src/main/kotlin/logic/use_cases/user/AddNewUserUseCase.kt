@@ -1,8 +1,8 @@
 package logic.use_cases.user
 
 import org.qudus.squad.logic.exceptions.AccessDeniedException
+import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.repositories.UserRepository
-import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
@@ -10,7 +10,7 @@ import org.qudus.squad.model.entity.UserRole
 class AddNewUserUseCase(
     private val userRepository: UserRepository,
     private val userValidator: UserDataValidationUseCase,
-    private val mD5: EncryptionByUsingMD5
+    private val hashing: DataHashing
 ) {
     fun addUser(
         currentUserRole: UserRole,
@@ -22,7 +22,7 @@ class AddNewUserUseCase(
             throw AccessDeniedException(NOT_AUTHORIZED_EXCEPTION_MESSAGE)
         }
         userValidator.validateUserData(username, password)
-        val user = User(username = username, passwordHash = mD5.generateHash(password), role = userRole)
+        val user = User(username = username, passwordHash = hashing.generateHash(password), role = userRole)
         return userRepository.addNewUser(user)
     }
 

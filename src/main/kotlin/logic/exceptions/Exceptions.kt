@@ -1,9 +1,9 @@
 package org.qudus.squad.logic.exceptions
 
-class EmptyValuesException(message: String) : Exception(message)
 
 open class InvalidTaskDataException(message: String): Exception(message)
 
+class InvalidTaskIdException(message: String): InvalidTaskDataException(message)
 class InvalidTaskTitleException(message: String): InvalidTaskDataException(message)
 class InvalidTaskDescriptionException(message: String): InvalidTaskDataException(message)
 class InvalidTaskCreatorUserIdException(message: String): InvalidTaskDataException(message)

@@ -9,8 +9,8 @@ import org.qudus.squad.logic.exceptions.AccessDeniedException
 import org.qudus.squad.logic.exceptions.InvalidPasswordException
 import org.qudus.squad.logic.exceptions.InvalidUserNameException
 import org.qudus.squad.logic.exceptions.UserAlreadyExistsException
+import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.repositories.UserRepository
-import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase.Companion.INVALID_USER_NAME
 import org.qudus.squad.model.entity.User
@@ -20,15 +20,15 @@ import kotlin.test.Test
 class AddNewUserUseCaseTest {
     private lateinit var userRepository: UserRepository
     private lateinit var userValidator: UserDataValidationUseCase
-    private lateinit var mD5: EncryptionByUsingMD5
+    private lateinit var   hashing: DataHashing
     private lateinit var addNewUserUseCase: AddNewUserUseCase
 
     @BeforeEach
     fun setup() {
         userRepository = mockk(relaxed = true)
         userValidator = UserDataValidationUseCase()
-        mD5 = EncryptionByUsingMD5()
-        addNewUserUseCase = AddNewUserUseCase(userRepository, userValidator, mD5)
+        hashing = mockk(relaxed = true)
+        addNewUserUseCase = AddNewUserUseCase(userRepository, userValidator, hashing)
     }
 
     @Test

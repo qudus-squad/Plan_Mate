@@ -11,8 +11,15 @@ class FakeProjectRepository : ProjectRepository {
         return projects.toList()
     }
 
-    override fun deleteProjectById(id:String):Boolean {
-        return projects.removeIf { it.id == id }
+    override fun deleteProjectById(id: String): Boolean {
+
+        val allProjects = getAllProjects()
+
+        val isProjectExists = allProjects.firstOrNull { it.id == id }
+        if (isProjectExists == null) return false
+
+        projects.removeIf { it.id == id }
+        return true
     }
 
     override fun createNewProject(project: Project): Project {

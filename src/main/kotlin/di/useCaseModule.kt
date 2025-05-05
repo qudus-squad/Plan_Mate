@@ -15,6 +15,7 @@ import logic.use_cases.tasks.AssignTaskToUserUseCase
 import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase
 import logic.use_cases.tasks.GetTasksByStateUseCase
 import logic.use_cases.user.AddNewUserUseCase
+import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 
@@ -48,7 +49,7 @@ val useCaseModule = module {
 
     single { GetTasksByStateUseCase(get()) }
 
-    single { EncryptionByUsingMD5() }
+    single<DataHashing> { EncryptionByUsingMD5() }
 
     single { AddNewUserUseCase(get(), get(), get()) }
 }

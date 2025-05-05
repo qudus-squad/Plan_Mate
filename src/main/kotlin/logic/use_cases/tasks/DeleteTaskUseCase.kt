@@ -1,6 +1,5 @@
 package logic.use_cases.tasks
 
-import org.qudus.squad.logic.exceptions.EmptyValuesException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
@@ -12,16 +11,10 @@ class DeleteTaskUseCase(
     private val logRepository: LogRepository,
     private val taskDataValidator: TaskDataValidationUseCase
 ) {
-    fun deleteTask(userName: String, taskId: String, taskName: String){
-        if (taskDataValidator.validateDeleteTaskValues(userName,taskId,taskName)){
+    fun deleteTask(userName: String, taskId: String, taskTitle: String){
+        if (taskDataValidator.validateDeleteTaskValues(userName,taskId,taskTitle)){
             taskRepository.deleteTaskById(taskId)
-            logRepository.addNewLog(LogEntry(userName,taskId, TargetType.TASK,"$taskName Task Deleted",null,null))
+            logRepository.addNewLog(LogEntry(userName,taskId, TargetType.TASK,"$taskTitle Task Deleted"))
         }
-        else
-            throw EmptyValuesException(TASK_ID_IS_EMPTY)
-    }
-
-    companion object{
-        const val TASK_ID_IS_EMPTY = "Task Id is Empty"
     }
 }
