@@ -16,11 +16,11 @@ import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase
 import logic.use_cases.tasks.GetTasksByStateUseCase
 import logic.use_cases.user.AddNewUserUseCase
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
-import org.qudus.squad.logic.validation.UserDataValidator
+import org.qudus.squad.logic.validation.UserDataValidationUseCase
 
 val useCaseModule = module {
 
-    single { UserDataValidator() }
+    single { UserDataValidationUseCase() }
 
     single { SignInUseCase(get(),get()) }
 
