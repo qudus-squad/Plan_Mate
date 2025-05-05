@@ -5,7 +5,7 @@ import org.qudus.squad.logic.exceptions.InvalidProjectInfo
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.utils.GenerateUUID
 import org.qudus.squad.model.entity.Project
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
 
@@ -16,7 +16,7 @@ class CreateNewProjectUseCase(
         user: User,
         title: String,
         description: String,
-        taskState: List<TaskState>
+        tasks: List<Task> = emptyList()
     ): Project {
         if (user.role != UserRole.ADMIN) {
             throw AccessDeniedException(NOT_AUTHORIZED_EXCEPTION_MESSAGE)
@@ -26,7 +26,7 @@ class CreateNewProjectUseCase(
             title = title,
             creatorUserId = user.userId,
             description = description,
-            taskState = taskState,
+            tasks = tasks,
         )
         if (title.isEmpty()) throw InvalidProjectInfo(INVALID_PROJECT_INFO)
         val createdProject = projectRepository.createNewProject(newProjectInfo)

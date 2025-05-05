@@ -5,7 +5,6 @@ import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
 
@@ -40,9 +39,8 @@ class GetAllProjectsUseCaseTest {
     @Test
     fun `getAllProjects should return all created projects`() {
         // Given
-        val projectStates = listOf(TaskState(name = "ToDo"), TaskState(name = "Done"))
-        val project1 = createNewProjectUseCase.createProject(adminUser, "Project A", "test project A", projectStates)
-        val project2 = createNewProjectUseCase.createProject(adminUser, "Project B", "test project B", projectStates)
+        val project1 = createNewProjectUseCase.createProject(adminUser, "Project A", "test project A")
+        val project2 = createNewProjectUseCase.createProject(adminUser, "Project B", "test project B")
 
         // When
         val projects = getAllProjectsUseCase.getAllProjectsUseCase()

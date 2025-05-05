@@ -7,7 +7,6 @@ import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.exceptions.InvalidProjectInfo
-import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
 
@@ -28,14 +27,12 @@ class CreateNewProjectUseCaseTest {
         val userAdmin = User(username = "admin1", passwordHash = "123456", role = UserRole.ADMIN)
         val projectTitle = "Project B"
         val projectDescription = "Test Project 1"
-        val statesForProject = listOf(TaskState(name = "ToDo"), TaskState(name = "Done"))
 
         // When
         val result = createNewProjectUseCase.createProject(
             userAdmin,
             projectTitle,
             projectDescription,
-            statesForProject,
         )
 
         // Then
@@ -49,11 +46,10 @@ class CreateNewProjectUseCaseTest {
         val userMate = User(username = "user", passwordHash = "123456", role = UserRole.MATE)
         val projectTitle = "Project B"
         val projectDescription = "Test Project 2"
-        val statesForProject = listOf(TaskState(name = "ToDo"))
 
         // When & Then
         shouldThrow<AccessDeniedException> {
-            createNewProjectUseCase.createProject(userMate, projectTitle, projectDescription, statesForProject)
+            createNewProjectUseCase.createProject(userMate, projectTitle, projectDescription)
         }
     }
 
@@ -63,11 +59,10 @@ class CreateNewProjectUseCaseTest {
         val userAdmin = User(username = "admin2", passwordHash = "123456", role = UserRole.ADMIN)
         val projectTitle = ""
         val projectDescription = "Test Project 2"
-        val statesForProject = listOf(TaskState(name = "ToDo"))
 
         // When & Then
         shouldThrow<InvalidProjectInfo> {
-            createNewProjectUseCase.createProject(userAdmin, projectTitle, projectDescription, statesForProject)
+            createNewProjectUseCase.createProject(userAdmin, projectTitle, projectDescription, )
         }
         fakeProjectRepository.getAllProjects() shouldHaveSize 0
     }

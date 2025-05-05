@@ -38,12 +38,12 @@ class ManageProjectsUI(
         val statesEntered = readlnOrNull()?.trim()?.split(",") ?: emptyList()
         val taskStates = statesEntered.map { string -> TaskState(name = string) }
 
-        val projectToBeCreated = createNewProjectUseCase.createProject(
-            title = title,
-            description = description,
-            user = user,
-            taskState = taskStates
-        )
-        println(" user : ${projectToBeCreated.creatorUserId} created ${projectToBeCreated.title} ")
+//        val projectToBeCreated = createNewProjectUseCase.createProject(
+//            title = title,
+//            description = description,
+//            user = user,
+//            taskState = taskStates
+//        )
+//        println(" user : ${projectToBeCreated.creatorUserId} created ${projectToBeCreated.title} ")
     }
 }
