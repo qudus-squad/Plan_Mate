@@ -1,5 +1,4 @@
-package org.qudus.squad.utils
-
+package org.qudus.squad.logic.utils
 import kotlinx.datetime.LocalDateTime
 
 object DateTimeFormatter {

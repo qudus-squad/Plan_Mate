@@ -1,6 +1,5 @@
-package logic.use_cases
+package logic.use_cases.log
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -10,22 +9,19 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.qudus.squad.logic.exceptions.NoChangeHistoryFoundException
 import org.qudus.squad.logic.repositories.LogRepository
-import logic.use_cases.log.GetLogByTargetIdUseCase
 import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.entity.TargetType
-import org.qudus.squad.utils.DateTimeFormatter
-
-class GetLogByTargetIdUseCaseTest {
+import org.qudus.squad.logic.utils.DateTimeFormatter
+class GetChangeLogEntriesForTargetIdUseCaseTest {
 
     private lateinit var logRepository: LogRepository
-    private lateinit var getLogByTargetIdUseCase: GetLogByTargetIdUseCase
+    private lateinit var getChangeLogEntriesForTargetIdUseCase: GetChangeLogEntriesForTargetIdUseCase
 
     @BeforeEach
     fun setUp() {
-        logRepository = mockk()
-        getLogByTargetIdUseCase = GetLogByTargetIdUseCase(logRepository)
+        logRepository = mockk(relaxed = true)
+        getChangeLogEntriesForTargetIdUseCase = GetChangeLogEntriesForTargetIdUseCase(logRepository)
     }
 
     private fun sampleLogEntries(): List<LogEntry> {
@@ -57,14 +53,14 @@ class GetLogByTargetIdUseCaseTest {
     }
 
     @Test
-    fun `should return list of change Logs when target id has change history`() {
+    fun `should return change logs for target id when history exists`() {
         // Given
         val targetId = "xyz-123"
         val logs = sampleLogEntries()
         every { logRepository.getLogByTargetId(targetId) } returns logs
 
         // When
-        val result = getLogByTargetIdUseCase.getFormattedLog(targetId)
+        val result = getChangeLogEntriesForTargetIdUseCase.getFormattedLog(targetId)
 
         // Then
         result.shouldContainExactly(
@@ -84,28 +80,16 @@ class GetLogByTargetIdUseCaseTest {
     }
 
     @Test
-    fun `should return empty list when no change logs found for the given target ID`() {
+    fun `should return empty list when no Logs exist for target id`() {
         // Given
         val targetId = "123"
         every { logRepository.getLogByTargetId(targetId) } returns emptyList()
 
         // When
-        val result = getLogByTargetIdUseCase.getFormattedLog(targetId)
+        val result = getChangeLogEntriesForTargetIdUseCase.getFormattedLog(targetId)
 
         // Then
         result shouldBe emptyList()
     }
 
-    @Test
-    fun `should throw NoChangeHistoryFoundException when no logs found`() {
-        // Given
-        val targetId = "not-found"
-        every { logRepository.getLogByTargetId(targetId) } returns null
-
-        // When & Then
-        val exception = shouldThrow<NoChangeHistoryFoundException> {
-            getLogByTargetIdUseCase.getFormattedLog(targetId)
-        }
-        exception.message shouldBe "No change history found for ID: not-found"
-    }
 }

@@ -22,7 +22,7 @@ class SaveLogUseCaseTest{
    saveLogUseCase = SaveLogUseCase(logRepository)
   }
  @Test
- fun `should call addLog on repository when saveLog is invoked`() {
+ fun `should save log entry in repository when addLog called`() {
   // Given
   val dateTime = LocalDateTime(LocalDate(2025, 5, 1), LocalTime(10, 30))
   val logEntry = LogEntry(
@@ -34,7 +34,6 @@ class SaveLogUseCaseTest{
    newValue = "Task 1",
    loggedAt = dateTime
   )
-
   // When
   saveLogUseCase.saveLog(logEntry)
 
