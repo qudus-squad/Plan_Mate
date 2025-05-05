@@ -4,14 +4,18 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
-import org.qudus.squad.logic.exceptions.EmptyValuesException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.junit.jupiter.api.Test
+import org.qudus.squad.logic.exceptions.InvalidTaskCreatorUserIdException
+import org.qudus.squad.logic.exceptions.InvalidTaskDescriptionException
+import org.qudus.squad.logic.exceptions.InvalidTaskProjectIdException
+import org.qudus.squad.logic.exceptions.InvalidTaskStateNameException
+import org.qudus.squad.logic.exceptions.InvalidTaskTitleException
 
-import org.qudus.squad.logic.validation.TaskDataValidator
+import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 
 
 class CreateNewTaskUseCaseTest {
@@ -23,11 +27,11 @@ class CreateNewTaskUseCaseTest {
     fun setup() {
         taskRepository = mockk(relaxed = true)
         logRepository = mockk(relaxed = true)
-        createNewTaskUseCase = CreateNewTaskUseCase(taskRepository,logRepository, TaskDataValidator())
+        createNewTaskUseCase = CreateNewTaskUseCase(taskRepository,logRepository, TaskDataValidationUseCase())
     }
 
     @Test
-    fun `createNewTask should call repository with given task`(){
+    fun `createNewTaskUseCase should delegate task creation to task repository`(){
         // Given
         val task = Task(
             title = "Notes",
@@ -43,23 +47,7 @@ class CreateNewTaskUseCaseTest {
     }
 
     @Test
-    fun `createNewTask should throw EmptyValuesException when some arguments has empty value`(){
-        // Given
-        val task = Task(
-            title = "Notes",
-            description = " ",
-            projectId = "dasda144",
-            taskState = TaskState(name = "To-Do"),
-            creatorUserID = ""
-        )
-        // When & Then
-        shouldThrow<EmptyValuesException> {
-            createNewTaskUseCase.createNewTask("ahmed",task)
-        }
-    }
-
-    @Test
-    fun `createNewTask should throw EmptyValuesException when title has empty value`(){
+    fun `should throw InvalidTaskTitleException when title has empty value`(){
         // Given
         val task = Task(
             title = "",
@@ -69,13 +57,13 @@ class CreateNewTaskUseCaseTest {
             creatorUserID = "145826"
         )
         // When & Then
-        shouldThrow<EmptyValuesException> {
+        shouldThrow<InvalidTaskTitleException> {
             createNewTaskUseCase.createNewTask("ahmed",task)
         }
     }
 
     @Test
-    fun `createNewTask should throw EmptyValuesException when project id has empty value`(){
+    fun `should throw InvalidTaskProjectIdException when project id has empty value`(){
         // Given
         val task = Task(
             title = "Note",
@@ -85,13 +73,13 @@ class CreateNewTaskUseCaseTest {
             creatorUserID = "145826"
         )
         // When & Then
-        shouldThrow<EmptyValuesException> {
+        shouldThrow<InvalidTaskProjectIdException> {
             createNewTaskUseCase.createNewTask("ahmed",task)
         }
     }
 
     @Test
-    fun `createNewTask should throw EmptyValuesException when creator id has empty value`(){
+    fun `should throw InvalidTaskCreatorUserIdException when creator id has empty value`(){
         // Given
         val task = Task(
             title = "Note",
@@ -101,7 +89,39 @@ class CreateNewTaskUseCaseTest {
             creatorUserID = ""
         )
         // When & Then
-        shouldThrow<EmptyValuesException> {
+        shouldThrow<InvalidTaskCreatorUserIdException> {
+            createNewTaskUseCase.createNewTask("ahmed",task)
+        }
+    }
+
+    @Test
+    fun `should throw InvalidTaskDescriptionException when description has empty value`(){
+        // Given
+        val task = Task(
+            title = "Note",
+            description = "  ",
+            projectId = "125886f",
+            taskState = TaskState(name = "To-Do"),
+            creatorUserID = "14256"
+        )
+        // When & Then
+        shouldThrow<InvalidTaskDescriptionException> {
+            createNewTaskUseCase.createNewTask("ahmed",task)
+        }
+    }
+
+    @Test
+    fun `should throw InvalidTaskStateNameException when task state name has empty value`(){
+        // Given
+        val task = Task(
+            title = "Note",
+            description = "notes",
+            projectId = "125886f",
+            taskState = TaskState(name = ""),
+            creatorUserID = "12563"
+        )
+        // When & Then
+        shouldThrow<InvalidTaskStateNameException> {
             createNewTaskUseCase.createNewTask("ahmed",task)
         }
     }

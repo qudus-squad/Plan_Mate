@@ -5,6 +5,6 @@ import org.qudus.squad.model.entity.LogEntry
 
 class SaveLogUseCase(private val logRepository: LogRepository){
     fun saveLog(logEntry: LogEntry) {
-        logRepository.addLog(logEntry)
+        logRepository.addNewLog(logEntry)
     }
 }

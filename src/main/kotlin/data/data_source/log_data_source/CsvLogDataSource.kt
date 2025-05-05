@@ -15,7 +15,7 @@ class CsvLogDataSource(
 ) : LogDataSource {
 
 
-    override fun addLog(logEntry: LogEntry) {
+    override fun addNewLog(logEntry: LogEntry) {
         val csvLine = logEntryCsvParser.toCsvRow(logEntry) + "\n"
         writeInFileUseCase.writeLineToFile(LOGS_FILE,csvLine)
     }
