@@ -12,12 +12,11 @@ class LogRepositoryImpl(
     override fun addNewLog(logEntry: LogEntry) {
         logDataSource.addNewLog(logEntry)
     }
-
-    override fun getLogByTargetId(targetId: String): List<LogEntry>? {
+    override fun getLogByTargetId(targetId: String): List<LogEntry> {
        return logDataSource.getLogByTargetId(targetId)
     }
 
-    override fun getAllLogs(): List<LogEntry>? {
+    override fun getAllLogs(): List<LogEntry> {
       return logDataSource.getAllLogs()
     }
 

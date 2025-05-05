@@ -20,9 +20,8 @@ class CsvLogDataSource(
         writeInFileUseCase.writeLineToFile(LOGS_FILE,csvLine)
     }
 
-    override fun getLogByTargetId(targetId: String): List<LogEntry>? {
-        val filteredLogs = getAllLogs().filter { it.targetId == targetId }
-        return filteredLogs.ifEmpty { null }
+    override fun getLogByTargetId(targetId: String): List<LogEntry> {
+        return getAllLogs().filter { it.targetId == targetId }
     }
 
     override fun getAllLogs(): List<LogEntry> {

@@ -4,7 +4,6 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDateTime
-
 data class LogEntry(
     val userName: String,
     val targetId: String,
