@@ -4,7 +4,6 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import logic.use_cases.user.AddNewUserUseCase.Companion.INVALID_USER_NAME
 import org.junit.jupiter.api.BeforeEach
 import org.qudus.squad.logic.exceptions.AccessDeniedException
 import org.qudus.squad.logic.exceptions.InvalidPasswordException
@@ -13,6 +12,7 @@ import org.qudus.squad.logic.exceptions.UserAlreadyExistsException
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
+import org.qudus.squad.logic.validation.UserDataValidationUseCase.Companion.INVALID_USER_NAME
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
 import kotlin.test.Test
