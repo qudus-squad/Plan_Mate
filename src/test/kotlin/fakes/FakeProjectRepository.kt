@@ -11,8 +11,8 @@ class FakeProjectRepository : ProjectRepository {
         return projects.toList()
     }
 
-    override fun deleteProjectById(id: String) {
-        projects.removeIf { it.id == id }
+    override fun deleteProjectById(id:String):Boolean {
+        return projects.removeIf { it.id == id }
     }
 
     override fun createNewProject(project: Project): Project {
