@@ -11,12 +11,12 @@ class ProjectRepositoryImpl(private val projectDataSource: ProjectDataSource) : 
         return projectDataSource.getAllProjects()
     }
 
-    override fun deleteProjectById(id: String) {
+    override fun deleteProjectById(id: String): Boolean {
         return projectDataSource.deleteProjectById(id)
     }
 
     override fun createNewProject(project: Project): Project {
-       return projectDataSource.createNewProject(project)
+        return projectDataSource.createNewProject(project)
     }
 
     override fun getProjectById(id: String): Project? {

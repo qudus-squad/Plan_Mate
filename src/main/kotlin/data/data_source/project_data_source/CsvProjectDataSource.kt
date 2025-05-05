@@ -11,7 +11,7 @@ import kotlin.io.path.appendText
 class CsvProjectDataSource(
     private val csvReader: CsvReader,
     private val projectCsvCsvParser: ProjectCsvParser,
-    private val writeInFileUseCase: WriteInFileUseCase
+    private val writeInFileUseCase: WriteInFileUseCase,
 ) : ProjectDataSource {
 
     private val projectFilePath: Path = Paths.get(PROJECTS_FILE)
@@ -26,10 +26,12 @@ class CsvProjectDataSource(
         }
     }
 
-    override fun deleteProjectById(id: String) {
+    override fun deleteProjectById(id: String): Boolean {
         val filteredProjects = getAllProjects().filterNot { it.id == id }
         val csvLines = filteredProjects.map(projectCsvCsvParser::toCsvRow)
         writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
+
+        return getAllProjects().any { it.id != id }
     }
 
     override fun createNewProject(project: Project): Project {
