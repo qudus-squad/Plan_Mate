@@ -4,20 +4,20 @@ import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.UserCsvParser
 import org.qudus.squad.data.data_source.user_data_source.CsvUserDataSource.Companion.USERS_FILE
 import org.qudus.squad.logic.exceptions.UserNotFoundException
-import org.qudus.squad.logic.utils.EncryptionByUsingMD5
+import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.model.entity.User
 
 class CsvAuthenticationDataSource(
     private val csvReader: CsvReader,
     private val userCsvParser: UserCsvParser,
-    private val encryptionByUsingMD5: EncryptionByUsingMD5
+    private val hashing: DataHashing
 ) : AuthenticationDataSource {
 
     override fun signIn(username: String, password: String): User {
         val storedUsers = csvReader.read(USERS_FILE)
         val matchingUser = storedUsers.firstOrNull { line ->
             val user = userCsvParser.fromCsvRow(line)
-            user.username == username && user.passwordHash == encryptionByUsingMD5.generateHash(password)
+            user.username == username && user.passwordHash == hashing.generateHash(password)
         }
         return matchingUser?.let { user ->
             userCsvParser.fromCsvRow(user)

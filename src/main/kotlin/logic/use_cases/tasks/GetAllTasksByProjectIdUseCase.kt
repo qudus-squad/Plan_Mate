@@ -1,6 +1,6 @@
 package logic.use_cases.tasks
 
-import org.qudus.squad.logic.exceptions.NoTasksFoundException
+import org.qudus.squad.logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.model.entity.Task
 
@@ -11,7 +11,7 @@ class GetAllTasksByProjectIdUseCase(
     fun getAllTasksByProjectId(id: String) : List<Task> {
         return taskRepository.getAllTasksByProjectId(id)
             .takeIf { it
-                .isNotEmpty() } ?: throw NoTasksFoundException(NO_TASK_FOUND)
+                .isNotEmpty() } ?: throw TaskNotFoundException(NO_TASK_FOUND)
     }
 
     companion object {

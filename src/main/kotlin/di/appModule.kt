@@ -29,12 +29,13 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.repositories.StateRepository
 import org.qudus.squad.logic.repositories.UserRepository
+import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 
 val appModule = module {
     single { UserCsvParser() }
 
-    single { EncryptionByUsingMD5() }
+    single  <DataHashing>{ EncryptionByUsingMD5() }
 
     single { CsvReader() }
 

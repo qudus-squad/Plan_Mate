@@ -2,7 +2,7 @@ package org.qudus.squad.logic.utils
 
 import org.qudus.squad.logic.exceptions.InvalidUserDataException
 
-class EncryptionByUsingMD5 {
+class EncryptionByUsingMD5: DataHashing {
     private val md5Constants = IntArray(64) { i ->
         (kotlin.math.abs(kotlin.math.sin((i + 1).toDouble())) * (1L shl 32))
             .toLong()
@@ -16,7 +16,7 @@ class EncryptionByUsingMD5 {
         6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21
     )
 
-    fun generateHash(input: String): String {
+    override fun generateHash(input: String): String {
         if (input.isEmpty()) {
             throw InvalidUserDataException(INVALID_INPUT)
         }
