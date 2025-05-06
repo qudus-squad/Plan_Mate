@@ -31,7 +31,7 @@ class GetAllUsersUseCaseTest {
         every { userRepository.getAllUsers() } returns usersList
 
         //when
-        val result = getAllUsersUseCase.getAllUsers()
+        val result = getAllUsersUseCase.getAllUSers()
 
         // Then
         result.map { it.username }.shouldContainExactly(
@@ -48,7 +48,7 @@ class GetAllUsersUseCaseTest {
         every { userRepository.getAllUsers() } returns usersList
 
         //when
-        val result = getAllUsersUseCase.getAllUsers()
+        val result = getAllUsersUseCase.getAllUSers()
 
         // Then
         result.map { it.username }.shouldContainExactly()
