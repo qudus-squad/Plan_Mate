@@ -6,7 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.qudus.squad.logic.exceptions.UserNotFoundBySelectedUserIdException
+import org.qudus.squad.logic.exceptions.UserNotFoundException
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.use_cases.user.GetUserByIdUseCase
 import org.qudus.squad.model.entity.User
@@ -40,13 +40,13 @@ class GetUserByIdUseCaseTest{
  }
 
  @Test
- fun `should throw UserNotFoundBySelectedUserIdException when there are no users with selected id`() {
+ fun `should throw UserNotFoundException when there are no users with selected id`() {
   // Given
   every { userRepository.getUserById(userId = "999-xyz") } throws
-          UserNotFoundBySelectedUserIdException(USER_NOT_FOUND_BY_SELECTED_USER_ID)
+          UserNotFoundException(USER_NOT_FOUND_BY_SELECTED_USER_ID)
 
   // When & Then
-  shouldThrow<UserNotFoundBySelectedUserIdException> {
+  shouldThrow<UserNotFoundException> {
    getUserByIdUseCase.getUserById(userid = "999-xyz")
   }
  }
