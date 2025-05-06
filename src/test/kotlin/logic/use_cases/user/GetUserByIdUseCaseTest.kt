@@ -40,9 +40,10 @@ class GetUserByIdUseCaseTest{
  }
 
  @Test
- fun `should throw UserNotFoundByUserIdException when there are no users with selected id`() {
+ fun `should throw UserNotFoundBySelectedUserIdException when there are no users with selected id`() {
   // Given
-  every { userRepository.getUserById(userId = "999-xyz") } throws UserNotFoundBySelectedUserIdException(USER_NOT_FOUND_BY_SELECTED_USER_ID)
+  every { userRepository.getUserById(userId = "999-xyz") } throws
+          UserNotFoundBySelectedUserIdException(USER_NOT_FOUND_BY_SELECTED_USER_ID)
 
   // When & Then
   shouldThrow<UserNotFoundBySelectedUserIdException> {
