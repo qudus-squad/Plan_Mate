@@ -7,11 +7,8 @@ import org.qudus.squad.model.entity.Task
 class GetAllTasksByProjectIdUseCase(
     private val taskRepository: TaskRepository
 ) {
-
-    fun getAllTasksByProjectId(id: String) : List<Task> {
-        return taskRepository.getAllTasksByProjectId(id)
-            .takeIf { it
-                .isNotEmpty() } ?: throw TaskNotFoundException(NO_TASK_FOUND)
+    fun getAllTasksByProjectId(projectId: String) : List<Task> {
+        return taskRepository.getAllTasksByProjectId(projectId)
     }
 
     companion object {
