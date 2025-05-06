@@ -67,15 +67,9 @@ class ProjectCsvParser : CsvParser<Project> {
         return result
     }
 
-    // New method to parse task list from CSV
     private fun String.parseTasks(): List<Task> {
-        if (this.isBlank() || this == "[]") return emptyList()
 
-        // Format is expected to be something like:
-        // [Task(id=123,title=Title1,description=Desc1,projectId=p1,taskState=TaskState(id=s1,name=Todo),creatorUserID=u1),...]
-
-        val tasksString = this.removePrefix("[").removeSuffix("]")
-        if (tasksString.isBlank()) return emptyList()
+        val tasksString = this.formatTaskToParse() ?: return emptyList()
 
         val tasks = mutableListOf<Task>()
         var currentTask = StringBuilder()
@@ -87,22 +81,23 @@ class ProjectCsvParser : CsvParser<Project> {
                     bracketCount++
                     currentTask.append(char)
                 }
+
                 ')' -> {
                     bracketCount--
                     currentTask.append(char)
 
                     if (bracketCount == 0 && currentTask.toString().startsWith("Task(")) {
-                        // We have a complete Task object
                         tasks.add(parseTaskFromString(currentTask.toString()))
                         currentTask = StringBuilder()
                     }
                 }
+
                 ',' -> {
                     if (bracketCount > 0) {
                         currentTask.append(char)
                     }
-                    // Else it's a separator between Task objects, so we ignore it
                 }
+
                 else -> currentTask.append(char)
             }
         }
@@ -110,46 +105,10 @@ class ProjectCsvParser : CsvParser<Project> {
         return tasks
     }
 
-    private fun parseTaskFromString(taskStr: String): Task {
-        val taskContent = taskStr.removePrefix("Task(").removeSuffix(")")
-        val properties = mutableMapOf<String, String>()
+    private fun parseTaskFromString(taskString: String): Task {
+        val taskContent = taskString.removePrefix("Task(").removeSuffix(")")
+        val properties = extractProperties(taskContent)
 
-        var propertyName = ""
-        var propertyValue = StringBuilder()
-        var bracketCount = 0
-        var parsingName = true
-
-        for (i in taskContent.indices) {
-            val char = taskContent[i]
-
-            when {
-                char == '=' && parsingName && bracketCount == 0 -> {
-                    propertyName = propertyValue.toString().trim()
-                    propertyValue = StringBuilder()
-                    parsingName = false
-                }
-                char == ',' && !parsingName && bracketCount == 0 -> {
-                    properties[propertyName] = propertyValue.toString().trim()
-                    propertyValue = StringBuilder()
-                    parsingName = true
-                }
-                char == '(' -> {
-                    bracketCount++
-                    propertyValue.append(char)
-                }
-                char == ')' -> {
-                    bracketCount--
-                    propertyValue.append(char)
-                }
-                else -> propertyValue.append(char)
-            }
-        }
-
-        if (propertyName.isNotEmpty()) {
-            properties[propertyName] = propertyValue.toString().trim()
-        }
-
-        // Parse TaskState separately
         val taskStateStr = properties["taskState"] ?: "TaskState(id=,name=)"
         val taskState = parseTaskState(taskStateStr)
 
@@ -161,16 +120,60 @@ class ProjectCsvParser : CsvParser<Project> {
             taskState = taskState,
             creatorUserID = properties["creatorUserID"] ?: "",
             assignedUserId = properties["assignedUserId"],
-            createdAt = properties["createdAt"]?.toLocalDateTime() ?: Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
-            lastUpdatedAt = properties["lastUpdatedAt"]?.toLocalDateTime() ?: Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+            createdAt = properties["createdAt"]?.toLocalDateTime() ?: Clock.System.now()
+                .toLocalDateTime(TimeZone.currentSystemDefault()),
+            lastUpdatedAt = properties["lastUpdatedAt"]?.toLocalDateTime() ?: Clock.System.now()
+                .toLocalDateTime(TimeZone.currentSystemDefault())
         )
+    }
+
+    private fun extractProperties(taskContent: String): MutableMap<String, String> {
+        val properties = mutableMapOf<String, String>()
+        var propertyName = ""
+        var propertyValue = StringBuilder()
+        var bracketCount = 0
+        var parsingName = true
+
+        for (char in taskContent) {
+            when {
+                char == '=' && parsingName && bracketCount == 0 -> {
+                    propertyName = propertyValue.toString().trim()
+                    propertyValue = StringBuilder()
+                    parsingName = false
+                }
+
+                char == ',' && !parsingName && bracketCount == 0 -> {
+                    properties[propertyName] = propertyValue.toString().trim()
+                    propertyValue = StringBuilder()
+                    parsingName = true
+                }
+
+                char == '(' -> {
+                    bracketCount++
+                    propertyValue.append(char)
+                }
+
+                char == ')' -> {
+                    bracketCount--
+                    propertyValue.append(char)
+                }
+
+                else -> propertyValue.append(char)
+            }
+        }
+
+        if (propertyName.isNotEmpty()) {
+            properties[propertyName] = propertyValue.toString().trim()
+        }
+
+        return properties
     }
 
     private fun parseTaskState(taskStateStr: String): TaskState {
         val stateContent = taskStateStr.removePrefix("TaskState(").removeSuffix(")")
         val properties = stateContent.split(",")
             .associate {
-                val parts = it.split("=", limit=2)
+                val parts = it.split("=", limit = 2)
                 if (parts.size == 2) parts[0].trim() to parts[1].trim() else "" to ""
             }
 
@@ -196,9 +199,16 @@ class ProjectCsvParser : CsvParser<Project> {
         if (tasks.isEmpty()) return "[]"
         return tasks.joinToString(",", "[", "]") { task ->
             "Task(id=${task.id},title=${task.title},description=${task.description}," +
-                    "projectId=${task.projectId},taskState=TaskState(id=${task.taskState.id},name=${task.taskState.name})," +
+                    "projectId=${task.projectId}" +
+                    ",taskState=TaskState(id=${task.taskState.id},name=${task.taskState.name})," +
                     "creatorUserID=${task.creatorUserID},assignedUserId=${task.assignedUserId}," +
                     "createdAt=${task.createdAt},lastUpdatedAt=${task.lastUpdatedAt})"
         }
+    }
+
+    private fun String.formatTaskToParse(): String? {
+        if (this.isBlank() || this == "[]") return null
+        val tasksString = this.removePrefix("[").removeSuffix("]")
+        return tasksString.ifBlank { null }
     }
 }
