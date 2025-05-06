@@ -48,14 +48,13 @@ class CsvProjectDataSource(
         return project
     }
 
-    override fun getProjectById(id: String): Project? {
-        return getAllProjects().firstOrNull { it.id == id }
+    override fun getProjectById(id: String): Project {
+        return getAllProjects().firstOrNull {
+            it.id == id
+        } ?: throw ProjectNotFoundException(PROJECT_NOT_FOUND)
     }
 
     override fun editProject(project: Project): Boolean {
-        if (getProjectById(project.id) == null){
-            throw ProjectNotFoundException(PROJECT_NOT_FOUND)
-        }
         val updatedProjects = getAllProjects().map {
             if (it.id == project.id) project else it
         }
@@ -65,6 +64,7 @@ class CsvProjectDataSource(
 
         return true
     }
+
     companion object {
         const val PROJECT_NOT_FOUND = "Project Not Found"
         const val PROJECTS_FILE = "projects.csv"

@@ -7,6 +7,6 @@ interface ProjectRepository {
     fun getAllProjects(): List<Project>
     fun deleteProjectById(id: String = GenerateUUID().generate()): Boolean
     fun createNewProject(project: Project): Project
-    fun getProjectById(id: String = GenerateUUID().generate()): Project?
+    fun getProjectById(id: String): Project
     fun editProject(project: Project): Boolean
 }
