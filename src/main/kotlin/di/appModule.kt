@@ -24,6 +24,7 @@ import org.qudus.squad.data.repositories.LogRepositoryImpl
 import org.qudus.squad.data.repositories.ProjectRepositoryImpl
 import org.qudus.squad.data.repositories.StateRepositoryImpl
 import org.qudus.squad.data.repositories.UserRepositoryImplementation
+import org.qudus.squad.di.MongoDBClient.Companion.MONGO_URI
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
@@ -80,4 +81,5 @@ val appModule = module {
 
     single<UserRepository> { UserRepositoryImplementation(get()) }
 
+    single { MongoDBClient(MONGO_URI) }
 }
