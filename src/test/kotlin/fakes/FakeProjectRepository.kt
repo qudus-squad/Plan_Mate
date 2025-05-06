@@ -31,10 +31,13 @@ class FakeProjectRepository : ProjectRepository {
         return projects.find { it.id == id }
     }
 
-    override fun editProject(project: Project) {
+    override fun editProject(project: Project): Boolean {
         val index = projects.indexOfFirst { it.id == project.id }
-        if (index != -1) {
+        return if (index != -1) {
             projects[index] = project
+            true
+        } else {
+            false
         }
     }
 }
