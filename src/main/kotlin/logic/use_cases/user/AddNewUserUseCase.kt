@@ -1,6 +1,6 @@
 package logic.use_cases.user
 
-import org.qudus.squad.logic.exceptions.AccessDeniedException
+import logic.exceptions.AccessDeniedException
 import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.validation.UserDataValidationUseCase

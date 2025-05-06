@@ -1,7 +1,7 @@
 package logic.use_cases.tasks
 
 import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase.Companion.NO_TASK_FOUND
-import org.qudus.squad.logic.exceptions.TaskNotFoundException
+import logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.utils.GenerateUUID
 
