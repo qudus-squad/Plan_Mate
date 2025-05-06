@@ -13,5 +13,5 @@ data class Project(
     val creatorUserId:String = GenerateUUID().generate(),
     val createdAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
     val lastUpdateAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
-    val taskState: List<TaskState>,
+    val tasks: List<Task> = emptyList(),
 )

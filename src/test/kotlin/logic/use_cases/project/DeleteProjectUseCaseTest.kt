@@ -7,7 +7,6 @@ import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.BeforeEach
 import org.qudus.squad.model.entity.Project
-import org.qudus.squad.model.entity.TaskState
 import kotlin.test.Test
 
 class DeleteProjectUseCaseTest {
@@ -26,7 +25,6 @@ class DeleteProjectUseCaseTest {
             title = "Project A",
             description = "Test Project",
             creatorUserId = "admin123",
-            taskState = listOf(TaskState(name = "ToDo"))
         )
         fakeProjectRepository.createNewProject(project)
     }
@@ -50,7 +48,6 @@ class DeleteProjectUseCaseTest {
             title = "Another Project",
             description = "Another",
             creatorUserId = "admin456",
-            taskState = listOf(TaskState(name = "InProgress"))
         )
         fakeProjectRepository.createNewProject(otherProject)
 
