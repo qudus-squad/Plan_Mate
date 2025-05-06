@@ -17,17 +17,20 @@ import logic.use_cases.tasks.GetTasksByStateUseCase
 import logic.use_cases.user.AddNewUserUseCase
 import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
+import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 
 val useCaseModule = module {
 
     single { UserDataValidationUseCase() }
 
+    single { ProjectDataValidationUseCase() }
+
     single { SignInUseCase(get(),get()) }
 
     single { GetChangeLogEntriesForTargetIdUseCase(get()) }
 
-    single { CreateNewProjectUseCase(get()) }
+    single { CreateNewProjectUseCase(get(), get()) }
 
     single { DeleteProjectUseCase(get()) }
 
