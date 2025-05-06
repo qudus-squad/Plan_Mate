@@ -5,6 +5,7 @@ import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
 
@@ -13,6 +14,7 @@ class GetAllProjectsUseCaseTest {
     private lateinit var projectRepository: FakeProjectRepository
     private lateinit var getAllProjectsUseCase: GetAllProjectsUseCase
     private lateinit var createNewProjectUseCase: CreateNewProjectUseCase
+    private lateinit var projectDataValidationUseCase: ProjectDataValidationUseCase
 
     private val adminUser = User(
         username = "admin",
@@ -24,7 +26,8 @@ class GetAllProjectsUseCaseTest {
     fun setup() {
         projectRepository = FakeProjectRepository()
         getAllProjectsUseCase = GetAllProjectsUseCase(projectRepository)
-        createNewProjectUseCase = CreateNewProjectUseCase(projectRepository)
+        projectDataValidationUseCase = ProjectDataValidationUseCase()
+        createNewProjectUseCase = CreateNewProjectUseCase(projectRepository, projectDataValidationUseCase)
     }
 
     @Test
