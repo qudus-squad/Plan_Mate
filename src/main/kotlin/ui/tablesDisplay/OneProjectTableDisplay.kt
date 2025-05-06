@@ -88,7 +88,6 @@ class OneProjectTableDisplay (private val getTasksByStateUseCase: GetTasksByStat
                 Task("T11", "", "",projectId ="" ,taskState= TaskState(name = "Done"),creatorUserID="",assignedUserId="")
             )
         )
-val usecase : GetTasksByStateUseCase = getKoin().get()
-        val display = OneProjectTableDisplay(usecase)
-        display.displayProjectDetail(sampleProject)
+     //   val display = OneProjectTableDisplay()
+       // display.displayProjectDetail(sampleProject)
     }

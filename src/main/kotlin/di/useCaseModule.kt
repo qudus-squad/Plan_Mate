@@ -1,20 +1,16 @@
 package org.qudus.squad.di
 
 import logic.use_cases.authentication.SignInUseCase
+import logic.use_cases.log.GetChangeLogEntriesForTargetIdUseCase
 import logic.use_cases.project.CreateNewProjectUseCase
 import logic.use_cases.project.DeleteProjectUseCase
-import logic.use_cases.project.GetAllProjectsUseCase
-import org.koin.dsl.module
-import logic.use_cases.log.GetChangeLogEntriesForTargetIdUseCase
 import logic.use_cases.project.EditProjectUseCase
-import logic.use_cases.taskState.CreateNewTaskStateUseCase
-import logic.use_cases.taskState.DeleteTaskStateUseCase
-import logic.use_cases.taskState.EditTaskStateUseCase
-import logic.use_cases.taskState.GetAllTaskStatesByProjectIdUseCase
+import logic.use_cases.project.GetAllProjectsUseCase
 import logic.use_cases.tasks.AssignTaskToUserUseCase
 import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase
 import logic.use_cases.tasks.GetTasksByStateUseCase
 import logic.use_cases.user.AddNewUserUseCase
+import org.koin.dsl.module
 import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
@@ -26,7 +22,7 @@ val useCaseModule = module {
 
     single { ProjectDataValidationUseCase() }
 
-    single { SignInUseCase(get(),get()) }
+    single { SignInUseCase(get(), get()) }
 
     single { GetChangeLogEntriesForTargetIdUseCase(get()) }
 
@@ -38,13 +34,7 @@ val useCaseModule = module {
 
     single { GetAllProjectsUseCase(get()) }
 
-    single { CreateNewTaskStateUseCase(get()) }
 
-    single { DeleteTaskStateUseCase(get()) }
-
-    single { EditTaskStateUseCase(get()) }
-
-    single { GetAllTaskStatesByProjectIdUseCase(get()) }
 
     single { AssignTaskToUserUseCase(get()) }
 

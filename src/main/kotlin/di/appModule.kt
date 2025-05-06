@@ -22,13 +22,11 @@ import org.qudus.squad.data.data_source.user_data_source.UserDataSource
 import org.qudus.squad.data.repositories.AuthenticationRepositoryImplementation
 import org.qudus.squad.data.repositories.LogRepositoryImplementation
 import org.qudus.squad.data.repositories.ProjectRepositoryImplementation
-import org.qudus.squad.data.repositories.StateRepositoryImplementation
 import org.qudus.squad.data.repositories.UserRepositoryImplementation
 import org.qudus.squad.di.MongoDBClient.Companion.MONGO_URI
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.repositories.StateRepository
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
@@ -76,7 +74,6 @@ val appModule = module {
 
     single<TaskDataSource> { CsvTaskDataSource(get(), get(), get()) }
 
-    single<StateRepository> { StateRepositoryImplementation(get()) }
 
     single<UserDataSource> { CsvUserDataSource(get(), get()) }
 
