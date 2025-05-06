@@ -6,6 +6,7 @@ import okio.buffer
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.UserCsvParser
 import org.qudus.squad.logic.exceptions.UserAlreadyExistsException
+import org.qudus.squad.logic.exceptions.UserNotFoundBySelectedUserIdException
 import org.qudus.squad.model.entity.User
 
 class CsvUserDataSource(
@@ -29,11 +30,13 @@ class CsvUserDataSource(
         return true
     }
 
-    override fun getUserById(userId: String): User? {
-        val targetUser = getAllUsers().firstOrNull { user ->
-            isUserMatching(userId, user)
-        }
-        return targetUser
+    override fun getUserById(userId: String): User {
+        val users = csvReader.read(USERS_FILE)
+            .map { line -> userCsvParser.fromCsvRow(line) }
+
+        return users.firstOrNull { user -> user.userId == userId }
+            ?: throw UserNotFoundBySelectedUserIdException(USER_NOT_FOUND_BY_SELECTED_USER_ID)
+
     }
 
     override fun getAllUsers(): List<User> {
@@ -47,6 +50,7 @@ class CsvUserDataSource(
     companion object {
         const val USER_ALREADY_EXIST = "User Already Exists"
         const val USERS_FILE = "users.csv"
+        const val USER_NOT_FOUND_BY_SELECTED_USER_ID = "There is no user with selected id"
     }
 
 }
