@@ -53,9 +53,6 @@ class CsvProjectDataSource(
     }
 
     override fun editProject(project: Project): Boolean {
-        if (getProjectById(project.id) == null){
-            throw ProjectNotFoundException(PROJECT_NOT_FOUND)
-        }
         val updatedProjects = getAllProjects().map {
             if (it.id == project.id) project else it
         }
