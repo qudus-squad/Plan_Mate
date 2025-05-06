@@ -20,9 +20,9 @@ import org.qudus.squad.logic.repositories.*
 import org.qudus.squad.data.data_source.user_data_source.CsvUserDataSource
 import org.qudus.squad.data.data_source.user_data_source.UserDataSource
 import org.qudus.squad.data.repositories.AuthenticationRepositoryImplementation
-import org.qudus.squad.data.repositories.LogRepositoryImpl
-import org.qudus.squad.data.repositories.ProjectRepositoryImpl
-import org.qudus.squad.data.repositories.StateRepositoryImpl
+import org.qudus.squad.data.repositories.LogRepositoryImplementation
+import org.qudus.squad.data.repositories.ProjectRepositoryImplementation
+import org.qudus.squad.data.repositories.StateRepositoryImplementation
 import org.qudus.squad.data.repositories.UserRepositoryImplementation
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.repositories.LogRepository
@@ -55,26 +55,26 @@ val appModule = module {
     }
 
     single<LogRepository> {
-        LogRepositoryImpl(get())
+        LogRepositoryImplementation(get())
     }
 
     single { ProjectCsvParser() }
 
     single<ProjectDataSource> { CsvProjectDataSource(get(), get(), get()) }
 
-    single<ProjectRepository> { ProjectRepositoryImpl(get()) }
+    single<ProjectRepository> { ProjectRepositoryImplementation(get()) }
 
     single { TaskCsvParser() }
 
     single<TaskDataSource> { CsvTaskDataSource(get(), get(), get()) }
 
     single<TaskRepository> {
-        TaskRepositoryImpl(get())
+        TaskRepositoryImplementation(get())
     }
 
     single<TaskDataSource> { CsvTaskDataSource(get(), get(), get()) }
 
-    single<StateRepository> { StateRepositoryImpl(get()) }
+    single<StateRepository> { StateRepositoryImplementation(get()) }
 
     single<UserDataSource> { CsvUserDataSource(get(), get()) }
 

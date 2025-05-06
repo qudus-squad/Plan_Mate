@@ -5,7 +5,7 @@ import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.model.entity.Project
 
 
-class ProjectRepositoryImpl(private val projectDataSource: ProjectDataSource) : ProjectRepository {
+class ProjectRepositoryImplementation(private val projectDataSource: ProjectDataSource) : ProjectRepository {
 
     override fun getAllProjects(): List<Project> {
         return projectDataSource.getAllProjects()

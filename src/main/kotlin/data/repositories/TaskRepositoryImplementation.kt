@@ -5,7 +5,7 @@ import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.Task
 
-class TaskRepositoryImpl(
+class TaskRepositoryImplementation(
     private val taskDataSource: TaskDataSource,
 ) : TaskRepository {
     override fun createNewTask(task: Task) {
