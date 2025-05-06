@@ -1,7 +1,7 @@
 package org.qudus.squad.logic.validation
 
-import org.qudus.squad.logic.exceptions.InvalidProjectDescriptionException
-import org.qudus.squad.logic.exceptions.InvalidProjectTitleException
+import logic.exceptions.InvalidProjectDescriptionException
+import logic.exceptions.InvalidProjectTitleException
 import org.qudus.squad.model.entity.Project
 
 

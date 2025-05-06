@@ -1,7 +1,7 @@
 package org.qudus.squad.ui
 
-import org.qudus.squad.logic.exceptions.InvalidUserDataException
-import org.qudus.squad.logic.exceptions.UserAlreadyExistsException
+import logic.exceptions.InvalidUserDataException
+import logic.exceptions.UserAlreadyExistsException
 import logic.use_cases.user.AddNewUserUseCase
 import org.qudus.squad.model.entity.UserRole
 

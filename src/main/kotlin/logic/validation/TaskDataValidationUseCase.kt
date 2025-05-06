@@ -1,12 +1,12 @@
 package org.qudus.squad.logic.validation
 
-import org.qudus.squad.logic.exceptions.InvalidTaskCreatorUserIdException
-import org.qudus.squad.logic.exceptions.InvalidTaskDescriptionException
-import org.qudus.squad.logic.exceptions.InvalidTaskIdException
-import org.qudus.squad.logic.exceptions.InvalidTaskProjectIdException
-import org.qudus.squad.logic.exceptions.InvalidTaskStateNameException
-import org.qudus.squad.logic.exceptions.InvalidTaskTitleException
-import org.qudus.squad.logic.exceptions.InvalidUserNameException
+import logic.exceptions.InvalidTaskCreatorUserIdException
+import logic.exceptions.InvalidTaskDescriptionException
+import logic.exceptions.InvalidTaskIdException
+import logic.exceptions.InvalidTaskProjectIdException
+import logic.exceptions.InvalidTaskStateNameException
+import logic.exceptions.InvalidTaskTitleException
+import logic.exceptions.InvalidUserNameException
 import org.qudus.squad.model.entity.Task
 
 class TaskDataValidationUseCase {

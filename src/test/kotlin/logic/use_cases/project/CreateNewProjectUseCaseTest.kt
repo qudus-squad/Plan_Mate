@@ -6,9 +6,9 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.qudus.squad.logic.exceptions.AccessDeniedException
-import org.qudus.squad.logic.exceptions.InvalidProjectDescriptionException
-import org.qudus.squad.logic.exceptions.InvalidProjectTitleException
+import logic.exceptions.AccessDeniedException
+import logic.exceptions.InvalidProjectDescriptionException
+import logic.exceptions.InvalidProjectTitleException
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole

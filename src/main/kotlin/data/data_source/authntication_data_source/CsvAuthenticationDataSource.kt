@@ -3,7 +3,7 @@ package org.qudus.squad.data.data_source.authntication_data_source
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.UserCsvParser
 import org.qudus.squad.data.data_source.user_data_source.CsvUserDataSource.Companion.USERS_FILE
-import org.qudus.squad.logic.exceptions.UserNotFoundException
+import logic.exceptions.UserNotFoundException
 import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.model.entity.User
 
@@ -25,7 +25,6 @@ class CsvAuthenticationDataSource(
 
     }
     companion object {
-        const val INVALID_USER_DATA = "Invalid username or password"
         const val USER_NOT_FOUND = "User not found"
     }
 }
