@@ -5,11 +5,11 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import model.exceptions.InvalidTaskCreatorUserIdException
-import model.exceptions.InvalidTaskDescriptionException
-import model.exceptions.InvalidTaskProjectIdException
-import model.exceptions.InvalidTaskStateNameException
-import model.exceptions.InvalidTaskTitleException
+import logic.exceptions.InvalidTaskCreatorUserIdException
+import logic.exceptions.InvalidTaskDescriptionException
+import logic.exceptions.InvalidTaskProjectIdException
+import logic.exceptions.InvalidTaskStateNameException
+import logic.exceptions.InvalidTaskTitleException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase

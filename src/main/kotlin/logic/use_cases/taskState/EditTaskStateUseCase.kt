@@ -1,6 +1,6 @@
 package logic.use_cases.taskState
 
-import model.exceptions.UnauthorizedAccessException
+import logic.exceptions.UnauthorizedAccessException
 import org.qudus.squad.logic.repositories.StateRepository
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User

@@ -1,6 +1,6 @@
 package logic.use_cases.tasks
 
-import model.exceptions.UnknownException
+import logic.exceptions.UnknownException
 import org.qudus.squad.model.entity.Task
 
 class GetTasksByStateUseCase (private val getAllTasksByProjectIdUseCase: GetAllTasksByProjectIdUseCase)   {

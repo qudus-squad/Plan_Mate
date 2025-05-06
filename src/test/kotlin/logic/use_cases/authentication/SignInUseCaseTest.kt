@@ -7,9 +7,9 @@ import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.data.data_source.authntication_data_source.CsvAuthenticationDataSource.Companion.USER_NOT_FOUND
-import model.exceptions.InvalidPasswordException
-import model.exceptions.InvalidUserNameException
-import model.exceptions.UserNotFoundException
+import logic.exceptions.InvalidPasswordException
+import logic.exceptions.InvalidUserNameException
+import logic.exceptions.UserNotFoundException
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.User

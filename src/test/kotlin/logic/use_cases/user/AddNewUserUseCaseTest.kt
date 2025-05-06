@@ -5,10 +5,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
-import model.exceptions.AccessDeniedException
-import model.exceptions.InvalidPasswordException
-import model.exceptions.InvalidUserNameException
-import model.exceptions.UserAlreadyExistsException
+import logic.exceptions.AccessDeniedException
+import logic.exceptions.InvalidPasswordException
+import logic.exceptions.InvalidUserNameException
+import logic.exceptions.UserAlreadyExistsException
 import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.validation.UserDataValidationUseCase

@@ -1,6 +1,6 @@
 package org.qudus.squad.logic.utils
 
-import model.exceptions.InvalidUserDataException
+import logic.exceptions.InvalidUserDataException
 
 class EncryptionByUsingMD5: DataHashing {
     private val md5Constants = IntArray(64) { i ->

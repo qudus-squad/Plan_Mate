@@ -9,11 +9,11 @@ import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.junit.jupiter.api.Test
-import model.exceptions.InvalidTaskCreatorUserIdException
-import model.exceptions.InvalidTaskDescriptionException
-import model.exceptions.InvalidTaskProjectIdException
-import model.exceptions.InvalidTaskStateNameException
-import model.exceptions.InvalidTaskTitleException
+import logic.exceptions.InvalidTaskCreatorUserIdException
+import logic.exceptions.InvalidTaskDescriptionException
+import logic.exceptions.InvalidTaskProjectIdException
+import logic.exceptions.InvalidTaskStateNameException
+import logic.exceptions.InvalidTaskTitleException
 
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 

@@ -5,9 +5,9 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import model.exceptions.InvalidTaskIdException
-import model.exceptions.InvalidTaskTitleException
-import model.exceptions.InvalidUserNameException
+import logic.exceptions.InvalidTaskIdException
+import logic.exceptions.InvalidTaskTitleException
+import logic.exceptions.InvalidUserNameException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
