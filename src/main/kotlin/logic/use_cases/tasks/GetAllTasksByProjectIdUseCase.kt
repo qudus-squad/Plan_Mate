@@ -8,10 +8,9 @@ class GetAllTasksByProjectIdUseCase(
     private val taskRepository: TaskRepository
 ) {
 
-    fun getAllTasksByProjectId(id: String) : List<Task> {
+    fun getAllTasksByProjectId(projectId: String) : List<Task> {
         return taskRepository.getAllTasksByProjectId(id)
-            .takeIf { it
-                .isNotEmpty() } ?: throw TaskNotFoundException(NO_TASK_FOUND)
+            .takeIf { it.isNotEmpty() } ?: emptyList()
     }
 
     companion object {
