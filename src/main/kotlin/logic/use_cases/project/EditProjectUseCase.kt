@@ -17,7 +17,7 @@ class EditProjectUseCase(
 
         if (isNotValidProjectsList(projectsList)) return false
         val updatedProject = applyProjectChanges(project)
-        if (!isValidInput(updatedProject)) return false
+//        if (!isValidInput(updatedProject)) return false
 
         return updateProject(updatedProject)
     }
@@ -44,7 +44,7 @@ class EditProjectUseCase(
         // Read and apply states
         val newStates = readStatesInput()
         if (newStates.isNotEmpty()) {
-            updatedProject = updatedProject.copy(taskState = newStates)
+//            updatedProject = updatedProject.copy(taskState = newStates)
         }
 
         // Update timestamp
@@ -68,12 +68,12 @@ class EditProjectUseCase(
         return states
     }
 
-    private fun isValidInput(project: Project): Boolean {
-        return project.title.isNotBlank() &&
-                project.description.isNotBlank() &&
-                project.taskState.isNotEmpty() &&
-                project.taskState.all { it.id.isNotBlank() && it.name.isNotBlank() }
-    }
+//    private fun isValidInput(project: Project): Boolean {
+//        return project.title.isNotBlank() &&
+//                project.description.isNotBlank() &&
+//                project.taskState.isNotEmpty() &&
+//                project.taskState.all { it.id.isNotBlank() && it.name.isNotBlank() }
+//    }
 
     private fun updateProject(project: Project): Boolean {
         return try {

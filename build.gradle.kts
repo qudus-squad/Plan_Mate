@@ -30,6 +30,11 @@ dependencies {
     // mockk
     testImplementation("io.mockk:mockk:1.14.0")
 
+    // For Kotlin support of MongoDB
+    implementation("org.litote.kmongo:kmongo:5.2.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+
+
 }
 
 tasks.test {

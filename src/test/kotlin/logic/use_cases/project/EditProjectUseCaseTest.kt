@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.utils.GenerateUUID
 import org.qudus.squad.model.entity.Project
-import org.qudus.squad.model.entity.TaskState
 
 class EditProjectUseCaseTest {
 
@@ -30,14 +29,12 @@ class EditProjectUseCaseTest {
             title = "project title",
             description = "test project 1",
             creatorUserId = "userID",
-            taskState = listOf(TaskState(name = "ToDo"))
         )
         fakeProjectRepository.createNewProject(oldProject)
 
         val updatedProject = oldProject.copy(
             title = "Updated project Title",
             description = "Updated project Description",
-            taskState = listOf(TaskState(name = "InProgress"))
         )
 
         // When
@@ -48,7 +45,6 @@ class EditProjectUseCaseTest {
         val stored = fakeProjectRepository.getProjectById(projectId)
         stored?.title shouldBe "Updated project Title"
         stored?.description shouldBe "Updated project Description"
-        stored?.taskState?.first()?.name shouldBe "InProgress"
     }
 
     @Test
@@ -59,7 +55,6 @@ class EditProjectUseCaseTest {
             title = "project title",
             description = "project description",
             creatorUserId = "userID",
-            taskState = listOf(TaskState(name = "ToDo"))
         )
 
         // When
@@ -78,7 +73,7 @@ class EditProjectUseCaseTest {
             title = "",
             description = "",
             creatorUserId = "admin",
-            taskState = emptyList()
+            tasks = emptyList()
         )
         fakeProjectRepository.createNewProject(invalidProject)
 

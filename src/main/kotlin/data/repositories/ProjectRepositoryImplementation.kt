@@ -5,8 +5,8 @@ import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.utils.GenerateUUID
 import org.qudus.squad.model.entity.Project
 
+class ProjectRepositoryImplementation(private val projectDataSource: ProjectDataSource) : ProjectRepository {
 
-class ProjectRepositoryImpl(private val projectDataSource: ProjectDataSource) : ProjectRepository {
     private  val generateUUID =GenerateUUID()
 
     override fun getAllProjects(): List<Project> {
