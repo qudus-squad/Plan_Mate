@@ -5,7 +5,7 @@ import okio.Path.Companion.toPath
 import okio.buffer
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.UserCsvParser
-import org.qudus.squad.logic.exceptions.UserAlreadyExistsException
+import model.exceptions.UserAlreadyExistsException
 import org.qudus.squad.model.entity.User
 
 class CsvUserDataSource(

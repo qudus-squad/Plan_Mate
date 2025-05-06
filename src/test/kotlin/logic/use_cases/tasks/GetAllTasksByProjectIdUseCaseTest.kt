@@ -9,7 +9,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.junit.jupiter.api.BeforeEach
-import org.qudus.squad.logic.exceptions.TaskNotFoundException
+import model.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState

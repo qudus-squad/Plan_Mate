@@ -1,7 +1,7 @@
 package org.qudus.squad.logic.validation
 
-import org.qudus.squad.logic.exceptions.InvalidPasswordException
-import org.qudus.squad.logic.exceptions.InvalidUserNameException
+import model.exceptions.InvalidPasswordException
+import model.exceptions.InvalidUserNameException
 
 
 class UserDataValidationUseCase {

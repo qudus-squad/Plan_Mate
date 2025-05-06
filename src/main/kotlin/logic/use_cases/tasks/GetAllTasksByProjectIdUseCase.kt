@@ -1,6 +1,6 @@
 package logic.use_cases.tasks
 
-import org.qudus.squad.logic.exceptions.TaskNotFoundException
+import model.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.model.entity.Task
 
