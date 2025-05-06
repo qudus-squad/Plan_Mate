@@ -27,7 +27,7 @@ class CreateNewProjectUseCaseTest {
     }
 
     @Test
-    fun `should return the the created project when admin create project seccessfully`() {
+    fun `should return the created project when admin create project seccessfully`() {
         // Given
         val userAdmin = User(username = "admin1", passwordHash = "123456", role = UserRole.ADMIN)
         val projectTitle = "Project B"
