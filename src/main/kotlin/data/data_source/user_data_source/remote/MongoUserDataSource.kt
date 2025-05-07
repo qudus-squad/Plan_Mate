@@ -3,6 +3,7 @@ package org.qudus.squad.data.data_source.user_data_source.remote
 import com.mongodb.client.model.Filters
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.toList
 import logic.exceptions.UserAlreadyExistsException
 import org.qudus.squad.data.data_source.user_data_source.UserDataSource
 import org.qudus.squad.model.entity.User
@@ -16,16 +17,18 @@ class MongoUserDataSource(
         return true
     }
 
-    override fun getUserById(userId: String): User {
+    override suspend fun getUserById(userId: String): User {
         TODO("Not yet implemented")
     }
 
-    override fun getAllUsers(): List<User> {
-        TODO("Not yet implemented")
+    override suspend fun getAllUsers(): List<User> {
+        userCollection.find().toList().apply {
+            return this.map { it.toUser() }
+        }
     }
 
     private suspend fun isUserAlreadyExists(userName: String) {
-        if (userCollection.find(Filters.eq("username", userName)).firstOrNull() != null){
+        if (userCollection.find(Filters.eq("username", userName)).firstOrNull() != null) {
             throw UserAlreadyExistsException()
         }
     }
