@@ -13,6 +13,3 @@ val mongoDatabaseModule = module {
         get<MongoClient>().getDatabase("plan_mate")
     }
 }
-
-
-

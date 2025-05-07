@@ -1,6 +1,6 @@
 package org.qudus.squad.model.entity
 
-import org.qudus.squad.logic.utils.GenerateUUID
+import org.qudus.squad.ui.utils.GenerateUUID
 
 data class User(
     val username: String,

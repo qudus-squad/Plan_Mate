@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDateTime
 import org.qudus.squad.data.data_source.task_data_source.remote.TaskDto
 import org.qudus.squad.data.data_source.task_data_source.remote.toTask
 import org.qudus.squad.data.data_source.task_data_source.remote.toTaskDto
-import org.qudus.squad.logic.utils.GenerateUUID
+import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.model.entity.Project
 
 data class ProjectDto(

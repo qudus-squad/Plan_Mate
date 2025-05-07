@@ -27,8 +27,8 @@ import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.repositories.UserRepository
-import org.qudus.squad.logic.utils.DataHashing
-import org.qudus.squad.logic.utils.EncryptionByUsingMD5
+import org.qudus.squad.ui.utils.DataHashing
+import org.qudus.squad.ui.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 
 val appModule = module {

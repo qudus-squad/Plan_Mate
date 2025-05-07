@@ -5,11 +5,11 @@ import org.qudus.squad.model.entity.TaskState
 
 interface TaskDataSource {
     suspend fun createNewTask(task: Task)
-    fun editExistingTask(updatedTask: Task)
-    fun switchTaskState(taskId: String, newTaskState: TaskState)
+    suspend fun editExistingTask(updatedTask: Task)
+    suspend fun switchTaskState(taskId: String, newTaskState: TaskState)
     suspend fun deleteTaskById(id: String)
-    fun getAllTasksByProjectId(id: String): List<Task>
+    suspend fun getAllTasksByProjectId(id: String): List<Task>
     suspend fun getTaskById(id: String): Task?
-    suspend fun assignTaskToUser(taskId: String, userId: String): Boolean
-    fun unAssignTask(taskId: String)
+      suspend fun assignTaskToUser(taskId: String, userId: String): Boolean
+     fun unAssignTask(taskId: String)
 }

@@ -20,7 +20,7 @@ class OneProjectTableDisplay (private val getTasksByStateUseCase: GetTasksByStat
         val states: List<String>,
         val tasks: List<org.qudus.squad.model.entity.Task>
     )
-    fun displayProjectDetail(project: ProjectDetail ) {
+    suspend fun displayProjectDetail(project: ProjectDetail ) {
 
         val size = project.states.size
         val columnWidth = 18

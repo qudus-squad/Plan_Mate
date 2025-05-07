@@ -1,6 +1,6 @@
 package org.qudus.squad.data.data_source.task_data_source.remote
 
-import org.qudus.squad.logic.utils.GenerateUUID
+import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.model.entity.TaskState
 
 data class TaskStateDto(
@@ -8,14 +8,14 @@ data class TaskStateDto(
     val name: String,
 )
 
-fun TaskState.toTaskStateDto(): TaskStateDto{
+fun TaskState.toTaskStateDto(): TaskStateDto {
     return TaskStateDto(
         id = this.id,
         name = this.name
     )
 }
 
-fun TaskStateDto.toTaskState(): TaskState{
+fun TaskStateDto.toTaskState(): TaskState {
     return TaskState(
         id = this.id,
         name = this.name

@@ -28,7 +28,7 @@ class CsvTaskDataSource(
         writeInFileUseCase.writeLinesToFile(TASKS_FILE, taskCsvLines)
     }
 
-    override fun switchTaskState(taskId: String, newTaskState: TaskState) {
+    override suspend fun switchTaskState(taskId: String, newTaskState: TaskState) {
         val taskCsvLines = getAllTasks().map { task ->
             if (task.id == taskId) {
                 val updatedTask = task.copy(
@@ -49,7 +49,7 @@ class CsvTaskDataSource(
         writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
     }
 
-    override fun getAllTasksByProjectId(id: String): List<Task> {
+    override suspend fun getAllTasksByProjectId(id: String): List<Task> {
         return getAllTasks().filter { it.projectId == id }
     }
 

@@ -2,7 +2,7 @@ package logic.use_cases.project
 
 import logic.exceptions.AccessDeniedException
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.utils.GenerateUUID
+import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.entity.Task

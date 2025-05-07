@@ -46,14 +46,3 @@ fun LogEntryDto.toLogEntry(): LogEntry{
         loggedAt = LocalDateTime.parse(this.loggedAt),
     )
 }
-
-
-
-
-
-
-
-
-
-
-

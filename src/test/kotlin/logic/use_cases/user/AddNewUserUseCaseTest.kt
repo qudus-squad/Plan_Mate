@@ -10,7 +10,7 @@ import logic.exceptions.AccessDeniedException
 import logic.exceptions.InvalidPasswordException
 import logic.exceptions.InvalidUserNameException
 import logic.exceptions.UserAlreadyExistsException
-import org.qudus.squad.logic.utils.DataHashing
+import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase.Companion.INVALID_USER_NAME

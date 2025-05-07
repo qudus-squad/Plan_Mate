@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDateTime
-import org.qudus.squad.logic.utils.GenerateUUID
+import org.qudus.squad.ui.utils.GenerateUUID
 
 data class Project(
     val id: String = GenerateUUID().generate(),
