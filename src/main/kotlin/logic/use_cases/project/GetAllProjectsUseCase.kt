@@ -6,7 +6,7 @@ import org.qudus.squad.model.entity.Project
 class GetAllProjectsUseCase(
     private val projectRepository: ProjectRepository
 ) {
-    fun getAllProjectsUseCase(): List<Project> {
+    suspend fun getAllProjectsUseCase(): List<Project> {
         return projectRepository.getAllProjects()
     }
 }

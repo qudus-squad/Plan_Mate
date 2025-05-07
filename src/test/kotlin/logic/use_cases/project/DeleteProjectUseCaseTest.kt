@@ -5,6 +5,7 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.qudus.squad.model.entity.Project
 import kotlin.test.Test
@@ -26,11 +27,13 @@ class DeleteProjectUseCaseTest {
             description = "Test Project",
             creatorUserId = "admin123",
         )
-        fakeProjectRepository.createNewProject(project)
+        runTest {
+            fakeProjectRepository.createNewProject(project)
+        }
     }
 
     @Test
-    fun `should return true when remove project by ID and the project deleted successfully`() {
+    fun `should return true when remove project by ID and the project deleted successfully`() = runTest {
         // When
         val result = deleteProjectUseCase.deleteProjectUseCase(projectId)
 
@@ -41,7 +44,7 @@ class DeleteProjectUseCaseTest {
     }
 
     @Test
-    fun `should return true when project deleted and not affect other projects`() {
+    fun `should return true when project deleted and not affect other projects`() = runTest {
         // Given
         val otherProject = Project(
             id = "P002",
@@ -61,7 +64,7 @@ class DeleteProjectUseCaseTest {
     }
 
     @Test
-    fun `should return false when delete non-existent project`() {
+    fun `should return false when delete non-existent project`() = runTest {
         // Given
         val nonExistentProjectId = "P999"
 

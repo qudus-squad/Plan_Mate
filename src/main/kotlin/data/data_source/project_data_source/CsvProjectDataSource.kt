@@ -17,7 +17,7 @@ class CsvProjectDataSource(
 
     private val projectFilePath: Path = Paths.get(PROJECTS_FILE)
 
-    override fun getAllProjects(): List<Project> {
+    override suspend fun getAllProjects(): List<Project> {
         return csvReader.read(PROJECTS_FILE).mapNotNull {
             try {
                 projectCsvParser.fromCsvRow(it)
@@ -27,7 +27,7 @@ class CsvProjectDataSource(
         }
     }
 
-    override fun deleteProjectById(id: String): Boolean {
+    override suspend fun deleteProjectById(id: String): Boolean {
         val allProjects = getAllProjects()
 
         val isProjectExists = allProjects.firstOrNull { it.id == id }
@@ -42,19 +42,19 @@ class CsvProjectDataSource(
         return !updatedProjects.any { it.id == id }
     }
 
-    override fun createNewProject(project: Project): Project {
+    override suspend fun createNewProject(project: Project): Project {
         val csvLine = projectCsvParser.toCsvRow(project) + "\n"
         projectFilePath.appendText(csvLine)
         return project
     }
 
-    override fun getProjectById(id: String): Project {
+    override suspend fun getProjectById(id: String): Project {
         return getAllProjects().firstOrNull {
             it.id == id
         } ?: throw ProjectNotFoundException(PROJECT_NOT_FOUND)
     }
 
-    override fun editProject(project: Project): Boolean {
+    override suspend fun editProject(project: Project): Boolean {
         val updatedProjects = getAllProjects().map {
             if (it.id == project.id) project else it
         }

@@ -3,6 +3,7 @@ package logic.use_cases.project
 import fakes.FakeProjectRepository
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
@@ -31,7 +32,7 @@ class GetAllProjectsUseCaseTest {
     }
 
     @Test
-    fun `getAllProjects should return empty list when no projects exist`() {
+    fun `getAllProjects should return empty list when no projects exist`() = runTest {
         // When
         val projects = getAllProjectsUseCase.getAllProjectsUseCase()
 
@@ -40,7 +41,7 @@ class GetAllProjectsUseCaseTest {
     }
 
     @Test
-    fun `getAllProjects should return all created projects`() {
+    fun `getAllProjects should return all created projects`() = runTest {
         // Given
         val project1 = createNewProjectUseCase.createProject(adminUser, "Project A", "test project A")
         val project2 = createNewProjectUseCase.createProject(adminUser, "Project B", "test project B")
