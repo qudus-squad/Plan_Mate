@@ -4,9 +4,9 @@ import org.qudus.squad.logic.utils.GenerateUUID
 import org.qudus.squad.model.entity.Project
 
 interface ProjectRepository {
-    fun getAllProjects(): List<Project>
-    fun deleteProjectById(id: String = GenerateUUID().generate()): Boolean
-    fun createNewProject(project: Project): Project
-    fun getProjectById(id: String): Project
-    fun editProject(project: Project): Boolean
+    suspend fun getAllProjects(): List<Project>
+    suspend fun deleteProjectById(id: String = GenerateUUID().generate()): Boolean
+    suspend fun createNewProject(project: Project): Project
+    suspend fun getProjectById(id: String): Project
+    suspend fun editProject(project: Project): Boolean
 }

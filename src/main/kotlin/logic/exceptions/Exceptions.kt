@@ -24,11 +24,13 @@ class InvalidProjectTitleException(message: String) : InvalidProjectData(message
 class InvalidProjectDescriptionException(message: String) : InvalidProjectData(message)
 class TaskNotFoundException(message: String) : Exception(message)
 class ProjectNotFoundException(message: String) : Exception(message)
+class FailedCreatingProject(message: String) : Exception(message)
 
 class ExceptionsUtils {
 
     companion object {
         const val USER_ALREADY_EXIST = "User Already Exists"
         const val USER_NOT_FOUND = "there is no user with selected id"
+        const val FAILED_CREATING_PROJECT = "Failed to create project"
     }
 }

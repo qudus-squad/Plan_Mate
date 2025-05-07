@@ -4,6 +4,7 @@ import fakes.FakeProjectRepository
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.utils.GenerateUUID
@@ -21,7 +22,7 @@ class EditProjectUseCaseTest {
     }
 
     @Test
-    fun `editProject should return true when valid project is updated`() {
+    fun `editProject should return true when valid project is updated`() = runTest {
         // Given
         val projectId = GenerateUUID().generate()
         val oldProject = Project(
@@ -48,7 +49,7 @@ class EditProjectUseCaseTest {
     }
 
     @Test
-    fun `editProject should return false when project list is empty`() {
+    fun `editProject should return false when project list is empty`() = runTest {
         // Given
         val fakeProject = Project(
             id = GenerateUUID().generate(),

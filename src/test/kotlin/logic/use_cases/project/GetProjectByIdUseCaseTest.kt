@@ -2,8 +2,10 @@ package logic.use_cases.project
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import logic.exceptions.ProjectNotFoundException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,14 +26,14 @@ class GetProjectByIdUseCaseTest {
     }
 
     @Test
-    fun `should return project when project is found`() {
+    fun `should return project when project is found`() = runTest {
 
         // Given
         val project = Project(
             title = "project",
             description = "title",
         )
-        every { projectRepository.getProjectById(project.id) } returns project
+        coEvery { projectRepository.getProjectById(project.id) } returns project
 
         // When
         val result = getProjectByIdUseCase.getProjectById(project.id)
@@ -41,10 +43,10 @@ class GetProjectByIdUseCaseTest {
     }
 
     @Test
-    fun `should throw ProjectNotFoundException when there are no project with selected id`() {
+    fun `should throw ProjectNotFoundException when there are no project with selected id`() = runTest {
 
         // Given
-        every {
+        coEvery {
             projectRepository.getProjectById("12345689")
         } throws ProjectNotFoundException(PROJECT_NOT_FOUND)
 

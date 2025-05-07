@@ -13,7 +13,7 @@ class CreateNewProjectUseCase(
     private val projectRepository: ProjectRepository,
     private val projectDataValidationUseCase: ProjectDataValidationUseCase
 ) {
-    fun createProject(
+    suspend fun createProject(
         user: User,
         title: String,
         description: String,

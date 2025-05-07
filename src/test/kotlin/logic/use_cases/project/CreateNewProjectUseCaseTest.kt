@@ -4,6 +4,7 @@ import fakes.FakeProjectRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import logic.exceptions.AccessDeniedException
@@ -27,7 +28,7 @@ class CreateNewProjectUseCaseTest {
     }
 
     @Test
-    fun `should return the created project when admin create project seccessfully`() {
+    fun `should return the created project when admin create project seccessfully`() = runTest{
         // Given
         val userAdmin = User(username = "admin1", passwordHash = "123456", role = UserRole.ADMIN)
         val projectTitle = "Project B"
@@ -46,7 +47,7 @@ class CreateNewProjectUseCaseTest {
     }
 
     @Test
-    fun `should throw AccessDeniedException when user create project without admin role`() {
+    fun `should throw AccessDeniedException when user create project without admin role`() = runTest{
         // Given
         val userMate = User(username = "user", passwordHash = "123456788", role = UserRole.MATE)
         val projectTitle = "Project B"
@@ -59,7 +60,7 @@ class CreateNewProjectUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidProjectTitleException when project title is empty`() {
+    fun `should throw InvalidProjectTitleException when project title is empty`()= runTest {
         // Given
         val userAdmin = User(username = "admin2", passwordHash = "123456", role = UserRole.ADMIN)
         val projectTitle = ""
@@ -73,7 +74,7 @@ class CreateNewProjectUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidProjectTitleException when project title is blank`() {
+    fun `should throw InvalidProjectTitleException when project title is blank`() = runTest{
         // Given
         val userAdmin = User(username = "admin2", passwordHash = "123456", role = UserRole.ADMIN)
         val projectTitle = "    "
@@ -87,7 +88,7 @@ class CreateNewProjectUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidProjectDescriptionException when description title is empty`() {
+    fun `should throw InvalidProjectDescriptionException when description title is empty`()= runTest {
         // Given
         val userAdmin = User(username = "admin2", passwordHash = "123456", role = UserRole.ADMIN)
         val projectTitle = "Test Project 2"
@@ -101,7 +102,7 @@ class CreateNewProjectUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidProjectDescriptionException when project description is blank`() {
+    fun `should throw InvalidProjectDescriptionException when project description is blank`()= runTest {
         // Given
         val userAdmin = User(username = "admin2", passwordHash = "123456", role = UserRole.ADMIN)
         val projectTitle ="Test Project 2"

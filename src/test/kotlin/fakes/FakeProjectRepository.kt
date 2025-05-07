@@ -9,11 +9,11 @@ class FakeProjectRepository : ProjectRepository {
 
     private val projects = mutableListOf<Project>()
 
-    override fun getAllProjects(): List<Project> {
+    override suspend fun getAllProjects(): List<Project> {
         return projects.toList()
     }
 
-    override fun deleteProjectById(id: String): Boolean {
+    override suspend fun deleteProjectById(id: String): Boolean {
 
         val allProjects = getAllProjects()
 
@@ -24,16 +24,16 @@ class FakeProjectRepository : ProjectRepository {
         return true
     }
 
-    override fun createNewProject(project: Project): Project {
+    override suspend fun createNewProject(project: Project): Project {
         projects.add(project)
         return project
     }
 
-    override fun getProjectById(id: String): Project {
+    override suspend fun getProjectById(id: String): Project {
         return projects.find { it.id == id } ?: throw ProjectNotFoundException(PROJECT_NOT_FOUND)
     }
 
-    override fun editProject(project: Project): Boolean {
+    override suspend fun editProject(project: Project): Boolean {
         val index = projects.indexOfFirst { it.id == project.id }
         return if (index != -1) {
             projects[index] = project
