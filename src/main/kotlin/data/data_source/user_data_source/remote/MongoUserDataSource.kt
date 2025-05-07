@@ -19,6 +19,7 @@ class MongoUserDataSource(
     }
 
     override suspend fun getUserById(userId: String): User {
+
         isUserIdAlreadyExists(userId)
         val dtoUser = mongoDatabase.getCollection<UserDto>("users").find(Filters.eq("userId", userId))
             .firstOrNull() ?: throw UserNotFoundException()
@@ -45,4 +46,5 @@ class MongoUserDataSource(
             println("user with selected id does not exist")
         }
     }
+
 }
