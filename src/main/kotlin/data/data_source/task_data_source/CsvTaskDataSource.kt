@@ -20,7 +20,7 @@ class CsvTaskDataSource(
         writeInFileUseCase.writeLineToFile(TASKS_FILE, newTaskCsvRow)
     }
 
-    override fun editExistingTask(updatedTask: Task) {
+    override suspend fun editExistingTask(updatedTask: Task) {
         val taskCsvLines = getAllTasks().map { task ->
             if (task.id == updatedTask.id) taskCsvParser.toCsvRow(updatedTask)
             else taskCsvParser.toCsvRow(task)

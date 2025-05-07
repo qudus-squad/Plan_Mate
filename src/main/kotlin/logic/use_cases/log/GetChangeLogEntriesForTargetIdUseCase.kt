@@ -5,7 +5,7 @@ import org.qudus.squad.logic.utils.DateTimeFormatter
 import org.qudus.squad.model.entity.LogEntry
 class GetChangeLogEntriesForTargetIdUseCase(private val logRepository: LogRepository) {
 
-    fun getFormattedLog(targetId: String): List<String> {
+    suspend fun getFormattedLog(targetId: String): List<String> {
         val changeLogs: List<LogEntry> = logRepository.getLogByTargetId(targetId)
 
         return changeLogs.map { log ->

@@ -2,8 +2,9 @@ package logic.use_cases.log
 
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
-import io.mockk.every
+import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
@@ -13,7 +14,7 @@ import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.entity.TargetType
 import kotlin.test.Test
 
-class GetAllLogsUseCaseTest{
+class GetAllLogsUseCaseTest {
     private lateinit var logRepository: LogRepository
     private lateinit var getAllLogsUseCase: GetAllLogsUseCase
 
@@ -34,8 +35,7 @@ class GetAllLogsUseCaseTest{
                 oldValue = null,
                 newValue = "Task 1",
                 loggedAt = dateTime
-            ),
-            LogEntry(
+            ), LogEntry(
                 userName = "heba",
                 targetId = "frg-g2",
                 targetType = TargetType.PROJECT,
@@ -49,26 +49,30 @@ class GetAllLogsUseCaseTest{
 
     @Test
     fun `should return all logs when repository has logs`() {
-        // Given
-        val logs = sampleLogEntries()
-        every { logRepository.getAllLogs() } returns logs
+        runTest {
+            // Given
+            val logs = sampleLogEntries()
+            coEvery { logRepository.getAllLogs() } returns logs
 
-        // When
-        val result = getAllLogsUseCase.getAllLogsUseCas()
+            // When
+            val result = getAllLogsUseCase.getAllLogsUseCase()
 
-        // Then
-        result.shouldContainExactly(logs)
+            // Then
+            result.shouldContainExactly(logs)
+        }
     }
 
     @Test
     fun `should return empty list when repository has no logs`() {
-        // Given
-        every { logRepository.getAllLogs() } returns emptyList()
+        runTest {
+            // Given
+            coEvery { logRepository.getAllLogs() } returns emptyList()
 
-        // When
-        val result = getAllLogsUseCase.getAllLogsUseCas()
+            // When
+            val result = getAllLogsUseCase.getAllLogsUseCase()
 
-        // Then
-        result shouldBe emptyList()
+            // Then
+            result shouldBe emptyList()
+        }
     }
 }
