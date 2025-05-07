@@ -12,7 +12,7 @@ class AddNewUserUseCase(
     private val userValidator: UserDataValidationUseCase,
     private val hashing: DataHashing
 ) {
-    fun addUser(
+    suspend fun addUser(
         currentUserRole: UserRole,
         username: String,
         password: String,

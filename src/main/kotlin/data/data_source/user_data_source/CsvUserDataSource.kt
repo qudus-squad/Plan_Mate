@@ -13,7 +13,7 @@ class CsvUserDataSource(
     private val csvReader: CsvReader,
     private val userCsvParser: UserCsvParser
 ) : UserDataSource {
-    override fun addUser(user: User): Boolean {
+    override suspend fun addUser(user: User): Boolean {
         val storedUsers = csvReader.read(USERS_FILE)
         val usernameExists = storedUsers.any { line ->
             val userData = line.split(",")
@@ -21,7 +21,7 @@ class CsvUserDataSource(
             storedUsername == user.username
         }
         if (usernameExists) {
-            throw UserAlreadyExistsException(USER_ALREADY_EXIST)
+            throw UserAlreadyExistsException()
         }
         val csvLine = userCsvParser.toCsvRow(user)
         FileSystem.SYSTEM.appendingSink(USERS_FILE.toPath()).buffer().use { sink ->
@@ -31,8 +31,8 @@ class CsvUserDataSource(
     }
 
     override fun getUserById(userId: String): User {
-        return getAllUsers().firstOrNull { user -> user.userId == userId }
-            ?: throw UserNotFoundException(USER_NOT_FOUND)
+        return getAllUsers().firstOrNull { user -> isUserMatching(userId, user) }
+            ?: throw UserNotFoundException()
 
     }
 
@@ -45,9 +45,7 @@ class CsvUserDataSource(
     private fun isUserMatching(userId: String, user: User) = user.userId == userId
 
     companion object {
-        const val USER_ALREADY_EXIST = "User Already Exists"
         const val USERS_FILE = "users.csv"
-        const val USER_NOT_FOUND="there is no user with selected id"
     }
 
 }

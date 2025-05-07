@@ -30,9 +30,12 @@ dependencies {
     // mockk
     testImplementation("io.mockk:mockk:1.14.0")
 
+    // coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+
     // For Kotlin support of MongoDB
-    implementation("org.litote.kmongo:kmongo:5.2.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.10.1")
 
 
 }
