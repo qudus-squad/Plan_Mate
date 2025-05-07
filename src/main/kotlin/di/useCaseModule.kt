@@ -10,12 +10,12 @@ import logic.use_cases.project.GetAllProjectsUseCase
 import logic.use_cases.tasks.AssignTaskToUserUseCase
 import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase
 import logic.use_cases.tasks.GetTasksByStateUseCase
+import logic.use_cases.user.AddNewUserUseCase
 import org.koin.dsl.module
 import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import kotlin.math.sin
 
 val useCaseModule = module {
 
@@ -46,4 +46,6 @@ val useCaseModule = module {
     single<DataHashing> { EncryptionByUsingMD5() }
 
     single { SaveLogUseCase(get()) }
+
+    single { AddNewUserUseCase(get(),get(),get()) }
 }

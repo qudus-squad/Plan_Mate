@@ -1,13 +1,13 @@
 package org.qudus.squad.data.data_source.task_data_source.remote
 
-import com.mongodb.kotlin.client.coroutine.MongoCollection
+import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 
 class MongoTaskDataSource(
-    private val taskCollection: MongoCollection<TaskDto>
-): TaskDataSource {
+    private val mongoDataBase: MongoDatabase
+) : TaskDataSource {
     override fun createNewTask(task: Task) {
         TODO("Not yet implemented")
     }

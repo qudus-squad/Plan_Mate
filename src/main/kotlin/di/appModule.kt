@@ -11,10 +11,8 @@ import org.qudus.squad.data.data_source.authntication_data_source.Authentication
 import org.qudus.squad.data.data_source.authntication_data_source.CsvAuthenticationDataSource
 import org.qudus.squad.data.data_source.log_data_source.LogDataSource
 import org.qudus.squad.data.data_source.log_data_source.remote.MongoLogDataSource
-import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource
 import org.qudus.squad.data.data_source.project_data_source.ProjectDataSource
 import org.qudus.squad.data.data_source.project_data_source.remote.MongoProjectDataSource
-import org.qudus.squad.data.data_source.task_data_source.CsvTaskDataSource
 import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
 import org.qudus.squad.data.data_source.task_data_source.remote.MongoTaskDataSource
 import org.qudus.squad.data.repositories.*
@@ -31,6 +29,7 @@ import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
+import org.qudus.squad.logic.validation.UserDataValidationUseCase
 
 val appModule = module {
     single { UserCsvParser() }
@@ -79,6 +78,8 @@ val appModule = module {
     single<UserDataSource> {
         MongoUserDataSource(get())
     }
+
+    single { UserDataValidationUseCase() }
 
     single<UserRepository> { UserRepositoryImplementation(get()) }
 
