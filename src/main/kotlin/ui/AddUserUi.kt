@@ -8,7 +8,7 @@ import org.qudus.squad.model.entity.UserRole
 class AddUserUi(
     private val addNewUserUseCase: AddNewUserUseCase,
 ) {
-    fun addUserUI(currentUserRole: UserRole) {
+    suspend fun addUserUI(currentUserRole: UserRole) {
         try {
             print("Enter username: ")
             val userName = readln()

@@ -6,7 +6,6 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.qudus.squad.data.data_source.authntication_data_source.CsvAuthenticationDataSource.Companion.USER_NOT_FOUND
 import logic.exceptions.InvalidPasswordException
 import logic.exceptions.InvalidUserNameException
 import logic.exceptions.UserNotFoundException
@@ -113,7 +112,7 @@ class SignInUseCaseTest {
         val password = "123456789"
         every {
             authenticationRepository.signIn(userName, password)
-        } throws UserNotFoundException(USER_NOT_FOUND)
+        } throws UserNotFoundException()
 
         // When & Then
         shouldThrow<UserNotFoundException> { signInUseCase.signIn(userName, password) }

@@ -17,13 +17,12 @@ import org.qudus.squad.data.data_source.task_data_source.CsvTaskDataSource
 import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
 import org.qudus.squad.data.repositories.*
 import org.qudus.squad.logic.repositories.*
-import org.qudus.squad.data.data_source.user_data_source.CsvUserDataSource
 import org.qudus.squad.data.data_source.user_data_source.UserDataSource
+import org.qudus.squad.data.data_source.user_data_source.remote.MongoUserDataSource
 import org.qudus.squad.data.repositories.AuthenticationRepositoryImplementation
 import org.qudus.squad.data.repositories.LogRepositoryImplementation
 import org.qudus.squad.data.repositories.ProjectRepositoryImplementation
 import org.qudus.squad.data.repositories.UserRepositoryImplementation
-import org.qudus.squad.di.MongoDBClient.Companion.MONGO_URI
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
@@ -75,9 +74,10 @@ val appModule = module {
     single<TaskDataSource> { CsvTaskDataSource(get(), get(), get()) }
 
 
-    single<UserDataSource> { CsvUserDataSource(get(), get()) }
+    single<UserDataSource> {
+        MongoUserDataSource(get())
+    }
 
     single<UserRepository> { UserRepositoryImplementation(get()) }
 
-    single { MongoDBClient(MONGO_URI) }
 }
