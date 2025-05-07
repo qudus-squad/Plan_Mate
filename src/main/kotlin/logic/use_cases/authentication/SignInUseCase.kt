@@ -8,8 +8,8 @@ class SignInUseCase(
     private val authenticationRepository: AuthenticationRepository,
     private val userDataValidationUseCase: UserDataValidationUseCase
 ) {
-    fun signIn(username: String, password: String): User {
-        userDataValidationUseCase.validateUserData(username,password)
+    suspend fun signIn(username: String, password: String): User {
+        userDataValidationUseCase.validateUserData(username, password)
         return authenticationRepository.signIn(username, password)
     }
 }
