@@ -1,16 +1,12 @@
 package logic.use_cases.tasks
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.test.runTest
+import logic.exceptions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import logic.exceptions.InvalidTaskCreatorUserIdException
-import logic.exceptions.InvalidTaskDescriptionException
-import logic.exceptions.InvalidTaskProjectIdException
-import logic.exceptions.InvalidTaskStateNameException
-import logic.exceptions.InvalidTaskTitleException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
@@ -42,13 +38,15 @@ class EditTaskUseCaseTest {
             )
             // When
             editTaskUseCase.editTask(
-                userName = "sami", updatedTask = updatedTask, action = "edit task name",
-                oldValue = "Note", newValue = "My note"
+                userName = "sami",
+                updatedTask = updatedTask,
+                action = "edit task name",
+                oldValue = "Note",
+                newValue = "My note"
             )
             // Then
-            verify(exactly = 1) { taskRepository.editExistingTask(updatedTask = updatedTask) }
+            coVerify(exactly = 1) { taskRepository.editExistingTask(updatedTask = updatedTask) }
         }
-
     }
 
     @Test
@@ -65,12 +63,14 @@ class EditTaskUseCaseTest {
             // When & Then
             shouldThrow<InvalidTaskTitleException> {
                 editTaskUseCase.editTask(
-                    userName = "sami", updatedTask = updatedTask, action = "edit task name",
-                    oldValue = "Note", newValue = "My note"
+                    userName = "sami",
+                    updatedTask = updatedTask,
+                    action = "edit task name",
+                    oldValue = "Note",
+                    newValue = "My note"
                 )
             }
         }
-
     }
 
     @Test
@@ -87,8 +87,11 @@ class EditTaskUseCaseTest {
             // When & Then
             shouldThrow<InvalidTaskProjectIdException> {
                 editTaskUseCase.editTask(
-                    userName = "sami", updatedTask = updatedTask, action = "edit task name",
-                    oldValue = "Note", newValue = "My note"
+                    userName = "sami",
+                    updatedTask = updatedTask,
+                    action = "edit task name",
+                    oldValue = "Note",
+                    newValue = "My note"
                 )
             }
         }
@@ -108,8 +111,11 @@ class EditTaskUseCaseTest {
             // When & Then
             shouldThrow<InvalidTaskCreatorUserIdException> {
                 editTaskUseCase.editTask(
-                    userName = "sami", updatedTask = updatedTask, action = "edit task name",
-                    oldValue = "Note", newValue = "My note"
+                    userName = "sami",
+                    updatedTask = updatedTask,
+                    action = "edit task name",
+                    oldValue = "Note",
+                    newValue = "My note"
                 )
             }
         }
@@ -129,8 +135,11 @@ class EditTaskUseCaseTest {
             // When & Then
             shouldThrow<InvalidTaskDescriptionException> {
                 editTaskUseCase.editTask(
-                    userName = "sami", updatedTask = updatedTask, action = "edit task name",
-                    oldValue = "Note", newValue = "My note"
+                    userName = "sami",
+                    updatedTask = updatedTask,
+                    action = "edit task name",
+                    oldValue = "Note",
+                    newValue = "My note"
                 )
             }
         }
@@ -151,11 +160,13 @@ class EditTaskUseCaseTest {
             // When & Then
             shouldThrow<InvalidTaskStateNameException> {
                 editTaskUseCase.editTask(
-                    userName = "sami", updatedTask = updatedTask, action = "edit task name",
-                    oldValue = "Note", newValue = "My note"
+                    userName = "sami",
+                    updatedTask = updatedTask,
+                    action = "edit task name",
+                    oldValue = "Note",
+                    newValue = "My note"
                 )
             }
         }
     }
-
 }

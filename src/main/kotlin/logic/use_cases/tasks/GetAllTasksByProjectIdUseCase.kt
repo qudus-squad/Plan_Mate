@@ -7,7 +7,7 @@ import org.qudus.squad.model.entity.Task
 class GetAllTasksByProjectIdUseCase(
     private val taskRepository: TaskRepository
 ) {
-    fun getAllTasksByProjectId(projectId: String) : List<Task> {
+    suspend fun getAllTasksByProjectId(projectId: String) : List<Task> {
         return taskRepository.getAllTasksByProjectId(projectId)
     }
 

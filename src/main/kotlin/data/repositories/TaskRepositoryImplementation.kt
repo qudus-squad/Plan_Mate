@@ -12,11 +12,11 @@ class TaskRepositoryImplementation(
         taskDataSource.createNewTask(task)
     }
 
-    override fun editExistingTask(updatedTask: Task) {
+    override suspend fun editExistingTask(updatedTask: Task) {
         taskDataSource.editExistingTask(updatedTask)
     }
 
-    override fun getAllTasksByProjectId(id: String): List<Task> {
+    override suspend fun getAllTasksByProjectId(id: String): List<Task> {
         return taskDataSource.getAllTasksByProjectId(id)
     }
 
@@ -24,7 +24,7 @@ class TaskRepositoryImplementation(
         return taskDataSource.getTaskById(id)
     }
 
-    override fun switchTaskState(taskId: String, newTaskState: TaskState) {
+    override suspend fun switchTaskState(taskId: String, newTaskState: TaskState) {
         taskDataSource.switchTaskState(taskId, newTaskState)
     }
 

@@ -15,6 +15,7 @@ import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
 import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
+import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.LoginSession
 
@@ -57,4 +58,9 @@ val useCaseModule = module {
     single { AddNewUserUseCase(get(),get(),get()) }
 
     single { GetAllLogsUseCase(get()) }
+
+    single { EditTaskUseCase(get() , get() , get()) }
+
+    single { TaskDataValidationUseCase() }
+
 }

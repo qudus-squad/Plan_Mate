@@ -8,14 +8,14 @@ data class TaskStateDto(
     val name: String,
 )
 
-fun TaskState.toTaskStateDto(): TaskStateDto{
+fun TaskState.toTaskStateDto(): TaskStateDto {
     return TaskStateDto(
         id = this.id,
         name = this.name
     )
 }
 
-fun TaskStateDto.toTaskState(): TaskState{
+fun TaskStateDto.toTaskState(): TaskState {
     return TaskState(
         id = this.id,
         name = this.name
