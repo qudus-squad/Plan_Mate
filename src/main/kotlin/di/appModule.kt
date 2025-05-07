@@ -9,8 +9,8 @@ import org.qudus.squad.data.csv.parser.UserCsvParser
 import org.qudus.squad.data.data_source.WriteInFileUseCase
 import org.qudus.squad.data.data_source.authntication_data_source.AuthenticationDataSource
 import org.qudus.squad.data.data_source.authntication_data_source.CsvAuthenticationDataSource
-import org.qudus.squad.data.data_source.log_data_source.CsvLogDataSource
 import org.qudus.squad.data.data_source.log_data_source.LogDataSource
+import org.qudus.squad.data.data_source.log_data_source.remote.MongoLogDataSource
 import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource
 import org.qudus.squad.data.data_source.project_data_source.ProjectDataSource
 import org.qudus.squad.data.data_source.task_data_source.CsvTaskDataSource
@@ -50,7 +50,7 @@ val appModule = module {
     single { WriteInFileUseCase() }
 
     single<LogDataSource> {
-        CsvLogDataSource(get(), get(), get())
+        MongoLogDataSource(get())
     }
 
     single<LogRepository> {
@@ -70,8 +70,6 @@ val appModule = module {
     single<TaskRepository> {
         TaskRepositoryImplementation(get())
     }
-
-    single<TaskDataSource> { CsvTaskDataSource(get(), get(), get()) }
 
 
     single<UserDataSource> {

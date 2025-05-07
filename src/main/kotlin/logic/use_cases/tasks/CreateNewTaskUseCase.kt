@@ -12,7 +12,7 @@ class CreateNewTaskUseCase(
     private val logRepository: LogRepository,
     private val taskDataValidator: TaskDataValidationUseCase
 ) {
-    fun createNewTask(userName: String, task: Task){
+    suspend fun createNewTask(userName: String, task: Task){
         if (taskDataValidator.validateTaskValues(task)){
             taskRepository.createNewTask(task)
             logRepository.addNewLog(LogEntry(userName, task.id, TargetType.TASK, "add new task"))
