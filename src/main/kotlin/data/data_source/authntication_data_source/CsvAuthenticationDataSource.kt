@@ -13,7 +13,7 @@ class CsvAuthenticationDataSource(
     private val hashing: DataHashing
 ) : AuthenticationDataSource {
 
-    override fun signIn(username: String, password: String): User {
+    override suspend fun signIn(username: String, password: String): User {
         val storedUsers = csvReader.read(USERS_FILE)
         val matchingUser = storedUsers.firstOrNull { line ->
             val user = userCsvParser.fromCsvRow(line)

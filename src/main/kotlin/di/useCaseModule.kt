@@ -16,13 +16,15 @@ import org.qudus.squad.logic.utils.DataHashing
 import org.qudus.squad.logic.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import kotlin.math.sin
+import org.qudus.squad.model.entity.LoginSession
 
 val useCaseModule = module {
 
     single { UserDataValidationUseCase() }
 
     single { ProjectDataValidationUseCase() }
+
+    single { LoginSession() }
 
     single { SignInUseCase(get(), get()) }
 
@@ -37,7 +39,6 @@ val useCaseModule = module {
     single { GetAllProjectsUseCase(get()) }
 
     single { GetProjectByIdUseCase(get()) }
-
 
     single { AssignTaskToUserUseCase(get()) }
 
@@ -54,7 +55,6 @@ val useCaseModule = module {
     single { SaveLogUseCase(get()) }
 
     single { AddNewUserUseCase(get(),get(),get()) }
-
 
     single { GetAllLogsUseCase(get()) }
 }

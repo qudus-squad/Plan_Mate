@@ -2,8 +2,9 @@ package logic.use_cases.authentication
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import io.mockk.every
+import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import logic.exceptions.InvalidPasswordException
@@ -27,7 +28,7 @@ class SignInUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidUserNameException when username is empty`() {
+    fun `should throw InvalidUserNameException when username is empty`() = runTest {
 
         // Given
         val userName = ""
@@ -40,7 +41,7 @@ class SignInUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidUserNameException when username is blank`() {
+    fun `should throw InvalidUserNameException when username is blank`() = runTest {
 
         // Given
         val userName = ""
@@ -53,7 +54,7 @@ class SignInUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidUserNameException when username has unsupported symbols`() {
+    fun `should throw InvalidUserNameException when username has unsupported symbols`() = runTest {
 
         // Given
         val userName = "Abdo*#$"
@@ -66,7 +67,7 @@ class SignInUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidPasswordException when password is empty`() {
+    fun `should throw InvalidPasswordException when password is empty`() = runTest {
 
         // Given
         val userName = "Abdo"
@@ -79,7 +80,7 @@ class SignInUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidPasswordException when password is blank`() {
+    fun `should throw InvalidPasswordException when password is blank`() = runTest {
 
         // Given
         val userName = "Abdo"
@@ -92,7 +93,7 @@ class SignInUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidPasswordException when password less than 8 characters`() {
+    fun `should throw InvalidPasswordException when password less than 8 characters`() = runTest {
 
         // Given
         val userName = "Abdo"
@@ -105,12 +106,12 @@ class SignInUseCaseTest {
     }
 
     @Test
-    fun `should throw UserNotFoundException when no credentials for entered data`() {
+    fun `should throw UserNotFoundException when no credentials for entered data`() = runTest {
 
         // Given
         val userName = "Abdo"
         val password = "123456789"
-        every {
+        coEvery {
             authenticationRepository.signIn(userName, password)
         } throws UserNotFoundException()
 
@@ -119,13 +120,13 @@ class SignInUseCaseTest {
     }
 
     @Test
-    fun `should return true if user credentials are valid and authentication succeeds`() {
+    fun `should return true if user credentials are valid and authentication succeeds`() = runTest {
 
         // Given
         val username = "a.talaat_74"
         val password = "123456789"
         val validUser = User(username = "a.talaat_74", passwordHash = "123456789", role = UserRole.MATE)
-        every { authenticationRepository.signIn(username, password) } returns validUser
+        coEvery { authenticationRepository.signIn(username, password) } returns validUser
 
         // When
         val user = signInUseCase.signIn(username, password)

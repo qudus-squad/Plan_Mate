@@ -9,7 +9,7 @@ class AuthenticationRepositoryImplementation(
 ) : AuthenticationRepository {
 
 
-    override fun signIn(username: String, password: String): User {
+    override suspend fun signIn(username: String, password: String): User {
         return authenticationDataSource.signIn(username, password)
     }
 
