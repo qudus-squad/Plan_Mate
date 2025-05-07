@@ -18,7 +18,7 @@ class ProjectRepositoryImplementation(private val projectDataSource: ProjectData
         return projectDataSource.createNewProject(project)
     }
 
-    override fun getProjectById(id: String): Project? {
+    override fun getProjectById(id: String): Project {
         return projectDataSource.getProjectById(id)
     }
 
