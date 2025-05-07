@@ -1,7 +1,7 @@
 package org.qudus.squad.data.data_source.user_data_source.remote
 
 import com.mongodb.client.model.Filters
-import com.mongodb.kotlin.client.coroutine.MongoCollection
+import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
 import logic.exceptions.UserAlreadyExistsException
@@ -10,29 +10,41 @@ import org.qudus.squad.data.data_source.user_data_source.UserDataSource
 import org.qudus.squad.model.entity.User
 
 class MongoUserDataSource(
-    private val userCollection: MongoCollection<UserDto>
+    private val mongoDatabase: MongoDatabase
 ) : UserDataSource {
     override suspend fun addUser(user: User): Boolean {
         isUserAlreadyExists(userName = user.username)
-        userCollection.insertOne(user.toUserDto())
+        mongoDatabase.getCollection<UserDto>("users").insertOne(user.toUserDto())
         return true
     }
 
     override suspend fun getUserById(userId: String): User {
-        val dtoUser = userCollection.find(Filters.eq("userId", userId)).firstOrNull()
-            ?: throw UserNotFoundException()
+
+        isUserIdAlreadyExists(userId)
+        val dtoUser = mongoDatabase.getCollection<UserDto>("users").find(Filters.eq("userId", userId))
+            .firstOrNull() ?: throw UserNotFoundException()
         return dtoUser.toUser()
+
     }
 
     override suspend fun getAllUsers(): List<User> {
-        userCollection.find().toList().apply {
+        mongoDatabase.getCollection<UserDto>("users").find().toList().apply {
             return this.map { it.toUser() }
         }
     }
 
     private suspend fun isUserAlreadyExists(userName: String) {
-        if (userCollection.find(Filters.eq("username", userName)).firstOrNull() != null) {
+        if (mongoDatabase.getCollection<UserDto>("users").find(Filters.eq("username", userName))
+                .firstOrNull() != null
+        ) {
             throw UserAlreadyExistsException()
         }
     }
+
+    private suspend fun isUserIdAlreadyExists(userId: String) {
+        if (mongoDatabase.getCollection<UserDto>("users").find(Filters.eq("userId", userId)).firstOrNull() == null) {
+            println("user with selected id does not exist")
+        }
+    }
+
 }
