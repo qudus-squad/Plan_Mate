@@ -8,7 +8,7 @@ import org.qudus.squad.logic.utils.GenerateUUID
 class AssignTaskToUserUseCase(
     private val taskRepository: TaskRepository,
 ) {
-    fun assignTaskToUser(userId : String = GenerateUUID().generate(), taskId : String = GenerateUUID().generate()): Boolean {
+    suspend fun assignTaskToUser(userId : String = GenerateUUID().generate(), taskId : String = GenerateUUID().generate()): Boolean {
         taskRepository.getTaskById(taskId)
             ?: throw TaskNotFoundException(NO_TASK_FOUND)
 
