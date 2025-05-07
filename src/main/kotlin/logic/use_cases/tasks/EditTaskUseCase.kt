@@ -12,7 +12,7 @@ class EditTaskUseCase(
     private val logRepository: LogRepository,
     private val taskDataValidator: TaskDataValidationUseCase
 ) {
-    fun editTask(userName: String, updatedTask: Task,action: String,oldValue: String, newValue: String){
+    suspend fun editTask(userName: String, updatedTask: Task,action: String,oldValue: String, newValue: String){
         if (taskDataValidator.validateTaskValues(updatedTask)){
             taskRepository.editExistingTask(updatedTask)
             logRepository.addNewLog(LogEntry(userName, updatedTask.id, TargetType.TASK, action, oldValue, newValue))

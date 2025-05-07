@@ -9,7 +9,7 @@ class LogRepositoryImplementation(
     private val logDataSource: LogDataSource
 ) : LogRepository {
 
-    override fun addNewLog(logEntry: LogEntry) {
+    override suspend fun addNewLog(logEntry: LogEntry) {
         logDataSource.addNewLog(logEntry)
     }
     override fun getLogByTargetId(targetId: String): List<LogEntry> {

@@ -4,9 +4,6 @@ import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.LogEntryCsvParser
 import org.qudus.squad.data.data_source.WriteInFileUseCase
 import org.qudus.squad.model.entity.LogEntry
-import java.nio.file.Path
-import java.nio.file.Paths
-import kotlin.io.path.appendText
 
 class CsvLogDataSource(
     private val csvReader: CsvReader,
@@ -15,7 +12,7 @@ class CsvLogDataSource(
 ) : LogDataSource {
 
 
-    override fun addNewLog(logEntry: LogEntry) {
+    override suspend fun addNewLog(logEntry: LogEntry) {
         val csvLine = logEntryCsvParser.toCsvRow(logEntry) + "\n"
         writeInFileUseCase.writeLineToFile(LOGS_FILE,csvLine)
     }

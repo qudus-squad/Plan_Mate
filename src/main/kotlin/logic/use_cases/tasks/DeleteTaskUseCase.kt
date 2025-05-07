@@ -11,7 +11,7 @@ class DeleteTaskUseCase(
     private val logRepository: LogRepository,
     private val taskDataValidator: TaskDataValidationUseCase
 ) {
-    fun deleteTask(userName: String, taskId: String, taskTitle: String){
+    suspend fun deleteTask(userName: String, taskId: String, taskTitle: String){
         if (taskDataValidator.validateDeleteTaskValues(userName,taskId,taskTitle)){
             taskRepository.deleteTaskById(taskId)
             logRepository.addNewLog(LogEntry(userName,taskId, TargetType.TASK,"$taskTitle Task Deleted"))
