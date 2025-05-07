@@ -12,7 +12,7 @@ class LogRepositoryImplementation(
     override suspend fun addNewLog(logEntry: LogEntry) {
         logDataSource.addNewLog(logEntry)
     }
-    override fun getLogByTargetId(targetId: String): List<LogEntry> {
+    override suspend fun getLogByTargetId(targetId: String): List<LogEntry> {
        return logDataSource.getLogByTargetId(targetId)
     }
 
