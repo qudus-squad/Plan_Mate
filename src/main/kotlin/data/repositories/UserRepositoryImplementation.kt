@@ -15,7 +15,7 @@ class UserRepositoryImplementation(
         return userDataSource.getUserById(userId)
     }
 
-    override fun getAllUsers(): List<User> {
+    override suspend fun getAllUsers(): List<User> {
         return userDataSource.getAllUsers()
     }
 }

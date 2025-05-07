@@ -6,23 +6,23 @@ import org.qudus.squad.model.entity.Project
 
 class ProjectRepositoryImplementation(private val projectDataSource: ProjectDataSource) : ProjectRepository {
 
-    override fun getAllProjects(): List<Project> {
+    override suspend fun getAllProjects(): List<Project> {
         return projectDataSource.getAllProjects()
     }
 
-    override fun deleteProjectById(id: String): Boolean {
+    override suspend fun deleteProjectById(id: String): Boolean {
         return projectDataSource.deleteProjectById(id)
     }
 
-    override fun createNewProject(project: Project): Project {
+    override suspend fun createNewProject(project: Project): Project {
         return projectDataSource.createNewProject(project)
     }
 
-    override fun getProjectById(id: String): Project {
+    override suspend fun getProjectById(id: String): Project {
         return projectDataSource.getProjectById(id)
     }
 
-    override fun editProject(project: Project): Boolean {
+    override suspend fun editProject(project: Project): Boolean {
         return projectDataSource.editProject(project)
     }
 }

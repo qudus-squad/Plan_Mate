@@ -6,7 +6,7 @@ import org.qudus.squad.model.entity.Project
 class GetProjectByIdUseCase(
     private val projectRepository: ProjectRepository
 ) {
-    fun getProjectById(projectId: String): Project{
+    suspend fun getProjectById(projectId: String): Project{
         return projectRepository.getProjectById(projectId)
     }
 }

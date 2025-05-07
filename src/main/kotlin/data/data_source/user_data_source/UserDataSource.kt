@@ -5,5 +5,5 @@ import org.qudus.squad.model.entity.User
 interface UserDataSource {
     suspend fun addUser(user: User): Boolean
     suspend fun getUserById(userId: String): User
-    fun getAllUsers(): List<User>
+    suspend fun getAllUsers(): List<User>
 }

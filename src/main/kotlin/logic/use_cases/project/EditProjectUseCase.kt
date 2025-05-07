@@ -8,7 +8,7 @@ import org.qudus.squad.model.entity.Project
 class EditProjectUseCase(
     private val projectRepository: ProjectRepository,
 ) {
-    fun editProject(project: Project): Boolean {
+    suspend fun editProject(project: Project): Boolean {
         return projectRepository.editProject(project)
     }
 }

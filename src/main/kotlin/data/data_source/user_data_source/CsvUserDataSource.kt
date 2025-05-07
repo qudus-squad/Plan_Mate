@@ -30,13 +30,14 @@ class CsvUserDataSource(
         return true
     }
 
-    override  suspend fun getUserById(userId: String): User {
+
+    override suspend fun getUserById(userId: String): User {
         return getAllUsers().firstOrNull { user -> isUserMatching(userId, user) }
             ?: throw UserNotFoundException()
 
     }
 
-    override fun getAllUsers(): List<User> {
+    override suspend fun getAllUsers(): List<User> {
         return csvReader.read(USERS_FILE).map { line ->
             userCsvParser.fromCsvRow(line)
         }
