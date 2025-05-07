@@ -16,6 +16,7 @@ import org.qudus.squad.data.data_source.project_data_source.ProjectDataSource
 import org.qudus.squad.data.data_source.project_data_source.remote.MongoProjectDataSource
 import org.qudus.squad.data.data_source.task_data_source.CsvTaskDataSource
 import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
+import org.qudus.squad.data.data_source.task_data_source.remote.MongoTaskDataSource
 import org.qudus.squad.data.repositories.*
 import org.qudus.squad.logic.repositories.*
 import org.qudus.squad.data.data_source.user_data_source.UserDataSource
@@ -68,7 +69,7 @@ val appModule = module {
 
     single { TaskCsvParser() }
 
-    single<TaskDataSource> { CsvTaskDataSource(get(), get(), get()) }
+    single<TaskDataSource> { MongoTaskDataSource(get()) }
 
     single<TaskRepository> {
         TaskRepositoryImplementation(get())

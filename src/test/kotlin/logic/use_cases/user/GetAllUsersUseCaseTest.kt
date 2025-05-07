@@ -1,8 +1,10 @@
 package logic.use_cases.user
 
 import io.kotest.matchers.collections.shouldContainExactly
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.model.entity.User
@@ -21,14 +23,14 @@ class GetAllUsersUseCaseTest {
     }
 
     @Test
-    fun `should return list of user when there are users`() {
+    fun `should return list of user when there are users`() = runTest {
         // Given
         val usersList = listOf(
             User(username = "Ahmed", passwordHash = "lsvnsdvs656s5dv", role = UserRole.MATE),
             User(username = "Mohamed", passwordHash = "afknskvas", role = UserRole.MATE),
             User(username = "Abdo", passwordHash = "adjfiojfief", role = UserRole.MATE),
         )
-        every { userRepository.getAllUsers() } returns usersList
+        coEvery { userRepository.getAllUsers() } returns usersList
 
         //when
         val result = getAllUsersUseCase.getAllUSers()
@@ -42,10 +44,10 @@ class GetAllUsersUseCaseTest {
     }
 
     @Test
-    fun `should return empty list when there are no users `() {
+    fun `should return empty list when there are no users `() = runTest {
         // Given
         val usersList = emptyList<User>()
-        every { userRepository.getAllUsers() } returns usersList
+        coEvery { userRepository.getAllUsers() } returns usersList
 
         //when
         val result = getAllUsersUseCase.getAllUSers()

@@ -5,18 +5,18 @@ import org.qudus.squad.model.entity.TaskState
 
 data class TaskStateDto(
     val id: String = GenerateUUID().generate(),
-    val name: String
+    val name: String,
 )
 
-fun TaskStateDto.toTaskState(): TaskState {
-    return TaskState(
+fun TaskState.toTaskStateDto(): TaskStateDto{
+    return TaskStateDto(
         id = this.id,
         name = this.name
     )
 }
 
-fun TaskState.toTaskStateDto(): TaskStateDto {
-    return TaskStateDto(
+fun TaskStateDto.toTaskState(): TaskState{
+    return TaskState(
         id = this.id,
         name = this.name
     )
