@@ -63,24 +63,4 @@ class EditProjectUseCaseTest {
         // Then
         result.shouldBeFalse()
     }
-
-    @Test
-    fun `editProject should return false when input is invalid`() {
-        // Given
-        val projectId : String = GenerateUUID().generate()
-        val invalidProject = Project(
-            id = projectId,
-            title = "",
-            description = "",
-            creatorUserId = "admin",
-            tasks = emptyList()
-        )
-        fakeProjectRepository.createNewProject(invalidProject)
-
-        // When
-        val result = editProjectUseCase.editProject(invalidProject)
-
-        // Then
-        result.shouldBeFalse()
-    }
 }

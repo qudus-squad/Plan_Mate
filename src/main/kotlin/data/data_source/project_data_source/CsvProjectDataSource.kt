@@ -1,5 +1,6 @@
 package org.qudus.squad.data.data_source.project_data_source
 
+import logic.exceptions.ProjectNotFoundException
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.ProjectCsvParser
 import org.qudus.squad.data.data_source.WriteInFileUseCase
@@ -51,15 +52,18 @@ class CsvProjectDataSource(
         return getAllProjects().firstOrNull { it.id == id }
     }
 
-    override fun editProject(project: Project) {
+    override fun editProject(project: Project): Boolean {
         val updatedProjects = getAllProjects().map {
             if (it.id == project.id) project else it
         }
+
         val csvLines = updatedProjects.map(projectCsvParser::toCsvRow)
         writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
-    }
 
+        return true
+    }
     companion object {
+        const val PROJECT_NOT_FOUND = "Project Not Found"
         const val PROJECTS_FILE = "projects.csv"
     }
 }
