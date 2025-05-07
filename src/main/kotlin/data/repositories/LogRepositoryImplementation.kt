@@ -12,15 +12,15 @@ class LogRepositoryImplementation(
     override suspend fun addNewLog(logEntry: LogEntry) {
         logDataSource.addNewLog(logEntry)
     }
-    override fun getLogByTargetId(targetId: String): List<LogEntry> {
+    override suspend fun getLogByTargetId(targetId: String): List<LogEntry> {
        return logDataSource.getLogByTargetId(targetId)
     }
 
-    override fun getAllLogs(): List<LogEntry> {
+    override suspend fun getAllLogs(): List<LogEntry> {
       return logDataSource.getAllLogs()
     }
 
-    override fun deleteLogByTargetId(targetId: String) {
+    override suspend fun deleteLogByTargetId(targetId: String) {
         logDataSource.deleteLogByTargetId(targetId)
     }
 }

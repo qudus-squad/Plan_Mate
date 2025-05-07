@@ -17,11 +17,11 @@ class CsvLogDataSource(
         writeInFileUseCase.writeLineToFile(LOGS_FILE,csvLine)
     }
 
-    override fun getLogByTargetId(targetId: String): List<LogEntry> {
+    override suspend fun getLogByTargetId(targetId: String): List<LogEntry> {
         return getAllLogs().filter { it.targetId == targetId }
     }
 
-    override fun getAllLogs(): List<LogEntry> {
+    override suspend fun getAllLogs(): List<LogEntry> {
         return csvReader.read(LOGS_FILE).mapNotNull {
             try {
                 logEntryCsvParser.fromCsvRow(it)
@@ -31,7 +31,7 @@ class CsvLogDataSource(
         }
     }
 
-    override fun deleteLogByTargetId(targetId: String) {
+    override suspend fun deleteLogByTargetId(targetId: String) {
         val filteredLogs = getAllLogs().filterNot { it.targetId == targetId }
         val csvLines = filteredLogs.map{log -> logEntryCsvParser.toCsvRow(log)}
         writeInFileUseCase.writeLinesToFile(LOGS_FILE, csvLines)
