@@ -5,6 +5,7 @@ import com.mongodb.kotlin.client.coroutine.MongoCollection
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
 import logic.exceptions.UserAlreadyExistsException
+import logic.exceptions.UserNotFoundException
 import org.qudus.squad.data.data_source.user_data_source.UserDataSource
 import org.qudus.squad.model.entity.User
 
@@ -18,11 +19,9 @@ class MongoUserDataSource(
     }
 
     override suspend fun getUserById(userId: String): User {
-        isUserIdAlreadyExists(userId)
-        return userCollection.find(Filters.eq("userId", userId))
-            .firstOrNull()!!
-            .toUser()
-
+        val dtoUser = userCollection.find(Filters.eq("userId", userId)).firstOrNull()
+            ?: throw UserNotFoundException()
+        return dtoUser.toUser()
     }
 
     override suspend fun getAllUsers(): List<User> {
@@ -34,11 +33,6 @@ class MongoUserDataSource(
     private suspend fun isUserAlreadyExists(userName: String) {
         if (userCollection.find(Filters.eq("username", userName)).firstOrNull() != null) {
             throw UserAlreadyExistsException()
-        }
-    }
-    private suspend fun isUserIdAlreadyExists(userId: String) {
-        if (userCollection.find(Filters.eq("userId", userId)).firstOrNull() == null) {
-            println("user with selected id does not exist")
         }
     }
 }
