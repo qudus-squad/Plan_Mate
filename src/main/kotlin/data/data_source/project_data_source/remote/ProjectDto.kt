@@ -1,22 +1,19 @@
 package org.qudus.squad.data.data_source.project_data_source.remote
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
-import org.qudus.squad.logic.utils.GenerateUUID
-import org.qudus.squad.model.entity.Project
 import org.qudus.squad.data.data_source.task_data_source.remote.TaskDto
 import org.qudus.squad.data.data_source.task_data_source.remote.toTask
 import org.qudus.squad.data.data_source.task_data_source.remote.toTaskDto
+import org.qudus.squad.logic.utils.GenerateUUID
+import org.qudus.squad.model.entity.Project
 
 data class ProjectDto(
     val id: String = GenerateUUID().generate(),
     val title: String,
     val description: String,
-    val creatorUserId: String = GenerateUUID().generate(),
-    val createdAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
-    val lastUpdateAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+    val creatorUserId: String,
+    val createdAt: String,
+    val lastUpdateAt: String,
     val tasks: List<TaskDto> = emptyList()
 )
 
@@ -26,8 +23,8 @@ fun ProjectDto.toProject(): Project {
         title = this.title,
         description = this.description,
         creatorUserId = this.creatorUserId,
-        createdAt = this.createdAt,
-        lastUpdateAt = this.lastUpdateAt,
+        createdAt = LocalDateTime.parse(this.createdAt),
+        lastUpdateAt = LocalDateTime.parse(this.lastUpdateAt),
         tasks = this.tasks.map { it.toTask() }
     )
 }
@@ -38,8 +35,8 @@ fun Project.toProjectDto(): ProjectDto {
         title = this.title,
         description = this.description,
         creatorUserId = this.creatorUserId,
-        createdAt = this.createdAt,
-        lastUpdateAt = this.lastUpdateAt,
+        createdAt = this.createdAt.toString(),
+        lastUpdateAt = this.lastUpdateAt.toString(),
         tasks = this.tasks.map { it.toTaskDto() }
     )
 }

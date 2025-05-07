@@ -2,6 +2,7 @@ package org.qudus.squad.data.data_source.project_data_source.remote
 
 import com.mongodb.client.model.Filters
 import com.mongodb.kotlin.client.coroutine.MongoCollection
+import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
 import logic.exceptions.ExceptionsUtils.Companion.FAILED_CREATING_PROJECT
@@ -12,18 +13,18 @@ import org.qudus.squad.data.data_source.project_data_source.ProjectDataSource
 import org.qudus.squad.model.entity.Project
 
 class MongoProjectDataSource(
-    private val projectCollection: MongoCollection<ProjectDto>
+    private val mongoDatabase: MongoDatabase
 ) : ProjectDataSource {
 
     override suspend fun getAllProjects(): List<Project> {
-        projectCollection.find().toList().apply {
-            return this.map { it.toProject() }
+        return provideProjectCollection(mongoDatabase).find().toList().map { projectDto ->
+            projectDto.toProject()
         }
     }
 
     override suspend fun deleteProjectById(id: String): Boolean {
         return try {
-            val result = projectCollection.deleteOne(Filters.eq("id", id))
+            val result = provideProjectCollection(mongoDatabase).deleteOne(Filters.eq("id", id))
             result.deletedCount > 0
         } catch (e: Exception) {
             false
@@ -32,22 +33,27 @@ class MongoProjectDataSource(
 
     override suspend fun createNewProject(project: Project): Project {
         val projectDto = project.toProjectDto()
-        val result = projectCollection.insertOne(projectDto)
+        val result = provideProjectCollection(mongoDatabase).insertOne(projectDto)
         return result.insertedId?.let {
             project
         } ?: throw FailedCreatingProject(FAILED_CREATING_PROJECT)
     }
 
     override suspend fun getProjectById(id: String): Project {
-        val projectDto = projectCollection.find(Filters.eq("id", id)).firstOrNull()
-            ?: throw ProjectNotFoundException(PROJECT_NOT_FOUND)
+        val projectDto = provideProjectCollection(mongoDatabase).find(Filters.eq("id", id)).firstOrNull()
+            ?: throw ProjectNotFoundException(
+                PROJECT_NOT_FOUND
+            )
         return projectDto.toProject()
     }
 
     override suspend fun editProject(project: Project): Boolean {
         val projectDto = project.toProjectDto()
-        val result = projectCollection.replaceOne(Filters.eq("id", project.id), projectDto)
+        val result = provideProjectCollection(mongoDatabase).replaceOne(Filters.eq("id", project.id), projectDto)
         return result.modifiedCount > 0
     }
 
+    private fun provideProjectCollection(database: MongoDatabase): MongoCollection<ProjectDto> {
+        return database.getCollection<ProjectDto>("projects").withDocumentClass(ProjectDto::class.java)
+    }
 }
