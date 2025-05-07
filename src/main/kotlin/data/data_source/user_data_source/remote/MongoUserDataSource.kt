@@ -16,8 +16,11 @@ class MongoUserDataSource(
         return true
     }
 
-    override fun getUserById(userId: String): User {
-        TODO("Not yet implemented")
+    override suspend fun getUserById(userId: String): User {
+        isUserIdAlreadyExists(userId)
+        return userCollection.find(Filters.eq("userId", userId))
+            .firstOrNull()!!
+            .toUser()
     }
 
     override fun getAllUsers(): List<User> {
@@ -27,6 +30,11 @@ class MongoUserDataSource(
     private suspend fun isUserAlreadyExists(userName: String) {
         if (userCollection.find(Filters.eq("username", userName)).firstOrNull() != null){
             throw UserAlreadyExistsException()
+        }
+    }
+    private suspend fun isUserIdAlreadyExists(userId: String) {
+        if (userCollection.find(Filters.eq("userId", userId)).firstOrNull() == null) {
+            println("user with selected id does not exist")
         }
     }
 }
