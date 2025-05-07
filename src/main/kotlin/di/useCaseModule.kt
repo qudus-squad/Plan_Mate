@@ -12,8 +12,8 @@ import logic.use_cases.tasks.*
 import logic.use_cases.user.AddNewUserUseCase
 import org.koin.dsl.module
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
-import org.qudus.squad.logic.utils.DataHashing
-import org.qudus.squad.logic.utils.EncryptionByUsingMD5
+import org.qudus.squad.ui.utils.DataHashing
+import org.qudus.squad.ui.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase

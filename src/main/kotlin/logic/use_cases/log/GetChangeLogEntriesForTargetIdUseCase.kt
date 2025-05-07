@@ -1,7 +1,7 @@
 package logic.use_cases.log
 
 import org.qudus.squad.logic.repositories.LogRepository
-import org.qudus.squad.logic.utils.DateTimeFormatter
+import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.model.entity.LogEntry
 class GetChangeLogEntriesForTargetIdUseCase(private val logRepository: LogRepository) {
 

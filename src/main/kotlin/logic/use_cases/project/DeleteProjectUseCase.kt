@@ -1,7 +1,7 @@
 package logic.use_cases.project
 
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.utils.GenerateUUID
+import org.qudus.squad.ui.utils.GenerateUUID
 
 class DeleteProjectUseCase(
     private val projectRepository: ProjectRepository

@@ -11,7 +11,7 @@ import kotlinx.datetime.LocalTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.repositories.LogRepository
-import org.qudus.squad.logic.utils.DateTimeFormatter
+import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.entity.TargetType
 

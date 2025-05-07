@@ -7,7 +7,7 @@ import logic.exceptions.UserNotFoundException
 import org.qudus.squad.data.data_source.authntication_data_source.AuthenticationDataSource
 import org.qudus.squad.data.data_source.user_data_source.remote.UserDto
 import org.qudus.squad.data.data_source.user_data_source.remote.toUser
-import org.qudus.squad.logic.utils.DataHashing
+import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.model.entity.User
 
 class MongoAuthenticationDataSource(

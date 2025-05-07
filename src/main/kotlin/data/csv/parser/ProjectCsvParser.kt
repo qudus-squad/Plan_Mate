@@ -4,7 +4,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.qudus.squad.data.csv.CsvParser
-import org.qudus.squad.logic.utils.GenerateUUID
+import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState

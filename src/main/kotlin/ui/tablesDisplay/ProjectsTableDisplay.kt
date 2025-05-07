@@ -6,7 +6,7 @@ import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay.Utils.ID_WIDTH
 import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay.Utils.NAME_WIDTH
 import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay.Utils.TOTAL_WIDTH
 
-import org.qudus.squad.logic.utils.DateTimeFormatter
+import org.qudus.squad.ui.utils.DateTimeFormatter
 
 class ProjectsTableDisplay(
     private val dateFormater: DateTimeFormatter
