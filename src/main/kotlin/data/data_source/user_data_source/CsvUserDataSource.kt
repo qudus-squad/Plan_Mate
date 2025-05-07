@@ -30,7 +30,7 @@ class CsvUserDataSource(
         return true
     }
 
-    override fun getUserById(userId: String): User {
+    override  suspend fun getUserById(userId: String): User {
         return getAllUsers().firstOrNull { user -> isUserMatching(userId, user) }
             ?: throw UserNotFoundException()
 

@@ -11,7 +11,7 @@ class UserRepositoryImplementation(
         return userDataSource.addUser(user)
     }
 
-    override fun getUserById(userId: String): User {
+    override suspend fun getUserById(userId: String): User {
         return userDataSource.getUserById(userId)
     }
 

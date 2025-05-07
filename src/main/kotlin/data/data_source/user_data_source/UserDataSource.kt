@@ -4,6 +4,6 @@ import org.qudus.squad.model.entity.User
 
 interface UserDataSource {
     suspend fun addUser(user: User): Boolean
-    fun getUserById(userId: String): User
+    suspend fun getUserById(userId: String): User
     fun getAllUsers(): List<User>
 }
