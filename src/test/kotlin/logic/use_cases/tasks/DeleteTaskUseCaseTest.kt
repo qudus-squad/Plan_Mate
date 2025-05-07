@@ -1,6 +1,7 @@
 package logic.use_cases.tasks
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
@@ -35,7 +36,7 @@ class DeleteTaskUseCaseTest {
             // when
             deleteTaskUseCase.deleteTask(userName, taskId, taskTitle)
             // Then
-            verify(exactly = 1) { taskRepository.deleteTaskById(taskId) }
+            coVerify(exactly = 1) { taskRepository.deleteTaskById(taskId) }
         }
 
     }
