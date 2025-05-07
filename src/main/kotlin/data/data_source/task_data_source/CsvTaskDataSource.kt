@@ -15,7 +15,7 @@ class CsvTaskDataSource(
     private val writeInFileUseCase: WriteInFileUseCase
 ) : TaskDataSource {
 
-    override fun createNewTask(task: Task) {
+    override suspend fun createNewTask(task: Task) {
         val newTaskCsvRow = taskCsvParser.toCsvRow(task) + "\n"
         writeInFileUseCase.writeLineToFile(TASKS_FILE, newTaskCsvRow)
     }
@@ -43,7 +43,7 @@ class CsvTaskDataSource(
         writeInFileUseCase.writeLinesToFile(TASKS_FILE, taskCsvLines)
     }
 
-    override fun deleteTaskById(id: String) {
+    override suspend fun deleteTaskById(id: String) {
         val filteredTasks = getAllTasks().filter { it.id != id }
         val csvLines = filteredTasks.map { project -> taskCsvParser.toCsvRow(project) }
         writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
@@ -53,11 +53,11 @@ class CsvTaskDataSource(
         return getAllTasks().filter { it.projectId == id }
     }
 
-    override fun getTaskById(id: String): Task? {
+    override suspend fun getTaskById(id: String): Task? {
         return getAllTasks().firstOrNull { it.id == id }
     }
 
-    override fun assignTaskToUser(taskId: String, userId: String): Boolean {
+    override suspend fun assignTaskToUser(taskId: String, userId: String): Boolean {
         return try {
             val updatedTaskList = getAllTasks().map { task ->
                 if (task.id == taskId) {

@@ -10,7 +10,7 @@ import java.time.format.DateTimeParseException
 class AssignTaskToUserUI(
     private val assignTaskToUserUseCase: AssignTaskToUserUseCase
 ) {
-    fun assignTaskToUser(task: Task, user: User) {
+    suspend fun assignTaskToUser(task: Task, user: User) {
         try {
             if (assignTaskToUserUseCase.assignTaskToUser(user.userId, task.id)) {
                 print(TASK_ASSIGNED_SUCCESSFULLY)

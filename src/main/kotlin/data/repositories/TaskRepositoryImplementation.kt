@@ -8,7 +8,7 @@ import org.qudus.squad.model.entity.Task
 class TaskRepositoryImplementation(
     private val taskDataSource: TaskDataSource,
 ) : TaskRepository {
-    override fun createNewTask(task: Task) {
+    override suspend fun createNewTask(task: Task) {
         taskDataSource.createNewTask(task)
     }
 
@@ -20,7 +20,7 @@ class TaskRepositoryImplementation(
         return taskDataSource.getAllTasksByProjectId(id)
     }
 
-    override fun getTaskById(id: String): Task? {
+    override suspend fun getTaskById(id: String): Task? {
         return taskDataSource.getTaskById(id)
     }
 
@@ -28,11 +28,11 @@ class TaskRepositoryImplementation(
         taskDataSource.switchTaskState(taskId, newTaskState)
     }
 
-    override fun deleteTaskById(id: String) {
+    override suspend fun deleteTaskById(id: String) {
         taskDataSource.deleteTaskById(id)
     }
 
-    override fun assignTaskToUser(taskId: String, userId: String): Boolean {
+    override suspend fun assignTaskToUser(taskId: String, userId: String): Boolean {
         return taskDataSource.assignTaskToUser(taskId, userId)
     }
 
