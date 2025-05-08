@@ -10,6 +10,6 @@ interface TaskDataSource {
     suspend fun deleteTaskById(id: String)
     suspend fun getAllTasksByProjectId(id: String): List<Task>
     suspend fun getTaskById(id: String): Task?
-      suspend fun assignTaskToUser(taskId: String, userId: String): Boolean
-     fun unAssignTask(taskId: String)
+    suspend fun assignTaskToUser(taskId: String, userId: String): Boolean
+    suspend fun unAssignTask(taskId: String)
 }

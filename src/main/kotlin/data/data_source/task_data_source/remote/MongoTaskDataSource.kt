@@ -28,8 +28,8 @@ class MongoTaskDataSource(
     }
 
     override suspend fun deleteTaskById(id: String) {
-        val filteredId: Bson = eq(TaskDto.TASK_ID, id)
-        getTaskCollection().deleteOne(filteredId)
+        val taskById: Bson = eq(TaskDto.TASK_ID, id)
+        getTaskCollection().deleteOne(taskById)
     }
 
     override suspend fun getAllTasksByProjectId(id: String): List<Task> {
@@ -37,8 +37,8 @@ class MongoTaskDataSource(
     }
 
     override suspend fun getTaskById(id: String): Task? {
-        val filteredId: Bson = eq(TaskDto.TASK_ID, id)
-        val taskDto = getTaskCollection().find(filteredId).firstOrNull()
+        val taskById: Bson = eq(TaskDto.TASK_ID, id)
+        val taskDto = getTaskCollection().find(taskById).firstOrNull()
         return taskDto?.toTask()
     }
 
@@ -48,8 +48,9 @@ class MongoTaskDataSource(
         return result.modifiedCount == 1L
     }
 
-    override fun unAssignTask(taskId: String) {
-        TODO("Not yet implemented")
+    override suspend fun unAssignTask(taskId: String) {
+        val taskById : Bson = eq(TaskDto.TASK_ID,taskId)
+        getTaskCollection().updateOne(taskById, Updates.set(TaskDto.TASK_ASSIGNED_USER_ID,""))
     }
 
     private fun getTaskCollection(): MongoCollection<TaskDto> {
