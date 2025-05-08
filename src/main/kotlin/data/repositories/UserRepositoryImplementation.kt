@@ -18,4 +18,7 @@ class UserRepositoryImplementation(
     override suspend fun getAllUsers(): List<User> {
         return userDataSource.getAllUsers()
     }
+    override suspend fun deleteUser(userId: String) {
+        return userDataSource.deleteUser(userId)
+    }
 }

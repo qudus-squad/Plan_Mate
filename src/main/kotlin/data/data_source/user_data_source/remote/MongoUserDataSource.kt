@@ -31,6 +31,10 @@ class MongoUserDataSource(
         }
     }
 
+    override suspend fun deleteUser(userId: String) {
+        TODO("Not yet implemented")
+    }
+
     private suspend fun isUserAlreadyExists(userName: String) {
         if (mongoDatabase.getCollection<UserDto>("users").find(Filters.eq("username", userName))
                 .firstOrNull() != null

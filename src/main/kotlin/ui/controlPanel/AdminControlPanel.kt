@@ -11,6 +11,7 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
+import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.TaskState
@@ -184,17 +185,15 @@ class AdminControlPanel(private val user: User) {
         )
     }
 
-    private fun deleteUser() {
+    private suspend fun deleteUser() {
         val repository: UserRepository = getKoin().get()
-        // val deleteUser = DeleteUserUseCase(repository)
+        val validation : UserDataValidationUseCase = getKoin().get()
+        val log : LogRepository = getKoin().get()
+         val deleteUser = DeleteUserUseCase(repository,log,validation)
         println("ENTER USER ID : ")
         val idSelected = readlnOrNull()?.trim() ?: ""
-        // if (idSelected in all users )
-        // deleteUser.deleteUser(idSelected)
+        deleteUser.deleteUser(user,idSelected)
         println("USER WITH : '$idSelected' ID DELETED")
-        // else{
-        idNotFound()
-        return
     }
 
     ///////////////////////////// RECENT LOGS ////////////////////////////// ( 0 - > 3 )
@@ -216,15 +215,15 @@ class AdminControlPanel(private val user: User) {
         println("┌───────────────────────────┐")
         println("│         MANAGE USERS      │")
         println("│───────────────────────────│")
-        println("│1- EDIT USER BY NAME OR ID │")
+        println("│1- EDIT USER BY  ID        │")
         println("│2- DELETE USER             │")
         println("│3- CREATE NEW USER         │")
         println("│0- RETURN                  │")
         println("└───────────────────────────┘")
         when (readlnOrNull()?.trim()) {
-            "1" -> viewProjectById()
-            "2" -> deleteProject()
-            "3" -> createNewProject()
+            //"1" -> editUser()
+            "2" -> deleteUser()
+            "3" -> createNewUser()
             "0" -> return
         }
     }

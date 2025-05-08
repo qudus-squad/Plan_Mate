@@ -8,7 +8,6 @@ class ProjectsTableDisplay(
     private val dateFormater: DateTimeFormatter
 ) {
 
-
     fun displayProjectsTable(projects: List<Project>) {
         val idColumnWith = 36
         val nameColumnWidth = 20
