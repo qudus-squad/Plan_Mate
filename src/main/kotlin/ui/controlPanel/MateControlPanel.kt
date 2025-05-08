@@ -11,27 +11,27 @@ import org.qudus.squad.ui.tablesDisplay.LogsTableDisplay
 import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay
 import org.qudus.squad.ui.utils.DateTimeFormatter
 
-class MateControlPanel (private val user : User){
+class MateControlPanel(private val user: User,
+    private val taskMaintenance: TaskMaintenance ) {
 
     suspend fun mateStory() {
         if (user.role != UserRole.MATE) {
             return
-        } else
-            while (true) {
-                println("ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ   PLAN MATE  ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ")
-                println("┌───────────────────────────────────────────┐")
-                println("│               WELCOME USERNAME            │")
-                println("│───────────────────────────────────────────│")
-                println("│              1- ALL PROJECTS              │")
-                println("│              2- RECENT LOGS               │")
-                println("│              0- LOG OUT                   │")
-                println("└───────────────────────────────────────────┘")
-                when (readlnOrNull()?.trim()) {
-                    "1" -> getAllProjects()
-                    "2" -> getAllLogs()
-                    "0" -> return
-                }
+        } else while (true) {
+            println("ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ   PLAN MATE  ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ")
+            println("┌───────────────────────────────────────────┐")
+            println("│               WELCOME USERNAME            │")
+            println("│───────────────────────────────────────────│")
+            println("│              1- ALL PROJECTS              │")
+            println("│              2- RECENT LOGS               │")
+            println("│              0- LOG OUT                   │")
+            println("└───────────────────────────────────────────┘")
+            when (readlnOrNull()?.trim()) {
+                "1" -> getAllProjects()
+                "2" -> getAllLogs()
+                "0" -> return
             }
+        }
     }
 
     ///////////////////////////// MANAGE PROJECTS ////////////////////////////// ( 0 - > 1 )
@@ -45,7 +45,7 @@ class MateControlPanel (private val user : User){
             display.displayProjectsTable(allProjects)
             manageProjectPanel()
         } else //targetNotFound("PROJECT")
-        return
+            return
     }
     ///////////////////////////// RECENT LOGS ////////////////////////////// ( 0 - > 2 )
 
@@ -57,27 +57,27 @@ class MateControlPanel (private val user : User){
         if (recentLogs.isNotEmpty()) {
             display.displayLogsDetails(recentLogs)
         } else //targetNotFound("LOG")
-        return
+            return
     }
 
     ///////////////////////////// CONTROL PANELS //////////////////////////////
 
-    private fun  manageProjectPanel() {//after displaying one project
-    println("┌─────────────────────────────────────────┐")
-    println("│1- CREATE NEW TASK  │ 4- DELETE TASK     │")
-    println("│2- EDIT TASK NAME   │ 5- ASSIGN TO TASK  │")
-    println("│3- EDIT TASK        │ 6- SWITCH TASK     │")
-    println("│    DESCRIPTION     │  TO ANOTHER STATE  │")
-    println("│                0- RETURN                │")
-    println("└─────────────────────────────────────────┘")
-       /* when (readlnOrNull()?.trim()) {
-            "1" -> createNewTask()
-            "2" -> editTask()
-            "3" -> editTask()
-            "4" -> deleteTaskById()
-            "5" -> assignTask()
-            "6" -> switchTaskState()
+    private suspend fun manageProjectPanel() {//after displaying one project
+        println("┌─────────────────────────────────────────┐")
+        println("│1- CREATE NEW TASK  │ 4- DELETE TASK     │")
+        println("│2- EDIT TASK NAME   │ 5- ASSIGN TO TASK  │")
+        println("│3- EDIT TASK        │ 6- SWITCH TASK     │")
+        println("│    DESCRIPTION     │  TO ANOTHER STATE  │")
+        println("│                0- RETURN                │")
+        println("└─────────────────────────────────────────┘")
+        when (readlnOrNull()?.trim()) {
+            "1" -> taskMaintenance.createNewTask()
+            "2" -> taskMaintenance.editTaskNameUsingId()
+            "3" -> taskMaintenance.editTaskDescription()
+            "4" -> taskMaintenance.deleteTaskById()
+            "5" -> taskMaintenance.assignTask()
+            "6" -> taskMaintenance.switchTaskState()
             "0" -> return
-        }*/
-}
+        }
+    }
 }
