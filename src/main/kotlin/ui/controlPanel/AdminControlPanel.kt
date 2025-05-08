@@ -215,7 +215,7 @@ class AdminControlPanel(private val user: User) {
         println("┌───────────────────────────┐")
         println("│         MANAGE USERS      │")
         println("│───────────────────────────│")
-        println("│1- EDIT USER BY  ID        │")
+        println("│1- DELETE USER BY  ID      │")
         println("│2- DELETE USER             │")
         println("│3- CREATE NEW USER         │")
         println("│0- RETURN                  │")
