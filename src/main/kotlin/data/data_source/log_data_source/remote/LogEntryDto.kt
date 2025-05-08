@@ -24,6 +24,7 @@ fun LogEntry.toLogEntryDto(): LogEntryDto {
         targetType = when (this.targetType) {
             TargetType.TASK -> "TASK"
             TargetType.PROJECT -> "PROJECT"
+            TargetType.USER-> "USER"
         },
         action = this.action,
         oldValue = this.oldValue,

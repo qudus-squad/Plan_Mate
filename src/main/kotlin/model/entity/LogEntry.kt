@@ -15,5 +15,5 @@ data class LogEntry(
 )
 
 enum class TargetType {
-    PROJECT, TASK
+    PROJECT, TASK , USER
 }

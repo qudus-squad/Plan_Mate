@@ -1,17 +1,20 @@
 package org.qudus.squad.data.data_source.user_data_source
 
+import logic.exceptions.UserAlreadyExistsException
+import logic.exceptions.UserNotFoundException
 import okio.FileSystem
 import okio.Path.Companion.toPath
 import okio.buffer
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.UserCsvParser
-import logic.exceptions.UserAlreadyExistsException
-import logic.exceptions.UserNotFoundException
+import org.qudus.squad.data.data_source.WriteInFileUseCase
 import org.qudus.squad.model.entity.User
 
 class CsvUserDataSource(
     private val csvReader: CsvReader,
-    private val userCsvParser: UserCsvParser
+    private val userCsvParser: UserCsvParser,
+    private val writeInFileUseCase: WriteInFileUseCase
+
 ) : UserDataSource {
     override suspend fun addUser(user: User): Boolean {
         val storedUsers = csvReader.read(USERS_FILE)
@@ -43,12 +46,16 @@ class CsvUserDataSource(
         }
     }
 
+    override suspend fun deleteUser(userId: String) {
+        val filteredTasks = getAllUsers().filter { it.userId != userId }
+        val csvLines = filteredTasks.map { project -> userCsvParser.toCsvRow(project) }
+        writeInFileUseCase.writeLinesToFile(USERS_FILE, csvLines)
+    }
     private fun isUserMatching(userId: String, user: User) = user.userId == userId
 
     companion object {
         const val USERS_FILE = "users.csv"
     }
-
 }
 
 
