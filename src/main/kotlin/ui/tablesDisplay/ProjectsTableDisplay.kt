@@ -1,75 +1,48 @@
 package org.qudus.squad.ui.tablesDisplay
 
 import org.qudus.squad.model.entity.Project
-import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay.Utils.DATE_WIDTH
-import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay.Utils.ID_WIDTH
-import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay.Utils.NAME_WIDTH
-import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay.Utils.TOTAL_WIDTH
-
 import org.qudus.squad.ui.utils.DateTimeFormatter
+import org.qudus.squad.ui.utils.StringAlignment.center
 
 class ProjectsTableDisplay(
     private val dateFormater: DateTimeFormatter
 ) {
+
+
     fun displayProjectsTable(projects: List<Project>) {
+        val idColumnWith = 36
+        val nameColumnWidth = 20
+        val dateColumnWidth = 20
+        val bordersWidth = 2
+        val totalWidth = idColumnWith + nameColumnWidth + dateColumnWidth + bordersWidth
+        val topHeaderWidth = totalWidth / 2 - 7
 
-        println(
-            "Ξ"
-                .repeat(TOTAL_WIDTH - 10) + "   PLAN MATE   " + "Ξ"
-                .repeat(TOTAL_WIDTH - 10)
-        )
-        println(
-            "┌" + "─"
-                .repeat(TOTAL_WIDTH - 2) + "┐"
-        )
-        println(
-            "│" + "FIND PROJECT".padStart((TOTAL_WIDTH - 2 + "FIND PROJECT".length) / 2)
-                .padEnd(TOTAL_WIDTH - 2) + "│"
-        )
+        println("Ξ".repeat(topHeaderWidth)
+                + "   PLAN MATE   "
+                + "Ξ".repeat(topHeaderWidth))
+        println("┌${"─".repeat(totalWidth)}┐")
+        println("│${"FIND PROJECT".center(totalWidth)}│")
+        println("│${"─".repeat(totalWidth)}│")
+        println("│${"ID".center(idColumnWith )}" +
+                "│${"NAME".center(nameColumnWidth )}" +
+                "│${"DATE CREATED".center(dateColumnWidth )}│")
+        println("│${"─".repeat(totalWidth)}│")
 
-        println(
-            "│" + "─"
-                .repeat(TOTAL_WIDTH - 2) + "│"
-        )
-        println(
-            "│" + "ID"
-                .padEnd(ID_WIDTH) + "│" + "NAME"
-                .padEnd(NAME_WIDTH) + "│" + "DATE CREATED"
-                .padEnd(19) + "│"
-        )
         projects.forEach { project ->
             val formatedDate = dateFormater.formatDateTimeForDisplay(project.createdAt)
-            println(
-                "│" + project.id
-                    .padEnd(ID_WIDTH) + "│" + project.title
-                    .take(NAME_WIDTH - 3)
-                    .padEnd(NAME_WIDTH) + "│" + formatedDate
-                    .padEnd(DATE_WIDTH) + "│"
-            )
-        }
-        println(
-            "└" + "─"
-                .repeat(TOTAL_WIDTH - 2) + "┘"
-        )
-        println(
-            "┌" + "─"
-                .repeat(TOTAL_WIDTH - 2) + "┐"
-        )
-        println(
-            "│" + "ENTER PROJECT NAME OR ID TO OPEN PROJECT"
-                .padStart((TOTAL_WIDTH - 2 + "ENTER PROJECT NAME OR ID TO OPEN PROJECT".length) / 2)
-                .padEnd(TOTAL_WIDTH - 2) + "│"
-        )
-        println(
-            "└" + "─"
-                .repeat(TOTAL_WIDTH - 2) + "┘"
-        )
-    }
-
-    object Utils {
-        const val ID_WIDTH = 12
-        const val NAME_WIDTH = 18
-        const val DATE_WIDTH = 15
-        const val TOTAL_WIDTH = ID_WIDTH + NAME_WIDTH + DATE_WIDTH + 8
+            println("│${project.id.center(idColumnWith )}" +
+                    "│${project.title.center(nameColumnWidth )}" +
+                    "│${formatedDate.center(dateColumnWidth )}│") }
+        println("└${"─".repeat(totalWidth)}┘")
     }
 }
+    fun main ( ) {
+
+        val projects: List<Project> = listOf(
+            Project(title = "project 1", description = " /// "),
+            Project(title = "project 2", description = " ///"),
+            Project(title = "project 3", description = " ///"),
+            Project(title = "project 4", description = " /// ")
+        )
+        ProjectsTableDisplay(dateFormater = DateTimeFormatter).displayProjectsTable(projects)
+    }

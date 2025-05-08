@@ -15,7 +15,7 @@ class CreateNewTaskUseCase(
     suspend fun createNewTask(userName: String, task: Task){
         if (taskDataValidator.validateTaskValues(task)){
             taskRepository.createNewTask(task)
-            logRepository.addNewLog(LogEntry(userName, task.id, TargetType.TASK, "add new task"))
+            logRepository.addNewLog(LogEntry(userName, task.id, TargetType.TASK, "add new task ${task.title}"))
         }
     }
 }

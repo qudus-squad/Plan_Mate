@@ -45,7 +45,6 @@ val useCaseModule = module {
 
     single { GetAllTasksByProjectIdUseCase(get()) }
 
-    single { GetTasksByStateUseCase(get()) }
 
     single { CreateNewTaskUseCase(get(),get(),get()) }
 

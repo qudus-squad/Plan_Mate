@@ -2,7 +2,6 @@ package logic.use_cases.user
 
 import io.kotest.matchers.collections.shouldContainExactly
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -33,7 +32,7 @@ class GetAllUsersUseCaseTest {
         coEvery { userRepository.getAllUsers() } returns usersList
 
         //when
-        val result = getAllUsersUseCase.getAllUSers()
+        val result = getAllUsersUseCase.getAllUsers()
 
         // Then
         result.map { it.username }.shouldContainExactly(
@@ -50,7 +49,7 @@ class GetAllUsersUseCaseTest {
         coEvery { userRepository.getAllUsers() } returns usersList
 
         //when
-        val result = getAllUsersUseCase.getAllUSers()
+        val result = getAllUsersUseCase.getAllUsers()
 
         // Then
         result.map { it.username }.shouldContainExactly()

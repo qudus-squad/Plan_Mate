@@ -55,7 +55,7 @@ class GetAllLogsUseCaseTest {
             coEvery { logRepository.getAllLogs() } returns logs
 
             // When
-            val result = getAllLogsUseCase.getAllLogsUseCase()
+            val result = getAllLogsUseCase.getAllLogs()
 
             // Then
             result.shouldContainExactly(logs)
@@ -69,7 +69,7 @@ class GetAllLogsUseCaseTest {
             coEvery { logRepository.getAllLogs() } returns emptyList()
 
             // When
-            val result = getAllLogsUseCase.getAllLogsUseCase()
+            val result = getAllLogsUseCase.getAllLogs()
 
             // Then
             result shouldBe emptyList()

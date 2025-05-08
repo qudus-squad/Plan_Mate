@@ -18,7 +18,6 @@ class InvalidPasswordException(message: String) : InvalidUserDataException(messa
 class UserNotFoundException(message: String = USER_NOT_FOUND) : Exception(message)
 class AccessDeniedException(message: String) : Exception(message)
 class UserAlreadyExistsException(message: String = USER_ALREADY_EXIST) : Exception(message)
-class UnknownException(message: String) : Exception(message)
 open class InvalidProjectData(message: String) : Exception(message)
 class InvalidProjectTitleException(message: String) : InvalidProjectData(message)
 class InvalidProjectDescriptionException(message: String) : InvalidProjectData(message)
