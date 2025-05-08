@@ -44,13 +44,13 @@ class OneProjectTableDisplay() {
 fun main() {
 
     val tasks = listOf(
-        Task(title = "Design DB", description = "Design database schema", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-        Task(title = "Create UI", description = "Design user interface", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-        Task(title = "Implement API", description = "Create REST endpoints", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-        Task(title = "Write tests", description = "Unit tests for services", projectId = "1", taskState = TaskState(name = "DONE")),
-        Task(title = "Deploy", description = "Deploy to production", projectId = "1",taskState = TaskState(name = "DONE")),
-        Task(title = "Document", description = "Write documentation", projectId = "1", taskState = TaskState(name = "TODO")),
-        Task(title = "Review", description = "Code review", projectId = "1",taskState = TaskState(name = "TODO"))
+        Task(title = "Design ", description = "", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
+        Task(title = "Create ", description = "", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
+        Task(title = "Implement ", description = "", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
+        Task(title = "tests", description = "", projectId = "1", taskState = TaskState(name = "DONE")),
+        Task(title = "apply", description = "", projectId = "1",taskState = TaskState(name = "DONE")),
+        Task(title = "save", description = "", projectId = "1", taskState = TaskState(name = "TODO")),
+        Task(title = "Review", description = "", projectId = "1",taskState = TaskState(name = "TODO"))
     )
     val state = listOf(
         TaskState(name = "TODO"),TaskState(name = "DONE" ),TaskState(name = "IN PROGRESS"),TaskState(name = "DNE" )
