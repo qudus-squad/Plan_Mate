@@ -12,5 +12,5 @@ interface TaskRepository {
     suspend fun getAllTasksByProjectId(id: String): List<Task>
     suspend fun getTaskById(id:String = GenerateUUID().generate()): Task?
     suspend fun assignTaskToUser(taskId:String, userId: String): Boolean
-    fun unAssignTask(taskId: String)
+    suspend fun unAssignTask(taskId: String)
 }

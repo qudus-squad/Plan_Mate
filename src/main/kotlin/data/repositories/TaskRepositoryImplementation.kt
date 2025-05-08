@@ -36,7 +36,7 @@ class TaskRepositoryImplementation(
         return taskDataSource.assignTaskToUser(taskId, userId)
     }
 
-    override fun unAssignTask(taskId: String) {
+    override suspend fun unAssignTask(taskId: String) {
         taskDataSource.unAssignTask(taskId)
     }
 }
