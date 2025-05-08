@@ -35,7 +35,7 @@ class DeleteProjectUseCaseTest {
     @Test
     fun `should return true when remove project by ID and the project deleted successfully`() = runTest {
         // When
-        val result = deleteProjectUseCase.deleteProjectUseCase(projectId)
+        val result = deleteProjectUseCase.deleteProject(projectId)
 
         // Then
         result.shouldBeTrue()
@@ -55,7 +55,7 @@ class DeleteProjectUseCaseTest {
         fakeProjectRepository.createNewProject(otherProject)
 
         // When
-        val result = deleteProjectUseCase.deleteProjectUseCase(projectId)
+        val result = deleteProjectUseCase.deleteProject(projectId)
 
         // Then
         result.shouldBeTrue()
@@ -69,7 +69,7 @@ class DeleteProjectUseCaseTest {
         val nonExistentProjectId = "P999"
 
         // When
-        val result = deleteProjectUseCase.deleteProjectUseCase(nonExistentProjectId)
+        val result = deleteProjectUseCase.deleteProject(nonExistentProjectId)
 
         // Then
         result.shouldBeFalse()

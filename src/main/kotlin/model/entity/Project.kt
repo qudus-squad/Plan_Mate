@@ -14,4 +14,5 @@ data class Project(
     val createdAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
     val lastUpdateAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
     val tasks: List<Task> = emptyList(),
+    val taskState : List<TaskState> = emptyList(),
 )

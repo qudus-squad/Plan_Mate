@@ -8,4 +8,5 @@ object ProjectCsvColumnIndex {
     const val CREATED_AT = 4
     const val LAST_UPDATED_AT = 5
     const val TASKS  = 6
+    const val TASK_STATES  = 7
 }

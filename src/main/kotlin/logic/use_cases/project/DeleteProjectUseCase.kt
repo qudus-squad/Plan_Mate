@@ -6,7 +6,7 @@ import org.qudus.squad.ui.utils.GenerateUUID
 class DeleteProjectUseCase(
     private val projectRepository: ProjectRepository
 ) {
-    suspend fun deleteProjectUseCase(id:String = GenerateUUID().generate()): Boolean {
+    suspend fun deleteProject(id:String = GenerateUUID().generate()): Boolean {
         return projectRepository.deleteProjectById(id)
     }
 }

@@ -6,7 +6,7 @@ import org.qudus.squad.model.entity.User
 class GetAllUsersUseCase(
     private val userRepository: UserRepository
 ) {
-    suspend fun getAllUSers(): List<User> {
+    suspend fun getAllUsers(): List<User> {
         return userRepository.getAllUsers()
     }
 }

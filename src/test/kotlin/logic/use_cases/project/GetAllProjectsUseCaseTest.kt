@@ -34,7 +34,7 @@ class GetAllProjectsUseCaseTest {
     @Test
     fun `getAllProjects should return empty list when no projects exist`() = runTest {
         // When
-        val projects = getAllProjectsUseCase.getAllProjectsUseCase()
+        val projects = getAllProjectsUseCase.getAllProjects()
 
         // Then
         projects.shouldBeEmpty()
@@ -47,7 +47,7 @@ class GetAllProjectsUseCaseTest {
         val project2 = createNewProjectUseCase.createProject(adminUser, "Project B", "test project B")
 
         // When
-        val projects = getAllProjectsUseCase.getAllProjectsUseCase()
+        val projects = getAllProjectsUseCase.getAllProjects()
 
         // Then
         projects.map { project -> project.id } shouldContainExactly listOf(project1.id, project2.id)

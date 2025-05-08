@@ -4,8 +4,7 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.model.entity.LogEntry
 
 class GetAllLogsUseCase(private val logRepository: LogRepository) {
-    suspend fun getAllLogsUseCase(): List<LogEntry>{
-        println("sdfsdf")
+    suspend fun getAllLogs(): List<LogEntry>{
         return logRepository.getAllLogs()
     }
 }
