@@ -25,8 +25,10 @@ import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 
-class AdminControlPanel(
-    private val user: User, val taskMaintenance: TaskMaintenance
+class AdminControlPanel (
+
+    private val user: User,
+    private val taskManagement: TaskManagement
 ) {
 
     suspend fun adminStory() {
@@ -35,7 +37,7 @@ class AdminControlPanel(
         } else while (true) {
             println("ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ   PLAN MATE  ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ")
             println("┌───────────────────────────────────────────┐")
-            println("           WELCOME   ${user.username}        ")
+            println("           WELCOME '${user.username}'        ")
             println("│───────────────────────────────────────────│")
             println("│              1- MANAGE PROJECTS           │")
             println("│              2- MANAGE USERS              │")
@@ -83,32 +85,33 @@ class AdminControlPanel(
     }
 
     private suspend fun viewProjectById() {
-        val display = OneProjectTableDisplay()
         val repository: ProjectRepository = getKoin().get()
+
+        val getAllProjects = GetAllProjectsUseCase(repository)
+        val lisOfProjectsId =  getAllProjects.getAllProjects().map { it.id }
+        val display = OneProjectTableDisplay()
         val getProjectById = GetProjectByIdUseCase(repository)
         println("ENTER PROJECT ID : ")
         val idSelected = readlnOrNull()?.trim() ?: ""
-        // if (idSelected in allProjects )
-        val selectedProject = getProjectById.getProjectById(idSelected)
-        display.displayProjectDetail(selectedProject)
-        manageOneProjectPanel()
-        // else{
-        idNotFound()
-        return
+        if (idSelected in lisOfProjectsId){
+        display.main()
+        manageOneProjectPanel()}
+       else idNotFound()
     }
 
     private suspend fun deleteProject() {
         val repository: ProjectRepository = getKoin().get()
+
+        val getAllProjects = GetAllProjectsUseCase(repository)
+        val lisOfProjectsId =  getAllProjects.getAllProjects().map { it.id }
         val logeRepository: LogRepository = getKoin().get()
         val deleteProject = DeleteProjectUseCase(repository, logeRepository)
         println("ENTER PROJECT ID : ")
         val idSelected = readlnOrNull()?.trim() ?: ""
-        // if (idSelected in allProjects )
+        if (idSelected in lisOfProjectsId){
         deleteProject.deleteProject(user, idSelected)
-        println("PROJECT WITH : '$idSelected' ID DELETED")
-        // else{
-        idNotFound()
-        return
+        println("PROJECT WITH : '$idSelected' ID DELETED")}
+         else idNotFound()
     }
 
     suspend fun createNewProject() {
@@ -128,7 +131,7 @@ class AdminControlPanel(
             user = user,
             title = titleSelected,
             description = descriptionSelected,
-            //  tasks =tasksSelected ,
+            //tasks =listOfTasksSelected ,
         )
     }
 
@@ -189,9 +192,6 @@ class AdminControlPanel(
     }
 
     private suspend fun deleteUser() {
-        val repository: UserRepository = getKoin().get()
-        val validation: UserDataValidationUseCase = getKoin().get()
-        val log: LogRepository = getKoin().get()
         val deleteUserUseCase: DeleteUserUseCase = getKoin().get()
         println("ENTER USER ID : ")
         val idSelected = readlnOrNull()?.trim() ?: ""
@@ -218,8 +218,8 @@ class AdminControlPanel(
         println("┌───────────────────────────┐")
         println("│         MANAGE USERS      │")
         println("│───────────────────────────│")
-        println("│1- DELETE USER BY  ID      │")
-        println("│2- DELETE USER             │")
+        println("│1- EDIT USER BY ID         │")
+        println("│2- DELETE USER BY ID       │")
         println("│3- CREATE NEW USER         │")
         println("│0- RETURN                  │")
         println("└───────────────────────────┘")
@@ -263,17 +263,13 @@ class AdminControlPanel(
         println("│                0- RETURN                  │")
         println("└───────────────────────────────────────────┘")
         when (readlnOrNull()?.trim()) {
-            // "1" -> editProject()
-            // "2" -> editproject()
-            "3" -> taskMaintenance.createNewTask()
-            "4" -> taskMaintenance.deleteTaskById()
-            "5" -> taskMaintenance.editTaskNameUsingId()
-            "6" -> taskMaintenance.editTaskDescriptionUsingId()
-            "7" -> taskMaintenance.assignTask()
-            //    "8" -> createNewState()
-            //   "9" -> deleteState()
-            //  "10"-> editState()
-            "11" -> taskMaintenance.switchTaskState()
+
+            "3" -> taskManagement.createNewTask()
+            "4" -> taskManagement.deleteTaskById()
+            "5" -> taskManagement.editTaskNameUsingId()
+            "6" -> taskManagement.editTaskDescriptionUsingId()
+            "7" -> taskManagement.assignTask()
+            "11" -> taskManagement.switchTaskState()
             "0" -> return
             else -> println("INVALID OPTION")
         }
@@ -289,9 +285,6 @@ class AdminControlPanel(
     private fun idNotFound() {
         println("┌───────────────────────────────┐")
         println("│      INVALID ID TRY AGAIN     │")
-        println("│               OR              │")
-        println("│       ENTER 0 TO RETURN       │")
         println("└───────────────────────────────┘")
-        //when(readlnOrNull()?.trim())
     }
 }

@@ -13,7 +13,7 @@ import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
 
-class TaskMaintenance(
+class TaskManagement(
     private val tasksRepository: TaskRepository, private val user: User,
 ) {
     suspend fun createNewTask() {

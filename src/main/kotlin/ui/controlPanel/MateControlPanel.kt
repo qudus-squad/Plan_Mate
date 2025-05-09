@@ -10,9 +10,10 @@ import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.ui.tablesDisplay.LogsTableDisplay
 import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay
 import org.qudus.squad.ui.utils.DateTimeFormatter
+import org.qudus.squad.ui.utils.StringAlignment.center
 
 class MateControlPanel(private val user: User,
-    private val taskMaintenance: TaskMaintenance ) {
+    private val taskManagement: TaskManagement ) {
 
     suspend fun mateStory() {
         if (user.role != UserRole.MATE) {
@@ -20,7 +21,7 @@ class MateControlPanel(private val user: User,
         } else while (true) {
             println("ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ   PLAN MATE  ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ")
             println("┌───────────────────────────────────────────┐")
-            println("│               WELCOME USERNAME            │")
+            println("              WELCOME '${user.username}'       ")
             println("│───────────────────────────────────────────│")
             println("│              1- ALL PROJECTS              │")
             println("│              2- RECENT LOGS               │")
@@ -44,8 +45,7 @@ class MateControlPanel(private val user: User,
         if (allProjects.isNotEmpty()) {
             display.displayProjectsTable(allProjects)
             manageProjectPanel()
-        } else //targetNotFound("PROJECT")
-            return
+        } else targetNotFound("PROJECT")
     }
     ///////////////////////////// RECENT LOGS ////////////////////////////// ( 0 - > 2 )
 
@@ -56,8 +56,7 @@ class MateControlPanel(private val user: User,
         val recentLogs = getAllLogs.getAllLogs()
         if (recentLogs.isNotEmpty()) {
             display.displayLogsDetails(recentLogs)
-        } else //targetNotFound("LOG")
-            return
+        } else targetNotFound("LOG")
     }
 
     ///////////////////////////// CONTROL PANELS //////////////////////////////
@@ -71,13 +70,22 @@ class MateControlPanel(private val user: User,
         println("│                0- RETURN                │")
         println("└─────────────────────────────────────────┘")
         when (readlnOrNull()?.trim()) {
-            "1" -> taskMaintenance.createNewTask()
-            "2" -> taskMaintenance.editTaskNameUsingId()
-            "3" -> taskMaintenance.editTaskDescriptionUsingId()
-            "4" -> taskMaintenance.deleteTaskById()
-            "5" -> taskMaintenance.assignTask()
-            "6" -> taskMaintenance.switchTaskState()
+            "1" -> taskManagement.createNewTask()
+            "2" -> taskManagement.editTaskNameUsingId()
+            "3" -> taskManagement.editTaskDescriptionUsingId()
+            "4" -> taskManagement.deleteTaskById()
+            "5" -> taskManagement.assignTask()
+            "6" -> taskManagement.switchTaskState()
             "0" -> return
         }
+
+    }
+
+    ///////////////////////////// ERRORS ////////////////////////////// ( 0 - > 3 )
+
+    private fun targetNotFound(targetType: String) {
+        println("┌${"─".repeat(30)}┐")
+        println("│${"NO $targetType FOUND".center(30)}│")
+        println("└${"─".repeat(30)}┘")
     }
 }
