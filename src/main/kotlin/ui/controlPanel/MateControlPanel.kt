@@ -73,7 +73,7 @@ class MateControlPanel(private val user: User,
         when (readlnOrNull()?.trim()) {
             "1" -> taskMaintenance.createNewTask()
             "2" -> taskMaintenance.editTaskNameUsingId()
-            "3" -> taskMaintenance.editTaskDescription()
+            "3" -> taskMaintenance.editTaskDescriptionUsingId()
             "4" -> taskMaintenance.deleteTaskById()
             "5" -> taskMaintenance.assignTask()
             "6" -> taskMaintenance.switchTaskState()

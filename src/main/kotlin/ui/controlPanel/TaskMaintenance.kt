@@ -69,7 +69,7 @@ class TaskMaintenance(
         } else println("task updated successfully")
     }
 
-    suspend fun editTaskDescription() {
+    suspend fun editTaskDescriptionUsingId() {
         val repository: TaskRepository = getKoin().get()
         val validation: TaskDataValidationUseCase = getKoin().get()
         val logRepository: LogRepository = getKoin().get()
