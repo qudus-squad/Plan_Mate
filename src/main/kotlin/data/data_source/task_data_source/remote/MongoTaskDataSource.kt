@@ -6,6 +6,9 @@ import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.bson.conversions.Bson
 import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
 import org.qudus.squad.model.entity.Task
@@ -24,7 +27,12 @@ class MongoTaskDataSource(
     }
 
     override suspend fun switchTaskState(taskId: String, newTaskState: TaskState) {
-        TODO("Not yet implemented")
+        val filter = eq("id", taskId)
+        val updates = Updates.combine(
+            Updates.set("taskState", newTaskState.name),
+            Updates.set("lastUpdatedAt", Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
+        )
+        getTaskCollection().updateOne(filter, updates)
     }
 
     override suspend fun deleteTaskById(id: String) {

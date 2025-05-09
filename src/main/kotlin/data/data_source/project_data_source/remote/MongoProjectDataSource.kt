@@ -41,9 +41,7 @@ class MongoProjectDataSource(
 
     override suspend fun getProjectById(id: String): Project {
         val projectDto = provideProjectCollection(mongoDatabase).find(Filters.eq("id", id)).firstOrNull()
-            ?: throw ProjectNotFoundException(
-                PROJECT_NOT_FOUND
-            )
+            ?: throw ProjectNotFoundException(PROJECT_NOT_FOUND)
         return projectDto.toProject()
     }
 
