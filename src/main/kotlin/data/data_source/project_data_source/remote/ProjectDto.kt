@@ -13,8 +13,7 @@ data class ProjectDto(
     val creatorUserId: String,
     val createdAt: String,
     val lastUpdateAt: String,
-    val tasks: List<TaskDto> = emptyList(),
-    val taskState : List<TaskStateDto> = emptyList() ,
+    val tasks: List<TaskDto> = emptyList()
 )
 
 fun ProjectDto.toProject(): Project {
@@ -25,8 +24,7 @@ fun ProjectDto.toProject(): Project {
         creatorUserId = this.creatorUserId,
         createdAt = LocalDateTime.parse(this.createdAt),
         lastUpdateAt = LocalDateTime.parse(this.lastUpdateAt),
-        tasks = this.tasks.map { it.toTask() },
-        taskState = this.taskState.map{it.toTaskState()}
+        tasks = this.tasks.map { it.toTask() }
     )
 }
 
@@ -38,7 +36,6 @@ fun Project.toProjectDto(): ProjectDto {
         creatorUserId = this.creatorUserId,
         createdAt = this.createdAt.toString(),
         lastUpdateAt = this.lastUpdateAt.toString(),
-        tasks = this.tasks.map { it.toTaskDto() },
-        taskState = this.taskState.map{it.toTaskStateDto()}
+        tasks = this.tasks.map { it.toTaskDto() }
     )
 }
