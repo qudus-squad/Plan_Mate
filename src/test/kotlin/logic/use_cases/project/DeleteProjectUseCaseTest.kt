@@ -1,5 +1,6 @@
 package logic.use_cases.project
 
+import fakes.FakeMongoLogRepository
 import fakes.FakeProjectRepository
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -8,17 +9,21 @@ import io.kotest.matchers.collections.shouldContainExactly
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.qudus.squad.model.entity.Project
+import org.qudus.squad.model.entity.User
+import org.qudus.squad.model.entity.UserRole
 import kotlin.test.Test
 
 class DeleteProjectUseCaseTest {
     private lateinit var fakeProjectRepository: FakeProjectRepository
     private lateinit var deleteProjectUseCase: DeleteProjectUseCase
     private val projectId = "P001"
+    private lateinit var fakeMongoLogRepository: FakeMongoLogRepository
 
     @BeforeEach
     fun setup() {
         fakeProjectRepository = FakeProjectRepository()
-        deleteProjectUseCase = DeleteProjectUseCase(fakeProjectRepository)
+        fakeMongoLogRepository = FakeMongoLogRepository()
+        deleteProjectUseCase = DeleteProjectUseCase(fakeProjectRepository, fakeMongoLogRepository)
 
         // start with initial one project
         val project = Project(
@@ -34,8 +39,14 @@ class DeleteProjectUseCaseTest {
 
     @Test
     fun `should return true when remove project by ID and the project deleted successfully`() = runTest {
+        val user = User(
+            userId = "1",
+            username = "Ahmed",
+            passwordHash = "asdasdasd",
+            role = UserRole.ADMIN
+        )
         // When
-        val result = deleteProjectUseCase.deleteProject(projectId)
+        val result = deleteProjectUseCase.deleteProject(user, projectId)
 
         // Then
         result.shouldBeTrue()
@@ -52,10 +63,18 @@ class DeleteProjectUseCaseTest {
             description = "Another",
             creatorUserId = "admin456",
         )
+        val user = User(
+            userId = "1",
+            username = "Ahmed",
+            passwordHash = "asdasdasd",
+            role = UserRole.ADMIN
+        )
         fakeProjectRepository.createNewProject(otherProject)
 
         // When
-        val result = deleteProjectUseCase.deleteProject(projectId)
+        val result = deleteProjectUseCase.deleteProject(
+            user, projectId
+        )
 
         // Then
         result.shouldBeTrue()
@@ -67,9 +86,15 @@ class DeleteProjectUseCaseTest {
     fun `should return false when delete non-existent project`() = runTest {
         // Given
         val nonExistentProjectId = "P999"
+        val user = User(
+            userId = "1",
+            username = "Ahmed",
+            passwordHash = "asdasdasd",
+            role = UserRole.ADMIN
+        )
 
         // When
-        val result = deleteProjectUseCase.deleteProject(nonExistentProjectId)
+        val result = deleteProjectUseCase.deleteProject(user, nonExistentProjectId)
 
         // Then
         result.shouldBeFalse()

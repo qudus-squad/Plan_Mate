@@ -1,5 +1,6 @@
 package logic.use_cases.project
 
+import fakes.FakeMongoLogRepository
 import fakes.FakeProjectRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldHaveSize
@@ -19,12 +20,14 @@ class CreateNewProjectUseCaseTest {
     private lateinit var fakeProjectRepository: FakeProjectRepository
     private lateinit var createNewProjectUseCase: CreateNewProjectUseCase
     private lateinit var projectDataValidationUseCase: ProjectDataValidationUseCase
+    private lateinit var fakeMongoLogRepository: FakeMongoLogRepository
 
     @BeforeEach
     fun setup() {
         fakeProjectRepository = FakeProjectRepository()
         projectDataValidationUseCase = ProjectDataValidationUseCase()
-        createNewProjectUseCase = CreateNewProjectUseCase(fakeProjectRepository, projectDataValidationUseCase)
+        fakeMongoLogRepository = FakeMongoLogRepository()
+        createNewProjectUseCase = CreateNewProjectUseCase(fakeProjectRepository, projectDataValidationUseCase, fakeMongoLogRepository)
     }
 
     @Test

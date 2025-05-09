@@ -1,17 +1,16 @@
 package logic.use_cases.project
 
 import logic.exceptions.AccessDeniedException
+import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
-import org.qudus.squad.model.entity.Project
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.model.entity.*
 
 class CreateNewProjectUseCase(
     private val projectRepository: ProjectRepository,
-    private val projectDataValidationUseCase: ProjectDataValidationUseCase
+    private val projectDataValidationUseCase: ProjectDataValidationUseCase,
+    private val logRepository: LogRepository,
 ) {
     suspend fun createProject(
         user: User,
@@ -31,6 +30,14 @@ class CreateNewProjectUseCase(
         )
         projectDataValidationUseCase.validateProjectData(newProjectInfo)
         val createdProject = projectRepository.createNewProject(newProjectInfo)
+        logRepository.addNewLog(LogEntry(
+            userName = user.username,
+            targetId = createdProject.id,
+            targetType = TargetType.PROJECT,
+            action = "${createdProject.id} Created Project",
+            oldValue = "title $title | description $description",
+            newValue = "title ${createdProject.title} | description ${createdProject.description}",
+        ))
         return createdProject
     }
 

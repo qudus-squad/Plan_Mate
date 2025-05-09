@@ -22,6 +22,7 @@ data class TaskDto(
         const val TASK_ID = "id"
         const val TASK_TITLE = "title"
         const val TASK_DESCRIPTION = "description"
+        const val TASK_STATE = "taskState"
         const val TASK_PROJECT_ID = "projectId"
         const val TASK_CREATOR_ID = "creatorUserID"
         const val TASK_ASSIGNED_USER_ID = "assignedUserId"
