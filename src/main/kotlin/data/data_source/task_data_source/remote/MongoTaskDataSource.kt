@@ -27,7 +27,7 @@ class MongoTaskDataSource(
     }
 
     override suspend fun switchTaskState(taskId: String, newTaskState: TaskState) {
-        val filter = eq("id", taskId)
+        val filter = eq(TaskDto.TASK_ID, taskId)
         val updates = Updates.combine(
             Updates.set(TaskDto.TASK_STATE, newTaskState.name),
             Updates.set(TaskDto.TASK_LAST_UPDATED_AT, Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
