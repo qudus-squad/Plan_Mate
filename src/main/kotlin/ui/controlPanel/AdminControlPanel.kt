@@ -25,28 +25,29 @@ import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 
-class AdminControlPanel(private val user: User) {
+class AdminControlPanel(
+    private val user: User, val taskMaintenance: TaskMaintenance
+) {
 
     suspend fun adminStory() {
         if (user.role != UserRole.ADMIN) {
             return
-        } else
-            while (true) {
-                println("ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ   PLAN MATE  ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ")
-                println("┌───────────────────────────────────────────┐")
-                println("           WELCOME   ${user.username}        ")
-                println("│───────────────────────────────────────────│")
-                println("│              1- MANAGE PROJECTS           │")
-                println("│              2- MANAGE USERS              │")
-                println("│              3- RECENT LOGS               │")
-                println("│              0- LOG OUT                   │")
-                println("└───────────────────────────────────────────┘")
-                when (readlnOrNull()?.trim()) {
-                    "1" -> manageProjectScreen()
-                    "2" -> manageUsersScreen()
-                    "3" -> recentLogsScreen()
-                }
+        } else while (true) {
+            println("ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ   PLAN MATE  ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ")
+            println("┌───────────────────────────────────────────┐")
+            println("           WELCOME   ${user.username}        ")
+            println("│───────────────────────────────────────────│")
+            println("│              1- MANAGE PROJECTS           │")
+            println("│              2- MANAGE USERS              │")
+            println("│              3- RECENT LOGS               │")
+            println("│              0- LOG OUT                   │")
+            println("└───────────────────────────────────────────┘")
+            when (readlnOrNull()?.trim()) {
+                "1" -> manageProjectScreen()
+                "2" -> manageUsersScreen()
+                "3" -> recentLogsScreen()
             }
+        }
     }
 
     ///////////////////////////// MANAGE PROJECTS ////////////////////////////// ( 0 - > 1 )
@@ -187,12 +188,12 @@ class AdminControlPanel(private val user: User) {
 
     private suspend fun deleteUser() {
         val repository: UserRepository = getKoin().get()
-        val validation : UserDataValidationUseCase = getKoin().get()
-        val log : LogRepository = getKoin().get()
-         val deleteUser = DeleteUserUseCase(repository,log,validation)
+        val validation: UserDataValidationUseCase = getKoin().get()
+        val log: LogRepository = getKoin().get()
+        val deleteUserUseCase: DeleteUserUseCase = getKoin().get()
         println("ENTER USER ID : ")
         val idSelected = readlnOrNull()?.trim() ?: ""
-        deleteUser.deleteUser(user,idSelected)
+        deleteUserUseCase.deleteUser(user, idSelected)
         println("USER WITH : '$idSelected' ID DELETED")
     }
 
@@ -259,21 +260,21 @@ class AdminControlPanel(private val user: User) {
         println("│7- ASSIGN TASK      │     ANOTHER STATE    │")
         println("│                0- RETURN                  │")
         println("└───────────────────────────────────────────┘")
-        /*when (readlnOrNull()?.trim()) {
-            "1" -> editProject()
-            "2" -> editproject()
-            "3" -> createNewTask()
-            "4" -> deleteTaskById()
-            "5" -> editTask()
-            "6" -> editTask()
-            "7" -> assignTask()
-            "8" -> createNewState()
-            "9" -> deleteState()
-            "10"-> editState()
-            "11"-> switchTaskState()
+        when (readlnOrNull()?.trim()) {
+            // "1" -> editProject()
+            // "2" -> editproject()
+            "3" -> taskMaintenance.createNewTask()
+            "4" -> taskMaintenance.deleteTaskById()
+            "5" -> taskMaintenance.editTaskNameUsingId()
+            "6" -> taskMaintenance.editTaskDescriptionUsingId()
+            "7" -> taskMaintenance.assignTask()
+            //    "8" -> createNewState()
+            //   "9" -> deleteState()
+            //  "10"-> editState()
+            "11" -> taskMaintenance.switchTaskState()
             "0" -> return
             else -> println("INVALID OPTION")
-            }*/
+        }
     }
     ///////////////////////////// ERRORS ////////////////////////////// ( 0 - > 3 )
 
@@ -282,6 +283,7 @@ class AdminControlPanel(private val user: User) {
         println("│${"NO $targetType FOUND".center(30)}│")
         println("└${"─".repeat(30)}┘")
     }
+
     private fun idNotFound() {
         println("┌───────────────────────────────┐")
         println("│      INVALID ID TRY AGAIN     │")

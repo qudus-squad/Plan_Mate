@@ -56,5 +56,4 @@ class MongoTaskDataSource(
     private fun getTaskCollection(): MongoCollection<TaskDto> {
         return mongoDatabase.getCollection<TaskDto>("tasks")
     }
-
 }
