@@ -16,7 +16,9 @@ class CreateNewProjectUseCase(
         user: User,
         title: String,
         description: String,
-        tasks: List<Task> = emptyList()
+        tasks: List<Task> = emptyList() ,
+        tasksState: List<TaskState> = emptyList()
+
     ): Project {
         if (user.role != UserRole.ADMIN) {
             throw AccessDeniedException(NOT_AUTHORIZED_EXCEPTION_MESSAGE)
@@ -27,6 +29,7 @@ class CreateNewProjectUseCase(
             creatorUserId = user.userId,
             description = description,
             tasks = tasks,
+            taskState = tasksState
         )
         projectDataValidationUseCase.validateProjectData(newProjectInfo)
         val createdProject = projectRepository.createNewProject(newProjectInfo)
