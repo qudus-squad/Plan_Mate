@@ -15,6 +15,8 @@ import org.qudus.squad.data.data_source.project_data_source.ProjectDataSource
 import org.qudus.squad.data.data_source.project_data_source.remote.MongoProjectDataSource
 import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
 import org.qudus.squad.data.data_source.task_data_source.remote.MongoTaskDataSource
+import org.qudus.squad.data.data_source.task_state_data_source.TaskStateDataSource
+import org.qudus.squad.data.data_source.task_state_data_source.remote.MongoTaskStateDataSource
 import org.qudus.squad.data.repositories.*
 import org.qudus.squad.logic.repositories.*
 import org.qudus.squad.data.data_source.user_data_source.UserDataSource
@@ -39,7 +41,7 @@ val appModule = module {
     single { CsvReader() }
 
     single<AuthenticationDataSource> {
-        MongoAuthenticationDataSource(get(),get())
+        MongoAuthenticationDataSource(get(), get())
     }
 
     single<AuthenticationRepository> {
@@ -82,4 +84,8 @@ val appModule = module {
     single { UserDataValidationUseCase() }
 
     single<UserRepository> { UserRepositoryImplementation(get()) }
+
+    single<TaskStateDataSource> { MongoTaskStateDataSource(get()) }
+
+    single<TaskStateRepository> { TaskStateRepositoryImplementation(get()) }
 }
