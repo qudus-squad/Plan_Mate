@@ -190,10 +190,10 @@ class AdminControlPanel(
         val repository: UserRepository = getKoin().get()
         val validation: UserDataValidationUseCase = getKoin().get()
         val log: LogRepository = getKoin().get()
-        val deleteUser = DeleteUserUseCase(repository, log, validation)
+        val deleteUserUseCase: DeleteUserUseCase = getKoin().get()
         println("ENTER USER ID : ")
         val idSelected = readlnOrNull()?.trim() ?: ""
-        deleteUser.deleteUser(user, idSelected)
+        deleteUserUseCase.deleteUser(user, idSelected)
         println("USER WITH : '$idSelected' ID DELETED")
     }
 
