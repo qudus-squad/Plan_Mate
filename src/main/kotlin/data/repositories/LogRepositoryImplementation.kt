@@ -5,7 +5,6 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.model.entity.LogEntry
 
 class LogRepositoryImplementation(
-
     private val logDataSource: LogDataSource
 ) : LogRepository {
 

@@ -1,5 +1,6 @@
 package logic.use_cases.project
 
+import fakes.FakeMongoLogRepository
 import fakes.FakeProjectRepository
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -9,16 +10,20 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.model.entity.Project
+import org.qudus.squad.model.entity.User
+import org.qudus.squad.model.entity.UserRole
 
 class EditProjectUseCaseTest {
 
     private lateinit var fakeProjectRepository: FakeProjectRepository
     private lateinit var editProjectUseCase: EditProjectUseCase
+    private lateinit var fakeMongoLogRepository: FakeMongoLogRepository
 
     @BeforeEach
     fun setup() {
         fakeProjectRepository = FakeProjectRepository()
-        editProjectUseCase = EditProjectUseCase(fakeProjectRepository)
+        fakeMongoLogRepository = FakeMongoLogRepository()
+        editProjectUseCase = EditProjectUseCase(fakeProjectRepository, fakeMongoLogRepository)
     }
 
     @Test
@@ -37,9 +42,14 @@ class EditProjectUseCaseTest {
             title = "Updated project Title",
             description = "Updated project Description",
         )
-
+        val user = User(
+            userId = "1",
+            username = "Ahmed",
+            passwordHash = "asdasdasd",
+            role = UserRole.ADMIN
+        )
         // When
-        val result = editProjectUseCase.editProject(updatedProject)
+        val result = editProjectUseCase.editProject(user, updatedProject)
 
         // Then
         result.shouldBeTrue()
@@ -57,9 +67,14 @@ class EditProjectUseCaseTest {
             description = "project description",
             creatorUserId = "userID",
         )
-
+        val user = User(
+            userId = "1",
+            username = "Ahmed",
+            passwordHash = "asdasdasd",
+            role = UserRole.ADMIN
+        )
         // When
-        val result = editProjectUseCase.editProject(fakeProject)
+        val result = editProjectUseCase.editProject(user, fakeProject)
 
         // Then
         result.shouldBeFalse()

@@ -32,11 +32,11 @@ val useCaseModule = module {
 
     single { GetChangeLogEntriesForTargetIdUseCase(get()) }
 
-    single { CreateNewProjectUseCase(get(), get()) }
+    single { CreateNewProjectUseCase(get(), get(), get()) }
 
-    single { DeleteProjectUseCase(get()) }
+    single { DeleteProjectUseCase(get(), get()) }
 
-    single { EditProjectUseCase(get()) }
+    single { EditProjectUseCase(get(), get()) }
 
     single { GetAllProjectsUseCase(get()) }
 

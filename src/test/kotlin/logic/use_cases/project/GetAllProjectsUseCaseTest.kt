@@ -1,5 +1,6 @@
 package logic.use_cases.project
 
+import fakes.FakeMongoLogRepository
 import fakes.FakeProjectRepository
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
@@ -16,6 +17,7 @@ class GetAllProjectsUseCaseTest {
     private lateinit var getAllProjectsUseCase: GetAllProjectsUseCase
     private lateinit var createNewProjectUseCase: CreateNewProjectUseCase
     private lateinit var projectDataValidationUseCase: ProjectDataValidationUseCase
+    private lateinit var fakeMongoLogRepository: FakeMongoLogRepository
 
     private val adminUser = User(
         username = "admin",
@@ -28,7 +30,8 @@ class GetAllProjectsUseCaseTest {
         projectRepository = FakeProjectRepository()
         getAllProjectsUseCase = GetAllProjectsUseCase(projectRepository)
         projectDataValidationUseCase = ProjectDataValidationUseCase()
-        createNewProjectUseCase = CreateNewProjectUseCase(projectRepository, projectDataValidationUseCase)
+        fakeMongoLogRepository = FakeMongoLogRepository()
+        createNewProjectUseCase = CreateNewProjectUseCase(projectRepository, projectDataValidationUseCase, fakeMongoLogRepository)
     }
 
     @Test

@@ -99,11 +99,12 @@ class AdminControlPanel(
 
     private suspend fun deleteProject() {
         val repository: ProjectRepository = getKoin().get()
-        val deleteProject = DeleteProjectUseCase(repository)
+        val logeRepository: LogRepository = getKoin().get()
+        val deleteProject = DeleteProjectUseCase(repository, logeRepository)
         println("ENTER PROJECT ID : ")
         val idSelected = readlnOrNull()?.trim() ?: ""
         // if (idSelected in allProjects )
-        deleteProject.deleteProject(idSelected)
+        deleteProject.deleteProject(user, idSelected)
         println("PROJECT WITH : '$idSelected' ID DELETED")
         // else{
         idNotFound()
@@ -113,7 +114,8 @@ class AdminControlPanel(
     suspend fun createNewProject() {
         val repository: ProjectRepository = getKoin().get()
         val validation: ProjectDataValidationUseCase = getKoin().get()
-        val createNewProject = CreateNewProjectUseCase(repository, validation)
+        val logeRepository: LogRepository = getKoin().get()
+        val createNewProject = CreateNewProjectUseCase(repository, validation, logeRepository)
         println("ENTER PROJECT NAME : ")
         val titleSelected = readlnOrNull()?.trim() ?: ""
         println("ENTER PROJECT DESCRIPTION : ")
