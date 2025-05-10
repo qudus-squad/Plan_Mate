@@ -1,8 +1,7 @@
 package org.qudus.squad.logic.validation
 
 import logic.exceptions.InvalidPasswordException
-import logic.exceptions.InvalidTaskIdException
-import logic.exceptions.InvalidTaskTitleException
+import logic.exceptions.InvalidUserIdException
 import logic.exceptions.InvalidUserNameException
 
 
@@ -31,13 +30,10 @@ class UserDataValidationUseCase {
     }
     fun validateDeleteUserValues(userName: String, userId: String,): Boolean{
         if (!isValidUserName(userName)){
-            throw InvalidTaskTitleException(INVALID_USER_NAME)
-        }
-        if (!isValidUserName(userName)){
             throw InvalidUserNameException(INVALID_USER_NAME)
         }
         if (!isValidUserID(userId)){
-            throw InvalidTaskIdException(INVALID_USER_ID)
+            throw InvalidUserIdException(INVALID_USER_ID)
         }
         return true
     }

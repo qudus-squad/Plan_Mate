@@ -195,7 +195,7 @@ class AdminControlPanel (
         val deleteUserUseCase: DeleteUserUseCase = getKoin().get()
         println("ENTER USER ID : ")
         val idSelected = readlnOrNull()?.trim() ?: ""
-        deleteUserUseCase.deleteUser(user, idSelected)
+        deleteUserUseCase.deleteUser(user.username, idSelected)
         println("USER WITH : '$idSelected' ID DELETED")
     }
 
