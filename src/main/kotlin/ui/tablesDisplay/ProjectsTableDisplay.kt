@@ -20,7 +20,7 @@ class ProjectsTableDisplay(
                 + "   PLAN MATE   "
                 + "Ξ".repeat(topHeaderWidth))
         println("┌${"─".repeat(totalWidth)}┐")
-        println("│${"FIND PROJECT".center(totalWidth)}│")
+        println("│${"ALL PROJECT".center(totalWidth)}│")
         println("│${"─".repeat(totalWidth)}│")
         println("│${"ID".center(idColumnWith )}" +
                 "│${"NAME".center(nameColumnWidth )}" +

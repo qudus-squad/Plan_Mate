@@ -16,6 +16,8 @@ import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.ui.controlPanel.AdminControlPanel
 import org.qudus.squad.ui.controlPanel.MateControlPanel
 import org.qudus.squad.ui.controlPanel.TaskManagement
+import org.qudus.squad.ui.controlPanel.admin.ManageProject
+import org.qudus.squad.ui.controlPanel.admin.ManageUsers
 
 
 fun main() {
@@ -39,7 +41,10 @@ fun main() {
             when (user.role) {
                 UserRole.ADMIN -> {
                     val taskManagement = TaskManagement(taskRepository, user)
-                    val adminControlPanel = AdminControlPanel(user, taskManagement)
+                    val manageProject = ManageProject(user ,taskManagement )
+                    val manageUsers = ManageUsers(user )
+
+                    val adminControlPanel = AdminControlPanel(user, manageProject ,manageUsers )
                     adminControlPanel.adminStory()
                 }
 

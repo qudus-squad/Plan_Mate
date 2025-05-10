@@ -1,40 +1,22 @@
 package org.qudus.squad.ui.controlPanel
 
 import logic.use_cases.log.GetAllLogsUseCase
-import logic.use_cases.project.CreateNewProjectUseCase
-import logic.use_cases.project.DeleteProjectUseCase
-import logic.use_cases.project.GetAllProjectsUseCase
-import logic.use_cases.user.AddNewUserUseCase
-import logic.use_cases.user.GetAllUsersUseCase
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.LogRepository
-import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.repositories.UserRepository
-import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
-import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
-import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
-import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.ui.controlPanel.admin.ManageProject
+import org.qudus.squad.ui.controlPanel.admin.ManageUsers
 import org.qudus.squad.ui.tablesDisplay.LogsTableDisplay
-import org.qudus.squad.ui.tablesDisplay.OneProjectTableDisplay
-import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay
-import org.qudus.squad.ui.tablesDisplay.UsersTableDisplay
-import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 
 class AdminControlPanel (
-
     private val user: User,
-    private val taskManagement: TaskManagement
+    private val manageProject: ManageProject,
+    private val manageUsers:ManageUsers
 ) {
-
     suspend fun adminStory() {
-        if (user.role != UserRole.ADMIN) {
-            return
-        } else while (true) {
+        while (true) {
             println("ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ   PLAN MATE  ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ")
             println("┌───────────────────────────────────────────┐")
             println("           WELCOME '${user.username}'        ")
@@ -42,161 +24,14 @@ class AdminControlPanel (
             println("│              1- MANAGE PROJECTS           │")
             println("│              2- MANAGE USERS              │")
             println("│              3- RECENT LOGS               │")
-            println("│              0- LOG OUT                   │")
             println("└───────────────────────────────────────────┘")
             when (readlnOrNull()?.trim()) {
-                "1" -> manageProjectScreen()
-                "2" -> manageUsersScreen()
+                "1" -> manageProject.getAllProjects()
+                "2" -> manageUsers.getAllUsers()
                 "3" -> recentLogsScreen()
+                else -> invalidOption()
             }
         }
-    }
-
-    ///////////////////////////// MANAGE PROJECTS ////////////////////////////// ( 0 - > 1 )
-
-    private suspend fun manageProjectScreen() {
-        println("ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ   PLAN MATE  ΞΞΞΞΞΞΞΞΞΞΞΞΞΞΞ")
-        println("┌───────────────────────────────────────────┐")
-        println("│               MANAGE PROJECTS             │")
-        println("│───────────────────────────────────────────│")
-        println("│              1- ALL PROJECTS              │")
-        println("│              2- DELETE PROJECT BY ID      │")
-        println("│              3- CREATE NEW PROJECT        │")
-        println("│              0- RETURN                    │")
-        println("└───────────────────────────────────────────┘")
-        when (readlnOrNull()?.trim()) {
-            "1" -> getAllProjects() //DONE
-            "2" -> deleteProject() //DONE
-            "3" -> createNewProject()
-            "0" -> return
-        }
-    }
-
-    suspend fun getAllProjects() {
-        val display = ProjectsTableDisplay(dateFormater = DateTimeFormatter)
-        val repository: ProjectRepository = getKoin().get()
-        val getAllProjects = GetAllProjectsUseCase(repository)
-        val allProjects = getAllProjects.getAllProjects()
-        if (allProjects.isNotEmpty()) {
-            display.displayProjectsTable(allProjects)
-            manageAllProjectsPanel()
-        } else targetNotFound("PROJECT")
-        return
-    }
-
-    private suspend fun viewProjectById() {
-        val repository: ProjectRepository = getKoin().get()
-
-        val getAllProjects = GetAllProjectsUseCase(repository)
-        val lisOfProjectsId =  getAllProjects.getAllProjects().map { it.id }
-        val display = OneProjectTableDisplay()
-        val getProjectById = GetProjectByIdUseCase(repository)
-        println("ENTER PROJECT ID : ")
-        val idSelected = readlnOrNull()?.trim() ?: ""
-        if (idSelected in lisOfProjectsId){
-        display.main()
-        manageOneProjectPanel()}
-       else idNotFound()
-    }
-
-    private suspend fun deleteProject() {
-        val repository: ProjectRepository = getKoin().get()
-
-        val getAllProjects = GetAllProjectsUseCase(repository)
-        val lisOfProjectsId =  getAllProjects.getAllProjects().map { it.id }
-        val logeRepository: LogRepository = getKoin().get()
-        val deleteProject = DeleteProjectUseCase(repository, logeRepository)
-        println("ENTER PROJECT ID : ")
-        val idSelected = readlnOrNull()?.trim() ?: ""
-        if (idSelected in lisOfProjectsId){
-        deleteProject.deleteProject(user, idSelected)
-        println("PROJECT WITH : '$idSelected' ID DELETED")}
-         else idNotFound()
-    }
-
-    suspend fun createNewProject() {
-        val repository: ProjectRepository = getKoin().get()
-        val validation: ProjectDataValidationUseCase = getKoin().get()
-        val logeRepository: LogRepository = getKoin().get()
-        val createNewProject = CreateNewProjectUseCase(repository, validation, logeRepository)
-        println("ENTER PROJECT NAME : ")
-        val titleSelected = readlnOrNull()?.trim() ?: ""
-        println("ENTER PROJECT DESCRIPTION : ")
-        val descriptionSelected = readlnOrNull()?.trim() ?: ""
-        println("Enter States (separated By Comma Character',')")
-        val statesEntered = readlnOrNull()?.trim()?.split(",") ?: emptyList()
-        val taskStates = statesEntered.map { string -> TaskState(name = string) }
-        val listOfTasksSelected = readlnOrNull()?.trim() ?: "".toList()
-        createNewProject.createProject(
-            user = user,
-            title = titleSelected,
-            description = descriptionSelected,
-            //tasks =listOfTasksSelected ,
-        )
-    }
-
-    ///////////////////////////// MANAGE USERS ///////////////////////////// ( 0 - > 2 )
-
-    private suspend fun manageUsersScreen() {
-        println("ΞΞΞΞΞΞΞΞΞΞΞΞΞΞ   PLAN MATE  ΞΞΞΞΞΞΞΞΞΞΞΞΞΞ")
-        println("┌─────────────────────────────────────────┐")
-        println("│               MANAGE USERS              │")
-        println("│─────────────────────────────────────────│")
-        println("│              1- ALL USERS               │")
-        println("│              2- CREATE NEW USER         │")
-        println("│              3- DELETE USER BY ID       │")
-        println("│              0- RETURN                  │")
-        println("└─────────────────────────────────────────┘")
-        when (readlnOrNull()?.trim()) {
-            "1" -> getAllUsers()
-            "2" -> createNewUser()
-            "3" -> deleteUser() //add use case
-        }
-    }
-
-    private suspend fun getAllUsers() {
-        val display = UsersTableDisplay()
-        val repository: UserRepository = getKoin().get()
-        val getAllUsers = GetAllUsersUseCase(repository)
-        val allUsers = getAllUsers.getAllUsers()
-        if (allUsers.isNotEmpty()) {
-            display.displayUsers(allUsers)
-            manageUsersPanel()
-        } else targetNotFound("USER")
-        return
-    }
-
-    private suspend fun createNewUser() {
-        val repository: UserRepository = getKoin().get()
-        val validation: UserDataValidationUseCase = getKoin().get()
-        val hashing: DataHashing = getKoin().get()
-        val createNewUser = AddNewUserUseCase(repository, validation, hashing)
-        println("ENTER USER NAME : ")
-        val titleSelected = readlnOrNull()?.trim() ?: ""
-        println("ENTER USER PASSWORD : ")
-        val passwordSelected = readlnOrNull()?.trim() ?: ""
-        println("SELECT USER ROLE")
-        println("1.ADMIN")
-        println("2.MATE")
-        val roleChoice = readlnOrNull()?.trim() ?: ""
-        val selectedRole = when (roleChoice) {
-            "1" -> UserRole.ADMIN
-            else -> UserRole.MATE
-        }
-        createNewUser.addUser(
-            currentUserRole = user.role,
-            username = titleSelected,
-            password = passwordSelected,
-            userRole = selectedRole,
-        )
-    }
-
-    private suspend fun deleteUser() {
-        val deleteUserUseCase: DeleteUserUseCase = getKoin().get()
-        println("ENTER USER ID : ")
-        val idSelected = readlnOrNull()?.trim() ?: ""
-        deleteUserUseCase.deleteUser(user, idSelected)
-        println("USER WITH : '$idSelected' ID DELETED")
     }
 
     ///////////////////////////// RECENT LOGS ////////////////////////////// ( 0 - > 3 )
@@ -209,71 +44,12 @@ class AdminControlPanel (
         if (recentLogs.isNotEmpty()) {
             display.displayLogsDetails(recentLogs)
         } else targetNotFound("LOG")
-        return
-    }
-
-    ///////////////////////////// CONTROL PANELS //////////////////////////////
-
-    private suspend fun manageUsersPanel() {// after displaying all users
-        println("┌───────────────────────────┐")
-        println("│         MANAGE USERS      │")
-        println("│───────────────────────────│")
-        println("│1- EDIT USER BY ID         │")
-        println("│2- DELETE USER BY ID       │")
-        println("│3- CREATE NEW USER         │")
-        println("│0- RETURN                  │")
-        println("└───────────────────────────┘")
         when (readlnOrNull()?.trim()) {
-            //"1" -> editUser()
-            "2" -> deleteUser()
-            "3" -> createNewUser()
-            "0" -> return
+            else -> adminStory()
         }
     }
 
-    private suspend fun manageAllProjectsPanel() { // after displaying all projects
-        println("┌──────────────────────────────┐")
-        println("│        MANAGE PROJECTS       │")
-        println("│──────────────────────────────│")
-        println("│1- OPEN PROJECT BY ID         │")
-        println("│2- DELETE PROJECT BY ID       │")
-        println("│3- CREATE NEW PROJECT         │")
-        println("│0- RETURN                     │")
-        println("└──────────────────────────────┘")
-        when (readlnOrNull()?.trim()) {
-            "1" -> viewProjectById()
-            "2" -> deleteProject()
-            "3" -> createNewProject()
-            "0" -> return
-        }
-    }
 
-    private suspend fun manageOneProjectPanel() { // after displaying one project
-        println("┌───────────────────────────────────────────┐")
-        println("│                  PROJECT                  │")
-        println("│           1- EDIT PROJECT NAME            │")
-        println("│          2- EDIT PROJECT DESCRIPTION      │")
-        println("│───────────────────────────────────────────│")
-        println("│       TASKS                  STATES       │")
-        println("│3- CREATE NEW TASK  │ 8 - CREATE NEW STATE │")
-        println("│4- DELETE TASK      │ 9 - DELETE STATE     │")
-        println("│5- EDIT TASK NAME   │ 10- EDIT STATE NAME  │")
-        println("│6- EDIT DESCRIPTION │ 11- SWITCH TASK TO   │")
-        println("│7- ASSIGN TASK      │     ANOTHER STATE    │")
-        println("│                0- RETURN                  │")
-        println("└───────────────────────────────────────────┘")
-        when (readlnOrNull()?.trim()) {
-
-            "3" -> taskManagement.createNewTask()
-            "4" -> taskManagement.deleteTaskById()
-            "5" -> taskManagement.editTaskNameUsingId()
-            "6" -> taskManagement.editTaskDescriptionUsingId()
-            "7" -> taskManagement.assignTask()
-            "11" -> taskManagement.switchTaskState()
-            "0" -> return
-            else -> println("INVALID OPTION")
-        }
-    }
     ///////////////////////////// ERRORS ////////////////////////////// ( 0 - > 3 )
 
     private fun targetNotFound(targetType: String) {
@@ -282,9 +58,9 @@ class AdminControlPanel (
         println("└${"─".repeat(30)}┘")
     }
 
-    private fun idNotFound() {
+    private fun invalidOption() {
         println("┌───────────────────────────────┐")
-        println("│      INVALID ID TRY AGAIN     │")
+        println("│   INVALID OPTION TRY AGAIN    │")
         println("└───────────────────────────────┘")
     }
 }

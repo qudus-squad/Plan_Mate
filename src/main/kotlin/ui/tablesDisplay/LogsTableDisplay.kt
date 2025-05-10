@@ -34,6 +34,10 @@ class LogsTableDisplay (
                     +" ${log.action.center(actionColumnWidth - 1)}│")
         }
         println("└${"─".repeat(totalWidth)}┘")
+        println("┌${"─".repeat(totalWidth)}┐")
+        println("│${"PRESS ' ENTER ' TO EXIT".center(totalWidth)}│")
+        println("└${"─".repeat(totalWidth)}┘")
+
     }
 }
 fun main() {
