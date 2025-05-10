@@ -1,10 +1,9 @@
 package org.qudus.squad.data.data_source.task_state_data_source.remote
 
-import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.model.entity.TaskState
 
 data class TaskStateDto(
-    val id: String = GenerateUUID().generate(),
+    val id: String,
     val name: String,
 )
 

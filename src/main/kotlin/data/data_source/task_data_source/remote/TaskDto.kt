@@ -4,17 +4,16 @@ package org.qudus.squad.data.data_source.task_data_source.remote
 
 import kotlinx.datetime.LocalDateTime
 import org.qudus.squad.data.data_source.task_state_data_source.remote.TaskStateDto
-import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 
 data class TaskDto(
-    val id : String = GenerateUUID().generate(),
+    val id : String,
     val title :String,
     val description : String,
     val projectId: String,
     val taskState: TaskStateDto,
-    val creatorUserID: String = GenerateUUID().generate(),
+    val creatorUserID: String,
     val assignedUserId : String?,
     val createdAt: String,
     val lastUpdatedAt: String,
