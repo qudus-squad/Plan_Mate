@@ -1,9 +1,6 @@
 package org.qudus.squad.ui.controlPanel
 
-import logic.use_cases.tasks.AssignTaskToUserUseCase
-import logic.use_cases.tasks.CreateNewTaskUseCase
-import logic.use_cases.tasks.DeleteTaskUseCase
-import logic.use_cases.tasks.EditTaskUseCase
+import logic.use_cases.tasks.*
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
@@ -12,11 +9,13 @@ import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
+import org.qudus.squad.ui.tablesDisplay.TasksTableDisplay
+import org.qudus.squad.ui.utils.DateTimeFormatter
 
 class TaskManagement(
     private val tasksRepository: TaskRepository, private val user: User,
 ) {
-    suspend fun createNewTask() {
+    suspend fun createNewTask(id : String) {
         val repository: TaskRepository = getKoin().get()
         val validation: TaskDataValidationUseCase = getKoin().get()
         val logRepository: LogRepository = getKoin().get()
@@ -29,16 +28,17 @@ class TaskManagement(
         val titleSelected = readlnOrNull()?.trim() ?: ""
         println("ENTER TASK DESCRIPTION : ")
         val descriptionSelected = readlnOrNull()?.trim() ?: ""
-        println("ENTER TASK PROJECT_ID : ")
-        val projectIdSelected = readlnOrNull()?.trim() ?: ""
+
+
         println("ENTER TASK STATE NAME : ")
         val taskStateNameSelected = readlnOrNull()?.trim() ?: ""
 
         createNewTask.createNewTask(
-            userName = "", task = Task(
+            userName = user.username
+            , task = Task(
                 title = titleSelected,
                 description = descriptionSelected,
-                projectId = projectIdSelected,
+                projectId = id,
                 taskState = TaskState(name = taskStateNameSelected),
             )
         )
@@ -95,8 +95,12 @@ class TaskManagement(
         } else println("No task found with ID : $idSelected")
     }
 
-    suspend fun deleteTaskById() {
+    suspend fun deleteTaskById(id : String) {
         val repository: TaskRepository = getKoin().get()
+        val display = TasksTableDisplay(dateFormater = DateTimeFormatter)
+        val ta = GetAllTasksByProjectIdUseCase(repository).getAllTasksByProjectId( projectId = id )
+        display.displayTasksTable(ta)
+
         val validation: TaskDataValidationUseCase = getKoin().get()
         val logRepository: LogRepository = getKoin().get()
         val deleteTask = DeleteTaskUseCase(

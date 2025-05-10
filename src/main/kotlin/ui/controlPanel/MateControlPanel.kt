@@ -61,7 +61,7 @@ class MateControlPanel(private val user: User,
 
     ///////////////////////////// CONTROL PANELS //////////////////////////////
 
-    private suspend fun manageProjectPanel() {//after displaying one project
+    private suspend fun manageProjectPanel(id :String = "") {//after displaying one project
         println("┌─────────────────────────────────────────┐")
         println("│1- CREATE NEW TASK  │ 4- DELETE TASK     │")
         println("│2- EDIT TASK NAME   │ 5- ASSIGN TO TASK  │")
@@ -70,10 +70,10 @@ class MateControlPanel(private val user: User,
         println("│                0- RETURN                │")
         println("└─────────────────────────────────────────┘")
         when (readlnOrNull()?.trim()) {
-            "1" -> taskManagement.createNewTask()
+            "1" -> taskManagement.createNewTask(id)
             "2" -> taskManagement.editTaskNameUsingId()
             "3" -> taskManagement.editTaskDescriptionUsingId()
-            "4" -> taskManagement.deleteTaskById()
+            "4" -> taskManagement.deleteTaskById(id)
             "5" -> taskManagement.assignTask()
             "6" -> taskManagement.switchTaskState()
             "0" -> return
