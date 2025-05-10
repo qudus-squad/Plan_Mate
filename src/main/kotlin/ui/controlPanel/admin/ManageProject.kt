@@ -56,6 +56,7 @@ class ManageProject (
         val idSelected = readlnOrNull()?.trim()?:""
         if (idSelected in lisOfProjectsId){
             display.main()
+            manageOneProjectPanel(idSelected)
             // display.displayProjectDetail(getProjectById.getProjectById(idSelected))}
         }
         else idNotFound()
