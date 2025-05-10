@@ -17,6 +17,7 @@ class InvalidTaskStateNameException(message: String) : InvalidTaskDataException(
 open class InvalidUserDataException(message: String) : Exception(message)
 class InvalidUserNameException(message: String) : InvalidUserDataException(message)
 class InvalidPasswordException(message: String) : InvalidUserDataException(message)
+class InvalidUserIdException(message: String) : InvalidUserDataException(message)
 class UserNotFoundException(message: String = USER_NOT_FOUND) : Exception(message)
 class AccessDeniedException(message: String) : Exception(message)
 class UserAlreadyExistsException(message: String = USER_ALREADY_EXIST) : Exception(message)
