@@ -13,7 +13,7 @@ class EditProjectUseCase(
     private val projectRepository: ProjectRepository,
     private val logRepository: LogRepository,
 ) {
-    suspend fun editProject(user: User, project: Project): Boolean {
+    suspend fun editProject(user: User, project: Project): Project {
         logRepository.addNewLog(
             LogEntry(
                 userName = user.username,

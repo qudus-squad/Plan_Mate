@@ -120,15 +120,16 @@ class ManageProject (
         val titleSelected = readlnOrNull()?.trim() ?: ""
         println("ENTER NEW DESCRIPTION (OR LEAVE EMPTY FOR OLD VALUE): ")
         val descriptionSelected = readlnOrNull()?.trim() ?: ""
-        if( editProject.editProject(
-                user = user,
-                project = Project(
-                    title = titleSelected,
-                    description = descriptionSelected,
-                )
-            )
-        ){
-            println("project update")
+        val projectToEdit = Project(
+            title = titleSelected,
+            description = descriptionSelected,
+        )
+        val editedProject = editProject.editProject(
+            user = user,
+            project = projectToEdit
+        )
+        if(editedProject == projectToEdit){
+            println("project updated")
         }else {println(" failed  Empty try again or  0 to exit ")
             if (readlnOrNull()?.trim() == "0" ) return
             editProject()}

@@ -4,6 +4,8 @@ import fakes.FakeMongoLogRepository
 import fakes.FakeProjectRepository
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -52,10 +54,10 @@ class EditProjectUseCaseTest {
         val result = editProjectUseCase.editProject(user, updatedProject)
 
         // Then
-        result.shouldBeTrue()
+        result.shouldNotBeNull()
         val stored = fakeProjectRepository.getProjectById(projectId)
-        stored?.title shouldBe "Updated project Title"
-        stored?.description shouldBe "Updated project Description"
+        stored.title shouldBe "Updated project Title"
+        stored.description shouldBe "Updated project Description"
     }
 
     @Test
@@ -77,6 +79,6 @@ class EditProjectUseCaseTest {
         val result = editProjectUseCase.editProject(user, fakeProject)
 
         // Then
-        result.shouldBeFalse()
+        result.shouldBeNull()
     }
 }
