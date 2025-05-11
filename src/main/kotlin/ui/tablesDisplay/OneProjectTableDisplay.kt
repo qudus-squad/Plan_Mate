@@ -7,7 +7,7 @@ import org.qudus.squad.ui.utils.StringAlignment.center
 
 class OneProjectTableDisplay() {
 
-    private fun displayProjectDetail(project: Project) {
+    fun displayProjectDetail(project: Project) {
 
         val taskColumnWidth = 20
         val numberOfStatesHeader = project.taskState.size
@@ -40,7 +40,8 @@ class OneProjectTableDisplay() {
         }
         println("└${"─".repeat(totalWidth)}┘")
     }
-    fun main() {
+
+} fun main() {
         val tasks = listOf(
             Task(title = "Design ", description = "", projectId = "1", creatorUserID = "" , taskState = TaskState(name = "IN PROGRESS")),
             Task(title = "Create ", description = "", projectId = "1", creatorUserID = "" , taskState = TaskState(name = "IN PROGRESS")),
@@ -63,4 +64,5 @@ class OneProjectTableDisplay() {
         )
         OneProjectTableDisplay().displayProjectDetail(project)
     }
-}
+
+
