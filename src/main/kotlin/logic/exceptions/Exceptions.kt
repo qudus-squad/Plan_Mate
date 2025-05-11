@@ -29,6 +29,10 @@ class ProjectNotFoundException(message: String) : Exception(message)
 class FailedCreatingProject(message: String) : Exception(message)
 class FailedCreatingTaskStateException(message: String = FAILED_CREATING_TASK_STATE) : Exception(message)
 class TaskStateNotFoundException(message: String = TASK_STATE_NOT_FOUND) : Exception(message)
+class InvalidLogUserNameException(message: String) : Exception(message)
+class InvalidLogTargetIdException(message: String) : Exception(message)
+class InvalidLogActionException(message: String) : Exception(message)
+
 class ExceptionsUtils {
 
     companion object {
