@@ -12,6 +12,8 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
+import org.qudus.squad.model.entity.User
+import org.qudus.squad.model.entity.UserRole
 
 class DeleteUserUseCaseTest {
     private lateinit var userRepository: UserRepository
@@ -29,12 +31,16 @@ class DeleteUserUseCaseTest {
     fun `deleteUser should delegate user deletion to user repository`(){
         runTest {
             // Given
-            val userName = "hazem"
-            val userId = "125"
+            val user1 = User(
+                userId = "125" ,
+                username = "hazem",
+                passwordHash = "" ,
+                role = UserRole.MATE
+            )
             // when
-            deleteUserUseCase.deleteUser(userName,userId)
+            deleteUserUseCase.deleteUser(user1,user1.userId)
             // Then
-            coVerify(exactly = 1) { userRepository.deleteUser(userId) }
+            coVerify(exactly = 1) { userRepository.deleteUser(user1.userId) }
         }
     }
 
@@ -42,11 +48,15 @@ class DeleteUserUseCaseTest {
     fun `should throw InvalidUserNameException when username has empty value`(){
         runTest {
             // Given
-            val userName = " "
-            val userId = "12563"
+            val user2 = User(
+                userId = "125" ,
+                username = "",
+                passwordHash = "" ,
+                role = UserRole.MATE
+            )
             // Then & when
             shouldThrow<InvalidUserNameException> {
-                deleteUserUseCase.deleteUser(userName,userId)
+                deleteUserUseCase.deleteUser(user2,user2.userId)
             }
         }
     }
@@ -55,11 +65,15 @@ class DeleteUserUseCaseTest {
     fun `should throw InvalidUserIdException when userId has empty value`(){
         runTest {
             // Given
-            val userName = "ahmed"
-            val userId = ""
+            val user3 = User(
+                userId = "" ,
+                username = "hazem",
+                passwordHash = "" ,
+                role = UserRole.MATE
+            )
             // Then & when
             shouldThrow<InvalidUserIdException> {
-                deleteUserUseCase.deleteUser(userName,userId)
+                deleteUserUseCase.deleteUser(user3,user3.userId)
             }
         }
     }
