@@ -3,13 +3,16 @@ package logic.use_cases.tasks
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDateTime
+import logic.exceptions.InvalidTaskIdException
+import logic.exceptions.InvalidUserIdException
 import org.junit.jupiter.api.BeforeEach
 import logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
+import org.qudus.squad.logic.validation.TaskDataValidationUseCase
+import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import java.io.IOException
@@ -22,7 +25,8 @@ class AssignTaskToUserUseCaseTest {
     @BeforeEach
     fun setup() {
         taskRepository = mockk(relaxed = true)
-        assignTaskToUserUseCase = AssignTaskToUserUseCase(taskRepository)
+        assignTaskToUserUseCase = AssignTaskToUserUseCase(taskRepository, TaskDataValidationUseCase()
+        , UserDataValidationUseCase())
     }
 
     @Test
@@ -95,6 +99,28 @@ class AssignTaskToUserUseCaseTest {
             shouldThrow<IOException> {
                 assignTaskToUserUseCase.assignTaskToUser(userId, taskId)
             }
+        }
+    }
+
+    @Test
+    fun `should throw InvalidTaskIdException when task id is blank or empty`(){
+        runTest{
+            // Given
+            val userId = "1483235"
+            val taskId = " "
+            // When & Then
+            shouldThrow<InvalidTaskIdException> { assignTaskToUserUseCase.assignTaskToUser(userId,taskId) }
+        }
+    }
+
+    @Test
+    fun `should throw InvalidUserIdException when user id is empty`(){
+        runTest{
+            // Given
+            val userId = ""
+            val taskId = "1582dgfg65"
+            // When & Then
+            shouldThrow<InvalidUserIdException> { assignTaskToUserUseCase.assignTaskToUser(userId,taskId) }
         }
     }
 
