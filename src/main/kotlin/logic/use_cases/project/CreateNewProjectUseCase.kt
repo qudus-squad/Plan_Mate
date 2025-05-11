@@ -1,6 +1,5 @@
 package logic.use_cases.project
 
-import logic.exceptions.AccessDeniedException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.ui.utils.GenerateUUID
@@ -16,13 +15,12 @@ class CreateNewProjectUseCase(
         user: User,
         title: String,
         description: String,
-        tasks: List<Task> = emptyList() ,
+        tasks: List<Task> = emptyList(),
         tasksState: List<TaskState> = emptyList()
-
     ): Project {
-        if (user.role != UserRole.ADMIN) {
-            throw AccessDeniedException(NOT_AUTHORIZED_EXCEPTION_MESSAGE)
-        }
+
+        user.checkUserIsAdmin()
+
         val newProjectInfo = Project(
             id = GenerateUUID().generate(),
             title = title,
@@ -31,20 +29,27 @@ class CreateNewProjectUseCase(
             tasks = tasks,
             taskState = tasksState
         )
+
         projectDataValidationUseCase.validateProjectData(newProjectInfo)
         val createdProject = projectRepository.createNewProject(newProjectInfo)
-        logRepository.addNewLog(LogEntry(
-            userName = user.username,
-            targetId = createdProject.id,
-            targetType = TargetType.PROJECT,
-            action = "${createdProject.id} Created Project",
-            oldValue = "title $title | description $description",
-            newValue = "title ${createdProject.title} | description ${createdProject.description}",
-        ))
+        logCreateNewProject(user, createdProject)
+
         return createdProject
     }
 
-    companion object {
-        const val NOT_AUTHORIZED_EXCEPTION_MESSAGE = "User is not authorized to perform this action."
+    private suspend fun logCreateNewProject(
+        user: User,
+        createdProject: Project,
+    ) {
+        logRepository.addNewLog(
+            LogEntry(
+                userName = user.username,
+                targetId = createdProject.id,
+                targetType = TargetType.PROJECT,
+                action = "Project with id ${createdProject.id} Created",
+                newValue = "title ${createdProject.title} | description ${createdProject.description}",
+            )
+        )
     }
+
 }
