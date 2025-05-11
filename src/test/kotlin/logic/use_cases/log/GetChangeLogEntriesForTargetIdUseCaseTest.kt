@@ -11,6 +11,7 @@ import kotlinx.datetime.LocalTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.repositories.LogRepository
+import org.qudus.squad.logic.validation.LogEntryDataValidationUseCase
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.entity.TargetType
@@ -18,12 +19,14 @@ import org.qudus.squad.model.entity.TargetType
 class GetChangeLogEntriesForTargetIdUseCaseTest {
 
     private lateinit var logRepository: LogRepository
+    private lateinit var logEntryDataValidator: LogEntryDataValidationUseCase
     private lateinit var getChangeLogEntriesForTargetIdUseCase: GetChangeLogEntriesForTargetIdUseCase
 
     @BeforeEach
     fun setUp() {
         logRepository = mockk(relaxed = true)
-        getChangeLogEntriesForTargetIdUseCase = GetChangeLogEntriesForTargetIdUseCase(logRepository)
+        logEntryDataValidator = LogEntryDataValidationUseCase()
+        getChangeLogEntriesForTargetIdUseCase = GetChangeLogEntriesForTargetIdUseCase(logRepository,logEntryDataValidator)
     }
 
     private fun sampleLogEntries(): List<LogEntry> {
