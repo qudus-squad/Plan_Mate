@@ -15,6 +15,7 @@ import org.koin.dsl.module
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
 import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
 import org.qudus.squad.logic.use_cases.user.GetUserByIdUseCase
+import org.qudus.squad.logic.validation.LogEntryDataValidationUseCase
 import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.ui.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
@@ -25,6 +26,7 @@ import org.qudus.squad.model.entity.LoginSession
 val useCaseModule = module {
 
     single { UserDataValidationUseCase() }
+    single { LogEntryDataValidationUseCase() }
 
     single { ProjectDataValidationUseCase() }
 
@@ -32,7 +34,7 @@ val useCaseModule = module {
 
     single { SignInUseCase(get(), get()) }
 
-    single { GetChangeLogEntriesForTargetIdUseCase(get()) }
+    single { GetChangeLogEntriesForTargetIdUseCase(get(),get()) }
 
     single { CreateNewProjectUseCase(get(), get(), get()) }
 
@@ -57,11 +59,11 @@ val useCaseModule = module {
 
     single<DataHashing> { EncryptionByUsingMD5() }
 
-    single { SaveLogUseCase(get()) }
+    single { SaveLogUseCase(get(),get()) }
 
     single { AddNewUserUseCase(get(),get(),get()) }
 
-    single { GetAllLogsUseCase(get()) }
+    single { GetAllLogsUseCase(get(),get()) }
 
     single { EditTaskUseCase(get() , get() , get()) }
     single { GetUserByIdUseCase (get()) }
