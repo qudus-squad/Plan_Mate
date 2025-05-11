@@ -42,13 +42,13 @@ class OneProjectTableDisplay() {
     }
     fun main() {
         val tasks = listOf(
-            Task(title = "Design ", description = "", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-            Task(title = "Create ", description = "", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-            Task(title = "Implement ", description = "", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-            Task(title = "tests", description = "", projectId = "1", taskState = TaskState(name = "DONE")),
-            Task(title = "apply", description = "", projectId = "1",taskState = TaskState(name = "DONE")),
-            Task(title = "save", description = "", projectId = "1", taskState = TaskState(name = "TODO")),
-            Task(title = "Review", description = "", projectId = "1",taskState = TaskState(name = "TODO"))
+            Task(title = "Design ", description = "", projectId = "1", creatorUserID = "" , taskState = TaskState(name = "IN PROGRESS")),
+            Task(title = "Create ", description = "", projectId = "1", creatorUserID = "" , taskState = TaskState(name = "IN PROGRESS")),
+            Task(title = "Implement ", description = "", projectId = "1", creatorUserID = "" , taskState = TaskState(name = "IN PROGRESS")),
+            Task(title = "tests", description = "", projectId = "1", creatorUserID = "" , taskState = TaskState(name = "DONE")),
+            Task(title = "apply", description = "", projectId = "1", creatorUserID = "" ,taskState = TaskState(name = "DONE")),
+            Task(title = "save", description = "", projectId = "1", creatorUserID = "" , taskState = TaskState(name = "TODO")),
+            Task(title = "Review", description = "", projectId = "1", creatorUserID = "" ,taskState = TaskState(name = "TODO"))
         )
         val state = listOf(
             TaskState(name = "TODO"),TaskState(name = "DONE" ),TaskState(name = "IN PROGRESS"),TaskState(name = "DNE" )
@@ -58,6 +58,7 @@ class OneProjectTableDisplay() {
             title = "Plan Mate App",
             description = "A project management application",
             tasks = tasks,
+            creatorUserId = "",
             taskState =state
         )
         OneProjectTableDisplay().displayProjectDetail(project)

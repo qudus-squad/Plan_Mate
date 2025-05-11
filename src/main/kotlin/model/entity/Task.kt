@@ -12,7 +12,7 @@ data class Task(
     val description : String,
     val projectId: String,
     val taskState: TaskState,
-    val creatorUserID: String = GenerateUUID().generate(),
+    val creatorUserID: String,
     val assignedUserId : String? =null,
     val createdAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
     val lastUpdatedAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),

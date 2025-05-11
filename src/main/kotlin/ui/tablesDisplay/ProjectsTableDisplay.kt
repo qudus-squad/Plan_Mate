@@ -38,10 +38,10 @@ class ProjectsTableDisplay(
     fun main ( ) {
 
         val projects: List<Project> = listOf(
-            Project(title = "project 1", description = " /// "),
-            Project(title = "project 2", description = " ///"),
-            Project(title = "project 3", description = " ///"),
-            Project(title = "project 4", description = " /// ")
+            Project(title = "project 1", creatorUserId = "" ,description = " /// "),
+            Project(title = "project 2", creatorUserId = "" ,description = " ///"),
+            Project(title = "project 3", creatorUserId = "" , description = " ///"),
+            Project(title = "project 4", creatorUserId = "" , description = " /// ")
         )
         ProjectsTableDisplay(dateFormater = DateTimeFormatter).displayProjectsTable(projects)
     }

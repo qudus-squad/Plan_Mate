@@ -37,6 +37,7 @@ class TaskManagement(
             userName = user.username
             , task = Task(
                 title = titleSelected,
+                creatorUserID = user.userId,
                 description = descriptionSelected,
                 projectId = id,
                 taskState = TaskState(name = taskStateNameSelected),
