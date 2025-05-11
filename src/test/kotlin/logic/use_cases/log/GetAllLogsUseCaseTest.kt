@@ -1,5 +1,6 @@
 package logic.use_cases.log
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -8,50 +9,56 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import logic.exceptions.InvalidLogActionException
+import logic.exceptions.InvalidLogTargetIdException
+import logic.exceptions.InvalidLogUserNameException
 import org.junit.jupiter.api.BeforeEach
 import org.qudus.squad.logic.repositories.LogRepository
+import org.qudus.squad.logic.validation.LogEntryDataValidationUseCase
 import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.entity.TargetType
 import kotlin.test.Test
 
 class GetAllLogsUseCaseTest {
+
+
     private lateinit var logRepository: LogRepository
+    private lateinit var logEntryDataValidator: LogEntryDataValidationUseCase
     private lateinit var getAllLogsUseCase: GetAllLogsUseCase
 
     @BeforeEach
-    fun setUp() {
+    fun setup() {
         logRepository = mockk(relaxed = true)
-        getAllLogsUseCase = GetAllLogsUseCase(logRepository)
+        logEntryDataValidator = LogEntryDataValidationUseCase()
+        getAllLogsUseCase = GetAllLogsUseCase(logRepository, logEntryDataValidator)
     }
 
-    private fun sampleLogEntries(): List<LogEntry> {
-        val dateTime = LocalDateTime(LocalDate(2025, 5, 1), LocalTime(10, 30))
-        return listOf(
-            LogEntry(
-                userName = "farah",
-                targetId = "hh-ff1",
-                targetType = TargetType.TASK,
-                action = "CREATED",
-                oldValue = null,
-                newValue = "Task 1",
-                loggedAt = dateTime
-            ), LogEntry(
-                userName = "heba",
-                targetId = "frg-g2",
-                targetType = TargetType.PROJECT,
-                action = "DELETED",
-                oldValue = "Project X",
-                newValue = null,
-                loggedAt = dateTime
-            )
-        )
-    }
+    private fun dateTime() = LocalDateTime(LocalDate(year = 2025, monthNumber = 5, dayOfMonth = 1), LocalTime(hour = 10, minute = 30))
 
     @Test
-    fun `should return all logs when repository has logs`() {
+    fun `should return logs when repository has valid logs`() {
         runTest {
             // Given
-            val logs = sampleLogEntries()
+            val logs = listOf(
+                LogEntry(
+                    userName = "farah",
+                    targetId = "id1",
+                    TargetType.TASK,
+                    action = "CREATED",
+                    oldValue = null,
+                    newValue = "Task1",
+                    dateTime()
+                ),
+                LogEntry(
+                    userName = "heba",
+                    targetId = "id2",
+                    TargetType.PROJECT,
+                    action = "DELETED",
+                    oldValue = "ProjX",
+                    newValue = null,
+                    dateTime()
+                )
+            )
             coEvery { logRepository.getAllLogs() } returns logs
 
             // When
@@ -62,8 +69,9 @@ class GetAllLogsUseCaseTest {
         }
     }
 
+
     @Test
-    fun `should return empty list when repository has no logs`() {
+    fun `should return empty list when repository is empty`() {
         runTest {
             // Given
             coEvery { logRepository.getAllLogs() } returns emptyList()
@@ -75,4 +83,77 @@ class GetAllLogsUseCaseTest {
             result shouldBe emptyList()
         }
     }
+
+    @Test
+    fun `should throw InvalidLogUserNameException when log has blank userName`() {
+        runTest {
+            // Given
+            val logs = listOf(
+                LogEntry(
+                    userName = "",
+                    targetId = "id1",
+                    TargetType.TASK,
+                    action = "CREATED",
+                    oldValue = null,
+                    newValue = "Task1",
+                    dateTime()
+                )
+            )
+            coEvery { logRepository.getAllLogs() } returns logs
+
+            // When & Then
+            shouldThrow<InvalidLogUserNameException> {
+                getAllLogsUseCase.getAllLogs()
+            }
+        }
+    }
+
+    @Test
+    fun `should throw InvalidLogTargetIdException when log has blank targetId`() {
+        runTest {
+            // Given
+            val logs = listOf(
+                LogEntry(
+                    userName = "farah",
+                    targetId = "",
+                    TargetType.TASK,
+                    action = "CREATED",
+                    oldValue = null,
+                    newValue = "Task1",
+                    dateTime()
+                )
+            )
+            coEvery { logRepository.getAllLogs() } returns logs
+
+            // When & Then
+            shouldThrow<InvalidLogTargetIdException> {
+                getAllLogsUseCase.getAllLogs()
+            }
+        }
+    }
+
+    @Test
+    fun `should throw InvalidLogActionException when log has blank action`() {
+        runTest {
+            // Given
+            val logs = listOf(
+                LogEntry(
+                    userName = "farah",
+                    targetId = "id1",
+                    TargetType.TASK,
+                    action = "",
+                    oldValue = null,
+                    newValue = "Task1",
+                    dateTime()
+                )
+            )
+            coEvery { logRepository.getAllLogs() } returns logs
+
+            // When & Then
+            shouldThrow<InvalidLogActionException> {
+                getAllLogsUseCase.getAllLogs()
+            }
+        }
+    }
 }
+
