@@ -43,6 +43,7 @@ fun main() {
             title = "task 1",
             description = "///",
             projectId = "proj1",
+            creatorUserID = "",
             taskState = TaskState(name = ""),
         ),
         Task(
@@ -50,6 +51,7 @@ fun main() {
             title = "task 2",
             description = "///",
             projectId = "proj2",
+            creatorUserID = "",
             taskState = TaskState(name = ""),
         )
     )

@@ -65,7 +65,7 @@ class ManageUsers (
             val deleteUserUseCase: DeleteUserUseCase = getKoin().get()
             println("ENTER USER ID : ")
             val idSelected = readlnOrNull()?.trim() ?: ""
-            deleteUserUseCase.deleteUser(user, idSelected)
+            deleteUserUseCase.deleteUser(user.username, idSelected)
             println("USER WITH : '$idSelected' ID DELETED")
         } catch (e: Exception) {
             println("FAILED TO DELETE USER PRESS ENTER TO TRY AGAIN OR 0 TO EXIT")
