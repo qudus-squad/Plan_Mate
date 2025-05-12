@@ -46,7 +46,7 @@ val useCaseModule = module {
 
     single { GetProjectByIdUseCase(get()) }
 
-    single { AssignTaskToUserUseCase(get()) }
+    single { AssignTaskToUserUseCase(get(),get(),get()) }
 
     single { UnAssignTaskUseCase(get()) }
 

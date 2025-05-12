@@ -6,6 +6,7 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
+import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
@@ -133,7 +134,10 @@ class TaskManagement(
     }
     suspend fun assignTask() {
         val repository: TaskRepository = getKoin().get()
-        val assignTaskToUser = AssignTaskToUserUseCase(taskRepository =repository)
+        val taskDataValidationUseCase: TaskDataValidationUseCase = getKoin().get()
+        val userDataValidationUseCase: UserDataValidationUseCase = getKoin().get()
+        val assignTaskToUser = AssignTaskToUserUseCase(taskRepository =repository , taskDataValidationUseCase
+        ,userDataValidationUseCase)
 
         println("ENTER USER ID : ")
         val userIdSelected = readlnOrNull()?.trim() ?: ""
