@@ -62,6 +62,11 @@ class MongoTaskDataSource(
     }
 
     private fun getTaskCollection(): MongoCollection<TaskDto> {
-        return mongoDatabase.getCollection<TaskDto>("tasks")
+        return mongoDatabase.getCollection<TaskDto>(COLLECTION_NAME)
     }
+
+    companion object {
+        const val COLLECTION_NAME = "tasks"
+    }
+
 }

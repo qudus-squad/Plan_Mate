@@ -33,4 +33,5 @@ class MongoAuthenticationDataSource(
         const val PASSWORD_FIELD = "passwordHash"
         const val COLLECTION_NAME = "users"
     }
+
 }
