@@ -32,42 +32,42 @@ val useCaseModule = module {
 
     single { LoginSession() }
 
-    single { SignInUseCase(get(), get() , get()) }
+    single { SignInUseCase(get(), get(), get()) }
 
-    single { GetChangeLogEntriesForTargetIdUseCase(get(),get()) }
+    single { GetChangeLogEntriesForTargetIdUseCase(get(), get()) }
 
     single { CreateNewProjectUseCase(get(), get(), get()) }
 
-    single { DeleteProjectUseCase(get(), get()) }
+    single { DeleteProjectUseCase(get(), get(), get()) }
 
-    single { EditProjectUseCase(get(), get()) }
+    single { EditProjectUseCase(get(), get(), get(), get()) }
 
     single { GetAllProjectsUseCase(get()) }
 
-    single { GetProjectByIdUseCase(get()) }
+    single { GetProjectByIdUseCase(get(), get()) }
 
-    single { AssignTaskToUserUseCase(get()) }
+    single { AssignTaskToUserUseCase(get(), get()) }
 
     single { UnAssignTaskUseCase(get()) }
 
-    single { GetAllTasksByProjectIdUseCase(get()) }
+    single { GetAllTasksByProjectIdUseCase(get(), get()) }
 
 
-    single { CreateNewTaskUseCase(get(),get(),get()) }
+    single { CreateNewTaskUseCase(get(), get(), get()) }
 
-    single { DeleteTaskUseCase(get(),get(),get()) }
+    single { DeleteTaskUseCase(get(), get(), get()) }
 
     single<DataHashing> { EncryptionByUsingMD5() }
 
-    single { SaveLogUseCase(get(),get()) }
+    single { SaveLogUseCase(get(), get()) }
 
-    single { AddNewUserUseCase(get(),get(),get()) }
+    single { AddNewUserUseCase(get(), get(), get()) }
 
-    single { GetAllLogsUseCase(get(),get()) }
+    single { GetAllLogsUseCase(get(), get()) }
 
-    single { EditTaskUseCase(get() , get() , get()) }
-    single { GetUserByIdUseCase (get()) }
-    single { GetAllUsersUseCase (get()) }
+    single { EditTaskUseCase(get(), get(), get()) }
+    single { GetUserByIdUseCase(get(), get()) }
+    single { GetAllUsersUseCase(get()) }
     single { TaskDataValidationUseCase() }
 
 }

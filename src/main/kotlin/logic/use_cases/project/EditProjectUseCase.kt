@@ -3,6 +3,8 @@ package logic.use_cases.project
 
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
+import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
+import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.entity.TargetType
@@ -12,8 +14,12 @@ import org.qudus.squad.model.entity.User
 class EditProjectUseCase(
     private val projectRepository: ProjectRepository,
     private val logRepository: LogRepository,
+    private val userDataValidationUseCase: UserDataValidationUseCase,
+    private val projectValidationUseCase: ProjectDataValidationUseCase
 ) {
     suspend fun editProject(user: User, project: Project): Boolean {
+        userDataValidationUseCase.validateUserData(user.username, user.passwordHash)
+        projectValidationUseCase.validateProjectData(project)
         logRepository.addNewLog(
             LogEntry(
                 userName = user.username,

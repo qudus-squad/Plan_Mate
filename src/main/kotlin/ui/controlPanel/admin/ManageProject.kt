@@ -15,6 +15,7 @@ import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
+import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
@@ -25,10 +26,9 @@ import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 
-class ManageProject (
-    private val user: User,
-    private val taskManagement: TaskManagement
-){
+class ManageProject(
+    private val user: User, private val taskManagement: TaskManagement
+) {
 
 
     ///////////////////////////// MANAGE PROJECTS ////////////////////////////// ( 0 - > 1 )
@@ -47,34 +47,36 @@ class ManageProject (
 
     private suspend fun viewProjectById() {
         val repository: ProjectRepository = getKoin().get()
+        val projectDataValidationUseCase: ProjectDataValidationUseCase = getKoin().get()
         val getAllProjects = GetAllProjectsUseCase(repository)
-        val lisOfProjectsId =  getAllProjects.getAllProjects().map { it.id }
+        val lisOfProjectsId = getAllProjects.getAllProjects().map { it.id }
         val display = OneProjectTableDisplay()
 
-        val getProjectById = GetProjectByIdUseCase(repository)
-        println("ENTER PROJECT ID : ")
-        val idSelected = readlnOrNull()?.trim()?:""
-        if (idSelected in lisOfProjectsId){
-            display.displayProjectDetail(getProjectById.getProjectById(idSelected))
-        manageOneProjectPanel(idSelected)
-        }
-        else idNotFound()
-    }
-    private suspend fun deleteProject() {
-        val repository: ProjectRepository = getKoin().get()
-        val getAllProjects = GetAllProjectsUseCase(repository)
-        val lisOfProjectsId =  getAllProjects.getAllProjects().map { it.id }
-        val logeRepository: LogRepository = getKoin().get()
-        val deleteProject = DeleteProjectUseCase(repository, logeRepository)
+        val getProjectById = GetProjectByIdUseCase(repository, projectDataValidationUseCase)
         println("ENTER PROJECT ID : ")
         val idSelected = readlnOrNull()?.trim() ?: ""
-        if (idSelected in lisOfProjectsId){
+        if (idSelected in lisOfProjectsId) {
+            display.displayProjectDetail(getProjectById.getProjectById(idSelected))
+            manageOneProjectPanel(idSelected)
+        } else idNotFound()
+    }
+
+    private suspend fun deleteProject() {
+        val repository: ProjectRepository = getKoin().get()
+        val userDataValidationUseCase: UserDataValidationUseCase = getKoin().get()
+        val getAllProjects = GetAllProjectsUseCase(repository)
+        val lisOfProjectsId = getAllProjects.getAllProjects().map { it.id }
+        val logeRepository: LogRepository = getKoin().get()
+        val deleteProject = DeleteProjectUseCase(repository, logeRepository, userDataValidationUseCase)
+        println("ENTER PROJECT ID : ")
+        val idSelected = readlnOrNull()?.trim() ?: ""
+        if (idSelected in lisOfProjectsId) {
             deleteProject.deleteProject(user, idSelected)
             println("PROJECT WITH : '$idSelected' ID DELETED")
-            getAllProjects() }
-        else idNotFound()
+            getAllProjects()
+        } else idNotFound()
         println("PRESS ENTER TO TRY AGAIN OR 0 TO EXIT ")
-        if (readlnOrNull()?.trim() == "0" ) return manageAllProjectsPanel()else deleteProject()
+        if (readlnOrNull()?.trim() == "0") return manageAllProjectsPanel() else deleteProject()
     }
 
     suspend fun createNewProject() {
@@ -91,48 +93,91 @@ class ManageProject (
             val statesEntered = readlnOrNull()?.trim()?.split(",") ?: emptyList()
             println("Enter States (separated By Comma Character',')")
             val tasks = listOf(
-                Task(title = "Design ", description = "dd1", creatorUserID = "" ,projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-                Task(title = "Create ", description = "", creatorUserID = "" , projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-                Task(title = "Implement ", description = "", creatorUserID = "", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-                Task(title = "tests", description = "", creatorUserID = "", projectId = "1", taskState = TaskState(name = "DONE")),
-                Task(title = "apply", description = "", creatorUserID = "", projectId = "1",taskState = TaskState(name = "DONE")),
-                Task(title = "save", description = "", creatorUserID = "", projectId = "1", taskState = TaskState(name = "TODO")),
-                Task(title = "Review", description = "", creatorUserID = "", projectId = "1",taskState = TaskState(name = "TODO"))
+                Task(
+                    title = "Design ",
+                    description = "dd1",
+                    creatorUserID = "",
+                    projectId = "1",
+                    taskState = TaskState(name = "IN PROGRESS")
+                ), Task(
+                    title = "Create ",
+                    description = "",
+                    creatorUserID = "",
+                    projectId = "1",
+                    taskState = TaskState(name = "IN PROGRESS")
+                ), Task(
+                    title = "Implement ",
+                    description = "",
+                    creatorUserID = "",
+                    projectId = "1",
+                    taskState = TaskState(name = "IN PROGRESS")
+                ), Task(
+                    title = "tests",
+                    description = "",
+                    creatorUserID = "",
+                    projectId = "1",
+                    taskState = TaskState(name = "DONE")
+                ), Task(
+                    title = "apply",
+                    description = "",
+                    creatorUserID = "",
+                    projectId = "1",
+                    taskState = TaskState(name = "DONE")
+                ), Task(
+                    title = "save",
+                    description = "",
+                    creatorUserID = "",
+                    projectId = "1",
+                    taskState = TaskState(name = "TODO")
+                ), Task(
+                    title = "Review",
+                    description = "",
+                    creatorUserID = "",
+                    projectId = "1",
+                    taskState = TaskState(name = "TODO")
+                )
             )
             val taskStates = statesEntered.map { string -> TaskState(name = string) }
             createNewProject.createProject(
                 user = user,
                 title = titleSelected,
                 description = descriptionSelected,
-                tasks =tasks ,
+                tasks = tasks,
             )
-        }catch (e:Exception){
+        } catch (e: Exception) {
             println("FAILED TO CREATE PROJECT PRESS ENTER TO TRY AGAIN OR 0 TO EXIT ")
-            if (readlnOrNull()?.trim() == "0" ) return manageAllProjectsPanel()else createNewProject()
+            if (readlnOrNull()?.trim() == "0") return manageAllProjectsPanel() else createNewProject()
         }
 
     }
-    private suspend fun editProject(){
+
+    private suspend fun editProject() {
         val repository: ProjectRepository = getKoin().get()
         val logeRepository: LogRepository = getKoin().get()
-        val editProject = EditProjectUseCase(repository, logeRepository)
+        val userDataValidationUseCase: UserDataValidationUseCase = getKoin().get()
+        val projectValidationUseCase: ProjectDataValidationUseCase = getKoin().get()
+
+        val editProject = EditProjectUseCase(
+            repository, logeRepository, userDataValidationUseCase, projectValidationUseCase
+        )
         println("ENTER NEW NAME (OR LEAVE EMPTY FOR OLD VALUE): ")
         val titleSelected = readlnOrNull()?.trim() ?: ""
         println("ENTER NEW DESCRIPTION (OR LEAVE EMPTY FOR OLD VALUE): ")
         val descriptionSelected = readlnOrNull()?.trim() ?: ""
-        if( editProject.editProject(
-                user = user,
-                project = Project(
+        if (editProject.editProject(
+                user = user, project = Project(
                     title = titleSelected,
                     creatorUserId = user.userId,
                     description = descriptionSelected,
                 )
             )
-        ){
+        ) {
             println("project update")
-        }else {println(" failed  Empty try again or  0 to exit ")
-            if (readlnOrNull()?.trim() == "0" ) return
-            editProject()}
+        } else {
+            println(" failed  Empty try again or  0 to exit ")
+            if (readlnOrNull()?.trim() == "0") return
+            editProject()
+        }
     }
 
     private suspend fun manageAllProjectsPanel() {
@@ -154,7 +199,7 @@ class ManageProject (
     ///////////////////////////// CONTROL PANELS //////////////////////////////
 
 
-    private suspend fun manageOneProjectPanel(id : String) { // after displaying one project
+    private suspend fun manageOneProjectPanel(id: String) { // after displaying one project
         println("┌───────────────────────────────────────────┐")
         println("│                  PROJECT                  │")
         println("│              1- EDIT PROJECT              │")
@@ -168,7 +213,7 @@ class ManageProject (
         println("│   0- RETURN        │  EMPTY - MAIN MENU   │")
         println("└───────────────────────────────────────────┘")
         when (readlnOrNull()?.trim()) {
-            "1" -> getTasksByProjectId ( )
+            "1" -> getTasksByProjectId()
             "2" -> taskManagement.createNewTask(id)
             "3" -> taskManagement.deleteTaskById(id)
             "4" -> taskManagement.editTaskNameUsingId()
@@ -179,16 +224,18 @@ class ManageProject (
             else -> return
         }
     }
-    private suspend fun getTasksByProjectId ( ) {
+
+    private suspend fun getTasksByProjectId() {
         val repository: TaskRepository = getKoin().get()
         val csvReader: CsvReader = getKoin().get()
         val taskCsvParser: TaskCsvParser = getKoin().get()
         val writeInFileUseCase: WriteInFileUseCase = getKoin().get()
-        val logeRepository= CsvTaskDataSource(csvReader,taskCsvParser,writeInFileUseCase)
-        val get = GetAllTasksByProjectIdUseCase(repository)
+        val projectValidationUseCase: ProjectDataValidationUseCase = getKoin().get()
+        val logeRepository = CsvTaskDataSource(csvReader, taskCsvParser, writeInFileUseCase)
+        val get = GetAllTasksByProjectIdUseCase(repository, projectValidationUseCase)
         println("ENTER ): ")
         val titleSelected = readlnOrNull()?.trim() ?: ""
-        val print =  get.getAllTasksByProjectId(titleSelected)
+        val print = get.getAllTasksByProjectId(titleSelected)
         println(print)
     }
 

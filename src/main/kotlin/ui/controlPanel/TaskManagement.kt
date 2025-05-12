@@ -5,7 +5,9 @@ import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
+import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
+import org.qudus.squad.model.entity.EditTaskInput
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
@@ -15,7 +17,7 @@ import org.qudus.squad.ui.utils.DateTimeFormatter
 class TaskManagement(
     private val tasksRepository: TaskRepository, private val user: User,
 ) {
-    suspend fun createNewTask(id : String) {
+    suspend fun createNewTask(id: String) {
         val repository: TaskRepository = getKoin().get()
         val validation: TaskDataValidationUseCase = getKoin().get()
         val logRepository: LogRepository = getKoin().get()
@@ -34,8 +36,7 @@ class TaskManagement(
         val taskStateNameSelected = readlnOrNull()?.trim() ?: ""
 
         createNewTask.createNewTask(
-            userName = user.username
-            , task = Task(
+            userName = user.username, task = Task(
                 title = titleSelected,
                 creatorUserID = user.userId,
                 description = descriptionSelected,
@@ -60,12 +61,15 @@ class TaskManagement(
         val titleSelected = readlnOrNull()?.trim() ?: ""
         val oldTask = tasksRepository.getTaskById(id = idSelected)
         if (oldTask != null) {
+
             editTask.editTask(
-                userName = user.username,
-                updatedTask = oldTask.copy(title = titleSelected),
-                action = "edit Task Name form ${oldTask.title} to $titleSelected",
-                oldValue = oldTask.title,
-                newValue = titleSelected,
+                EditTaskInput(
+                    userName = user.username,
+                    updatedTask = oldTask.copy(title = titleSelected),
+                    action = "edit Task Name form ${oldTask.title} to $titleSelected",
+                    oldValue = oldTask.title,
+                    newValue = titleSelected,
+                )
             )
         } else println("task updated successfully")
     }
@@ -86,20 +90,25 @@ class TaskManagement(
         val oldTask = tasksRepository.getTaskById(id = idSelected)
         if (oldTask != null) {
             editTask.editTask(
-                userName = user.username,
-                updatedTask = oldTask.copy(description = descriptionSelected),
-                action = "edit Task description form ${oldTask.description} to $descriptionSelected",
-                oldValue = oldTask.description,
-                newValue = descriptionSelected,
+                EditTaskInput(
+                    userName = user.username,
+                    updatedTask = oldTask.copy(description = descriptionSelected),
+                    action = "edit Task description form ${oldTask.description} to $descriptionSelected",
+                    oldValue = oldTask.description,
+                    newValue = descriptionSelected,
+                )
             )
             println("task updated successfully")
         } else println("No task found with ID : $idSelected")
     }
 
-    suspend fun deleteTaskById(id : String) {
+    suspend fun deleteTaskById(id: String) {
         val repository: TaskRepository = getKoin().get()
+        val projectDataValidationUseCase: ProjectDataValidationUseCase = getKoin().get()
         val display = TasksTableDisplay(dateFormater = DateTimeFormatter)
-        val ta = GetAllTasksByProjectIdUseCase(repository).getAllTasksByProjectId( projectId = id )
+        val ta = GetAllTasksByProjectIdUseCase(
+            repository, projectDataValidationUseCase
+        ).getAllTasksByProjectId(projectId = id)
         display.displayTasksTable(ta)
 
         val validation: TaskDataValidationUseCase = getKoin().get()
@@ -114,11 +123,9 @@ class TaskManagement(
         val task = tasksRepository.getTaskById(idSelected)
         if (task != null) {
             deleteTask.deleteTask(
-                user.username,
-                taskId = idSelected,
-                taskTitle =task.title
+                user.username, taskId = idSelected, taskTitle = task.title
             )
-        }else println("")
+        } else println("")
         val oldTask = tasksRepository.getTaskById(id = idSelected)
 
         if (oldTask != null) {
@@ -128,12 +135,16 @@ class TaskManagement(
                 taskTitle = oldTask.title,
             )
             println("task updated successfully")
-        }
-        else println("No task found with ID : $idSelected")
+        } else println("No task found with ID : $idSelected")
     }
+
     suspend fun assignTask() {
         val repository: TaskRepository = getKoin().get()
-        val assignTaskToUser = AssignTaskToUserUseCase(taskRepository =repository)
+        val taskDataValidationUseCase: TaskDataValidationUseCase = getKoin().get()
+        val assignTaskToUser = AssignTaskToUserUseCase(
+            taskRepository = repository,
+            taskDataValidationUseCase = taskDataValidationUseCase,
+        )
 
         println("ENTER USER ID : ")
         val userIdSelected = readlnOrNull()?.trim() ?: ""
@@ -145,9 +156,10 @@ class TaskManagement(
         assignTaskToUser.assignTaskToUser(userId = userIdSelected, taskId = taskIdSelected)
 
     }
+
     suspend fun switchTaskState() {
         val repository: TaskRepository = getKoin().get()
-        val unAssignTaskToUser = UnAssignTaskUseCase(taskRepository =repository)
+        val unAssignTaskToUser = UnAssignTaskUseCase(taskRepository = repository)
         println("ENTER TASK ID : ")
         val taskIdSelected = readlnOrNull()?.trim() ?: ""
         unAssignTaskToUser.unAssignTask(taskId = taskIdSelected)
