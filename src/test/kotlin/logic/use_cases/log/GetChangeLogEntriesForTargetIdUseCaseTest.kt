@@ -20,13 +20,13 @@ class GetChangeLogEntriesForTargetIdUseCaseTest {
 
     private lateinit var logRepository: LogRepository
     private lateinit var logEntryDataValidator: LogEntryDataValidationUseCase
-    private lateinit var useCase: GetChangeLogEntriesForTargetIdUseCase
+    private lateinit var getChangeLogEntriesForTargetIdUseCase: GetChangeLogEntriesForTargetIdUseCase
 
     @BeforeEach
     fun setUp() {
         logRepository = mockk(relaxed = true)
         logEntryDataValidator = LogEntryDataValidationUseCase()
-        useCase = GetChangeLogEntriesForTargetIdUseCase(logRepository, logEntryDataValidator)
+        getChangeLogEntriesForTargetIdUseCase = GetChangeLogEntriesForTargetIdUseCase(logRepository, logEntryDataValidator)
     }
 
     private val sampleDateTime = LocalDateTime(
@@ -55,7 +55,7 @@ class GetChangeLogEntriesForTargetIdUseCaseTest {
             coEvery { logRepository.getLogByTargetId(targetId) } returns logs
 
             // When
-            val result = useCase.getFormattedLog(targetId)
+            val result = getChangeLogEntriesForTargetIdUseCase.getFormattedLog(targetId)
 
             // Then
             result.shouldContainExactly(
@@ -79,7 +79,7 @@ class GetChangeLogEntriesForTargetIdUseCaseTest {
             coEvery { logRepository.getLogByTargetId(targetId) } returns emptyList()
 
             // When
-            val result = useCase.getFormattedLog(targetId)
+            val result = getChangeLogEntriesForTargetIdUseCase.getFormattedLog(targetId)
 
             // Then
             result shouldBe emptyList()
