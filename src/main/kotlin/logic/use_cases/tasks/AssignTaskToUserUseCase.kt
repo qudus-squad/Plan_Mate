@@ -6,7 +6,8 @@ import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 
 class AssignTaskToUserUseCase(
-    private val taskRepository: TaskRepository, private val taskDataValidationUseCase: TaskDataValidationUseCase
+    private val taskRepository: TaskRepository,
+    private val taskDataValidationUseCase: TaskDataValidationUseCase
 ) {
     suspend fun assignTaskToUser(userId: String, taskId: String): Boolean {
         if (!taskDataValidationUseCase.validateAssignTaskValues(userId, taskId)) taskRepository.getTaskById(taskId)

@@ -17,7 +17,7 @@ class EditProjectUseCase(
     private val userDataValidationUseCase: UserDataValidationUseCase,
     private val projectValidationUseCase: ProjectDataValidationUseCase
 ) {
-    suspend fun editProject(user: User, project: Project): Boolean {
+    suspend fun editProject(user: User, project: Project): Project {
         userDataValidationUseCase.validateUserData(user.username, user.passwordHash)
         projectValidationUseCase.validateProjectData(project)
         logRepository.addNewLog(

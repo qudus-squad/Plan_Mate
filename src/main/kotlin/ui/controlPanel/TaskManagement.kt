@@ -135,9 +135,9 @@ class TaskManagement(
                 taskTitle = oldTask.title,
             )
             println("task updated successfully")
-        } else println("No task found with ID : $idSelected")
+        }
+        else println("No task found with ID : $idSelected")
     }
-
     suspend fun assignTask() {
         val repository: TaskRepository = getKoin().get()
         val taskDataValidationUseCase: TaskDataValidationUseCase = getKoin().get()
@@ -156,10 +156,9 @@ class TaskManagement(
         assignTaskToUser.assignTaskToUser(userId = userIdSelected, taskId = taskIdSelected)
 
     }
-
     suspend fun switchTaskState() {
         val repository: TaskRepository = getKoin().get()
-        val unAssignTaskToUser = UnAssignTaskUseCase(taskRepository = repository)
+        val unAssignTaskToUser = UnAssignTaskUseCase(taskRepository =repository)
         println("ENTER TASK ID : ")
         val taskIdSelected = readlnOrNull()?.trim() ?: ""
         unAssignTaskToUser.unAssignTask(taskId = taskIdSelected)

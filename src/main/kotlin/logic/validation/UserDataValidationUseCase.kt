@@ -48,6 +48,13 @@ class UserDataValidationUseCase {
         return !(password.isEmpty() || password.length < 8)
     }
 
+     fun validateUserId(userId: String): Boolean{
+        if (!isValidUserID(userId)){
+            throw InvalidUserIdException(INVALID_USER_ID)
+        }
+        return true
+    }
+
     companion object {
         const val INVALID_USER_ID= "User id should not be empty or blank."
         const val INVALID_USER_NAME =
