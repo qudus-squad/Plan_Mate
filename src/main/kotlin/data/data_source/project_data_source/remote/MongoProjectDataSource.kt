@@ -24,7 +24,7 @@ class MongoProjectDataSource(
 
     override suspend fun deleteProjectById(id: String): Boolean {
         return try {
-            val result = provideProjectCollection(mongoDatabase).deleteOne(Filters.eq(ID_FILED, id))
+            val result = provideProjectCollection(mongoDatabase).deleteOne(Filters.eq(ID_FIELD, id))
             result.deletedCount > 0
         } catch (e: Exception) {
             false
@@ -40,14 +40,14 @@ class MongoProjectDataSource(
     }
 
     override suspend fun getProjectById(id: String): Project {
-        val projectDto = provideProjectCollection(mongoDatabase).find(Filters.eq(ID_FILED, id)).firstOrNull()
+        val projectDto = provideProjectCollection(mongoDatabase).find(Filters.eq(ID_FIELD, id)).firstOrNull()
             ?: throw ProjectNotFoundException(PROJECT_NOT_FOUND)
         return projectDto.toProject()
     }
 
     override suspend fun editProject(project: Project): Project {
         val projectDto = project.toProjectDto()
-        provideProjectCollection(mongoDatabase).replaceOne(Filters.eq(ID_FILED, project.id), projectDto).let {
+        provideProjectCollection(mongoDatabase).replaceOne(Filters.eq(ID_FIELD, project.id), projectDto).let {
             return project
         }
     }
@@ -57,7 +57,7 @@ class MongoProjectDataSource(
     }
 
     companion object {
-        const val ID_FILED = "id"
+        const val ID_FIELD = "id"
         const val COLLECTION_NAME = "projects"
     }
 
