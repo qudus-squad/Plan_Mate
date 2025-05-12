@@ -17,7 +17,7 @@ class ProjectDataValidationUseCase {
     }
 
     fun validateProjectId(id: String) {
-        if (isValidProjectId(id)) throw InvalidProjectIdException(INVALID_PROJECT_ID)
+        if (!isValidProjectId(id)) throw InvalidProjectIdException(INVALID_PROJECT_ID)
     }
 
     private fun isValidProjectId(title: String): Boolean {
