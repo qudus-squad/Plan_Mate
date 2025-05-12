@@ -61,8 +61,8 @@ class CsvProjectDataSource(
 
         val csvLines = updatedProjects.map(projectCsvParser::toCsvRow)
         writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
-
-        return project
+        val updatedProject = getProjectById(project.id)
+        return updatedProject
     }
 
     companion object {
