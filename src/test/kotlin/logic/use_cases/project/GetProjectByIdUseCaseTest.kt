@@ -12,17 +12,20 @@ import org.junit.jupiter.api.Test
 import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource.Companion.PROJECT_NOT_FOUND
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
+import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.model.entity.Project
 
 class GetProjectByIdUseCaseTest {
 
     private lateinit var projectRepository: ProjectRepository
     private lateinit var getProjectByIdUseCase: GetProjectByIdUseCase
+    private lateinit var projectDataValidationUseCase: ProjectDataValidationUseCase
 
     @BeforeEach
     fun setup() {
         projectRepository = mockk(relaxed = true)
-        getProjectByIdUseCase = GetProjectByIdUseCase(projectRepository)
+        projectDataValidationUseCase = ProjectDataValidationUseCase()
+        getProjectByIdUseCase = GetProjectByIdUseCase(projectRepository, projectDataValidationUseCase)
     }
 
     @Test
@@ -32,6 +35,7 @@ class GetProjectByIdUseCaseTest {
         val project = Project(
             title = "project",
             description = "title",
+            creatorUserId = "1422336655"
         )
         coEvery { projectRepository.getProjectById(project.id) } returns project
 

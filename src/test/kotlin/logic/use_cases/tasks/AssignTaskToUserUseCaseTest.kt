@@ -21,12 +21,13 @@ import kotlin.test.Test
 class AssignTaskToUserUseCaseTest {
     private lateinit var taskRepository: TaskRepository
     private lateinit var assignTaskToUserUseCase: AssignTaskToUserUseCase
+    private lateinit var taskDataValidationUseCase: TaskDataValidationUseCase
 
     @BeforeEach
     fun setup() {
         taskRepository = mockk(relaxed = true)
-        assignTaskToUserUseCase = AssignTaskToUserUseCase(taskRepository, TaskDataValidationUseCase()
-        , UserDataValidationUseCase())
+        taskDataValidationUseCase = TaskDataValidationUseCase()
+        assignTaskToUserUseCase = AssignTaskToUserUseCase(taskRepository, taskDataValidationUseCase)
     }
 
     @Test
@@ -103,24 +104,24 @@ class AssignTaskToUserUseCaseTest {
     }
 
     @Test
-    fun `should throw InvalidTaskIdException when task id is blank or empty`(){
-        runTest{
+    fun `should throw InvalidTaskIdException when task id is blank or empty`() {
+        runTest {
             // Given
             val userId = "1483235"
             val taskId = " "
             // When & Then
-            shouldThrow<InvalidTaskIdException> { assignTaskToUserUseCase.assignTaskToUser(userId,taskId) }
+            shouldThrow<InvalidTaskIdException> { assignTaskToUserUseCase.assignTaskToUser(userId, taskId) }
         }
     }
 
     @Test
-    fun `should throw InvalidUserIdException when user id is empty`(){
-        runTest{
+    fun `should throw InvalidUserIdException when user id is empty`() {
+        runTest {
             // Given
             val userId = ""
             val taskId = "1582dgfg65"
             // When & Then
-            shouldThrow<InvalidUserIdException> { assignTaskToUserUseCase.assignTaskToUser(userId,taskId) }
+            shouldThrow<InvalidUserIdException> { assignTaskToUserUseCase.assignTaskToUser(userId, taskId) }
         }
     }
 

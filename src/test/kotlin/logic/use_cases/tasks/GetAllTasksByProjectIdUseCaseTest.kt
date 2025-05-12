@@ -13,6 +13,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
+import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import kotlin.test.Test
@@ -21,11 +22,13 @@ import kotlin.test.Test
 class GetAllTasksByProjectIdUseCaseTest {
     private lateinit var taskRepository: TaskRepository
     private lateinit var getAllTasksByProjectIdUseCase: GetAllTasksByProjectIdUseCase
+    private lateinit var projectDataValidationUseCase: ProjectDataValidationUseCase
 
     @BeforeEach
     fun setup() {
         taskRepository = mockk<TaskRepository>(relaxed = true)
-        getAllTasksByProjectIdUseCase = GetAllTasksByProjectIdUseCase(taskRepository)
+        projectDataValidationUseCase = ProjectDataValidationUseCase()
+        getAllTasksByProjectIdUseCase = GetAllTasksByProjectIdUseCase(taskRepository, projectDataValidationUseCase)
     }
 
     @Test
