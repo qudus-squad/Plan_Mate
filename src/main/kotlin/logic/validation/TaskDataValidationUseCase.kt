@@ -48,7 +48,7 @@ class TaskDataValidationUseCase {
             throw InvalidUserIdException(UserDataValidationUseCase.INVALID_USER_ID)
         }
         if (!isValidTaskId(taskId)){
-            throw InvalidUserNameException(UserDataValidationUseCase.INVALID_USER_NAME)
+            throw InvalidTaskIdException(UserDataValidationUseCase.INVALID_USER_NAME)
         }
         return true
     }

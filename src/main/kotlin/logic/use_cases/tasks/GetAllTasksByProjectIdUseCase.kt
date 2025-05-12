@@ -1,6 +1,7 @@
 package logic.use_cases.tasks
 
 import logic.exceptions.InvalidProjectTitleException
+import logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase.Companion.INVALID_PROJECT_TITLE
@@ -13,6 +14,8 @@ class GetAllTasksByProjectIdUseCase(
         if (!projectDataValidationUseCase.isValidProjectTitle(projectId)) throw InvalidProjectTitleException(
             INVALID_PROJECT_TITLE
         )
+        val task = taskRepository.getAllTasksByProjectId(projectId)
+        if(task.isEmpty()) throw TaskNotFoundException(NO_TASK_FOUND)
         return taskRepository.getAllTasksByProjectId(projectId)
     }
 

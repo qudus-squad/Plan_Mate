@@ -34,13 +34,13 @@ class GetUserByIdUseCaseTest {
             val user = User(
                 username = "Farah",
                 passwordHash = "fara-heba-777",
-                userId = "731-fafa",
+                userId = "user_1",
                 role = UserRole.ADMIN
             )
-            coEvery { userRepository.getUserById("731-fafa") } returns user
+            coEvery { userRepository.getUserById("user_1") } returns user
 
             // When
-            val result = getUserByIdUseCase.getUserById("731-fafa")
+            val result = getUserByIdUseCase.getUserById("user_1")
 
             // Then
             result shouldBe user
@@ -51,14 +51,12 @@ class GetUserByIdUseCaseTest {
     fun `should throw UserNotFoundException when there are no users with selected id`() {
         runTest {
             // Given
-            coEvery { userRepository.getUserById("999-xyz") } throws UserNotFoundException()
+            coEvery { userRepository.getUserById("user_999") } throws UserNotFoundException()
 
             // When & Then
             shouldThrow<UserNotFoundException> {
-                getUserByIdUseCase.getUserById("999-xyz")
+                getUserByIdUseCase.getUserById("user_999")
             }
         }
     }
-
 }
-

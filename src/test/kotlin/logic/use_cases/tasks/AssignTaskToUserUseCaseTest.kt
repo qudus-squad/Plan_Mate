@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDateTime
 import logic.exceptions.InvalidTaskIdException
 import logic.exceptions.InvalidUserIdException
+import logic.exceptions.InvalidUserNameException
 import org.junit.jupiter.api.BeforeEach
 import logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
@@ -108,7 +109,7 @@ class AssignTaskToUserUseCaseTest {
         runTest {
             // Given
             val userId = "1483235"
-            val taskId = " "
+            val taskId = ""
             // When & Then
             shouldThrow<InvalidTaskIdException> { assignTaskToUserUseCase.assignTaskToUser(userId, taskId) }
         }
@@ -124,5 +125,4 @@ class AssignTaskToUserUseCaseTest {
             shouldThrow<InvalidUserIdException> { assignTaskToUserUseCase.assignTaskToUser(userId, taskId) }
         }
     }
-
 }
