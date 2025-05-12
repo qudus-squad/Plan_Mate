@@ -37,6 +37,12 @@ class UserDataValidationUseCase {
         }
         return true
     }
+    fun validateUserByIdValues(userid: String): Boolean{
+        if (!isValidUserName(userid)){
+            throw InvalidUserIdException(INVALID_USER_ID)
+        }
+        return true
+    }
 
     private fun isValidPassword(password: String): Boolean {
         return !(password.isEmpty() || password.length < 8)

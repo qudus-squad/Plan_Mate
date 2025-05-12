@@ -24,7 +24,7 @@ class UserAlreadyExistsException(message: String = USER_ALREADY_EXIST) : Excepti
 open class InvalidProjectData(message: String) : Exception(message)
 class InvalidProjectTitleException(message: String) : InvalidProjectData(message)
 class InvalidProjectDescriptionException(message: String) : InvalidProjectData(message)
-class InvalidProjectIDException(message: String) : InvalidProjectData(message)
+class InvalidProjectIdException(message: String) : InvalidProjectData(message)
 class TaskNotFoundException(message: String) : Exception(message)
 class ProjectNotFoundException(message: String) : Exception(message)
 class FailedCreatingProject(message: String) : Exception(message)

@@ -1,12 +1,6 @@
 package org.qudus.squad.logic.validation
 
-import logic.exceptions.InvalidTaskCreatorUserIdException
-import logic.exceptions.InvalidTaskDescriptionException
-import logic.exceptions.InvalidTaskIdException
-import logic.exceptions.InvalidTaskProjectIdException
-import logic.exceptions.InvalidTaskStateNameException
-import logic.exceptions.InvalidTaskTitleException
-import logic.exceptions.InvalidUserNameException
+import logic.exceptions.*
 import org.qudus.squad.model.entity.Task
 
 class TaskDataValidationUseCase {
@@ -46,6 +40,23 @@ class TaskDataValidationUseCase {
             throw InvalidTaskIdException(INVALID_TASK_ID)
         }
         return true
+    }
+
+    fun validateAssignTaskValues(userId : String, taskId : String): Boolean{
+        if (!isValidUserID(userId)){
+            throw InvalidUserIdException(UserDataValidationUseCase.INVALID_USER_ID)
+        }
+        if (!isValidTaskId(taskId)){
+            throw InvalidUserNameException(UserDataValidationUseCase.INVALID_USER_NAME)
+        }
+        return true
+    }
+// i take it temporary form user data validator
+    private fun isValidUserID(userid: String): Boolean {
+        val formattedUserId = userid.trim()
+        return formattedUserId.isNotEmpty() && userid.all { ch ->
+            ch.isLetterOrDigit() || ch == '.' || ch == '_'
+        }
     }
 
     private fun isValidUserName(userName: String): Boolean{
