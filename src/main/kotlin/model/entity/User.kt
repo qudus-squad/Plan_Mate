@@ -7,7 +7,8 @@ data class User(
     val passwordHash: String,
     val userId: String = GenerateUUID().generate(),
     val role: UserRole
-    )
+)
+
 enum class UserRole {
     ADMIN,
     MATE

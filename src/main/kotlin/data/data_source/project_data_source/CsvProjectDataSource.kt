@@ -54,15 +54,15 @@ class CsvProjectDataSource(
         } ?: throw ProjectNotFoundException(PROJECT_NOT_FOUND)
     }
 
-    override suspend fun editProject(project: Project): Boolean {
+    override suspend fun editProject(project: Project): Project {
         val updatedProjects = getAllProjects().map {
             if (it.id == project.id) project else it
         }
 
         val csvLines = updatedProjects.map(projectCsvParser::toCsvRow)
         writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
-
-        return true
+        val updatedProject = getProjectById(project.id)
+        return updatedProject
     }
 
     companion object {

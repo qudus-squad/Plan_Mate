@@ -31,6 +31,11 @@ class TaskDataValidationUseCase {
         if (!isValidUserName(userName)){
             throw InvalidUserNameException(UserDataValidationUseCase.INVALID_USER_NAME)
         }
+        validateTaskId(taskId)
+        return true
+    }
+
+    fun validateTaskId(taskId: String): Boolean{
         if (!isValidTaskId(taskId)){
             throw InvalidTaskIdException(INVALID_TASK_ID)
         }

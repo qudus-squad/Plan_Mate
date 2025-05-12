@@ -5,11 +5,9 @@ import logic.use_cases.user.GetAllUsersUseCase
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
-import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.ui.tablesDisplay.UsersTableDisplay
-import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.ui.utils.StringAlignment.center
 
 class ManageUsers(
@@ -31,10 +29,8 @@ class ManageUsers(
 
     private suspend fun createNewUser() {
         try {
-            val repository: UserRepository = getKoin().get()
-            val validation: UserDataValidationUseCase = getKoin().get()
-            val hashing: DataHashing = getKoin().get()
-            val createNewUser = AddNewUserUseCase(repository, validation, hashing)
+
+            val createNewUser: AddNewUserUseCase = getKoin().get()
             println("ENTER USER NAME : ")
             val titleSelected = readlnOrNull()?.trim() ?: ""
             println("ENTER USER PASSWORD : ")
