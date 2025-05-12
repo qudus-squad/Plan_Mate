@@ -27,7 +27,7 @@ class SignInUseCaseTest {
     fun setup() {
         authenticationRepository = mockk(relaxed = true)
         userDataValidationUseCase = UserDataValidationUseCase()
-        lotRepository = mockk()
+        lotRepository = mockk(relaxed = true)
         signInUseCase = SignInUseCase(authenticationRepository, userDataValidationUseCase,lotRepository)
     }
 
