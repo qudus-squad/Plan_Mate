@@ -2,6 +2,7 @@ package org.qudus.squad.logic.validation
 
 import logic.exceptions.*
 import org.qudus.squad.model.entity.Task
+import org.qudus.squad.model.entity.TaskState
 
 class TaskDataValidationUseCase {
 
@@ -58,7 +59,11 @@ class TaskDataValidationUseCase {
             ch.isLetterOrDigit() || ch == '.' || ch == '_'
         }
     }
-
+    fun validateEditTaskName(taskStateName: String){
+        if (!isValidTaskStateName(taskStateName)){
+            throw InvalidTaskStateNameException(INVALID_TASK_STATE_NAME)
+        }
+    }
     private fun isValidUserName(userName: String): Boolean{
         return userName.isNotBlank()
     }

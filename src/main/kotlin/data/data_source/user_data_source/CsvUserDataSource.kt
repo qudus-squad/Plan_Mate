@@ -35,8 +35,7 @@ class CsvUserDataSource(
 
 
     override suspend fun getUserById(userId: String): User {
-        return getAllUsers().firstOrNull { user -> isUserMatching(userId, user) }
-            ?: throw UserNotFoundException()
+        return getAllUsers().firstOrNull { user -> isUserMatching(userId, user) } ?: throw UserNotFoundException()
 
     }
 
@@ -51,6 +50,12 @@ class CsvUserDataSource(
         val csvLines = filteredTasks.map { project -> userCsvParser.toCsvRow(project) }
         writeInFileUseCase.writeLinesToFile(USERS_FILE, csvLines)
     }
+
+    override suspend fun getUserByProjectId(projectId: String): User {
+        TODO("Not yet implemented")
+    }
+
+
     private fun isUserMatching(userId: String, user: User) = user.userId == userId
 
     companion object {
