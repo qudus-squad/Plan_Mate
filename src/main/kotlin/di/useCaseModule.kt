@@ -32,7 +32,7 @@ val useCaseModule = module {
 
     single { LoginSession() }
 
-    single { SignInUseCase(get(), get()) }
+    single { SignInUseCase(get(), get() , get()) }
 
     single { GetChangeLogEntriesForTargetIdUseCase(get(),get()) }
 
