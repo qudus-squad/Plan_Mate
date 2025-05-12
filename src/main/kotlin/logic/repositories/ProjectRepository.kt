@@ -8,5 +8,5 @@ interface ProjectRepository {
     suspend fun deleteProjectById(id: String = GenerateUUID().generate()): Boolean
     suspend fun createNewProject(project: Project): Project
     suspend fun getProjectById(id: String): Project
-    suspend fun editProject(project: Project): Boolean
+    suspend fun editProject(project: Project): Project
 }

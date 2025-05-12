@@ -33,13 +33,9 @@ class FakeProjectRepository : ProjectRepository {
         return projects.find { it.id == id } ?: throw ProjectNotFoundException(PROJECT_NOT_FOUND)
     }
 
-    override suspend fun editProject(project: Project): Boolean {
+    override suspend fun editProject(project: Project): Project {
         val index = projects.indexOfFirst { it.id == project.id }
-        return if (index != -1) {
-            projects[index] = project
-            true
-        } else {
-            false
-        }
+        projects[index] = project
+        return projects[index]
     }
 }

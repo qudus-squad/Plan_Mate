@@ -45,10 +45,11 @@ class MongoProjectDataSource(
         return projectDto.toProject()
     }
 
-    override suspend fun editProject(project: Project): Boolean {
+    override suspend fun editProject(project: Project): Project {
         val projectDto = project.toProjectDto()
-        val result = provideProjectCollection(mongoDatabase).replaceOne(Filters.eq("id", project.id), projectDto)
-        return result.modifiedCount > 0
+        provideProjectCollection(mongoDatabase).replaceOne(Filters.eq("id", project.id), projectDto).let {
+            return project
+        }
     }
 
     private fun provideProjectCollection(database: MongoDatabase): MongoCollection<ProjectDto> {
