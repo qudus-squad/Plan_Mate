@@ -14,7 +14,6 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
-import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
@@ -79,10 +78,8 @@ class ManageProject (
 
     suspend fun createNewProject() {
         try {
-            val repository: ProjectRepository = getKoin().get()
-            val validation: ProjectDataValidationUseCase = getKoin().get()
-            val logeRepository: LogRepository = getKoin().get()
-            val createNewProject = CreateNewProjectUseCase(repository, validation, logeRepository)
+
+            val createNewProject: CreateNewProjectUseCase = getKoin().get()
             println("ENTER PROJECT NAME : ")
             val titleSelected = readlnOrNull()?.trim() ?: ""
             println("ENTER PROJECT DESCRIPTION : ")
