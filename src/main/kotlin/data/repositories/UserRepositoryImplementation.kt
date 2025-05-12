@@ -21,4 +21,8 @@ class UserRepositoryImplementation(
     override suspend fun deleteUser(userId: String) {
         return userDataSource.deleteUser(userId)
     }
+
+    override suspend fun getUserByProjectId(projectId: String): User {
+        return userDataSource.getUserByProjectId(projectId)
+    }
 }
