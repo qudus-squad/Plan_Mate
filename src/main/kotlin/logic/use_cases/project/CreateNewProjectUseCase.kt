@@ -4,12 +4,14 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
+import org.qudus.squad.logic.validation.UserRoleValidationUseCase
 import org.qudus.squad.model.entity.*
 
 class CreateNewProjectUseCase(
     private val projectRepository: ProjectRepository,
     private val projectDataValidationUseCase: ProjectDataValidationUseCase,
     private val logRepository: LogRepository,
+    private val userRoleValidationUseCase: UserRoleValidationUseCase
 ) {
     suspend fun createProject(
         user: User,
@@ -19,7 +21,7 @@ class CreateNewProjectUseCase(
         tasksState: List<TaskState> = emptyList()
     ): Project {
 
-        user.checkUserIsAdmin()
+        userRoleValidationUseCase.checkUserRoleIsAdmin(user.role)
 
         val newProjectInfo = Project(
             id = GenerateUUID().generate(),

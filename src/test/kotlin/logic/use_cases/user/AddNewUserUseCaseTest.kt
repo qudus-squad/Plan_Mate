@@ -14,6 +14,7 @@ import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase.Companion.INVALID_USER_NAME
+import org.qudus.squad.logic.validation.UserRoleValidationUseCase
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
 import kotlin.test.Test
@@ -23,13 +24,15 @@ class AddNewUserUseCaseTest {
     private lateinit var userValidator: UserDataValidationUseCase
     private lateinit var hashing: DataHashing
     private lateinit var addNewUserUseCase: AddNewUserUseCase
+    private lateinit var userRoleValidationUseCase: UserRoleValidationUseCase
 
     @BeforeEach
     fun setup() {
         userRepository = mockk(relaxed = true)
         userValidator = UserDataValidationUseCase()
         hashing = mockk(relaxed = true)
-        addNewUserUseCase = AddNewUserUseCase(userRepository, userValidator, hashing)
+        userRoleValidationUseCase = UserRoleValidationUseCase()
+        addNewUserUseCase = AddNewUserUseCase(userRepository, userValidator, hashing, userRoleValidationUseCase)
     }
 
     @Test

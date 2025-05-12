@@ -3,12 +3,11 @@ package org.qudus.squad.ui.controlPanel
 import logic.use_cases.log.GetAllLogsUseCase
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.LogRepository
-import org.qudus.squad.logic.repositories.ProjectRepository
+import org.qudus.squad.logic.validation.LogEntryDataValidationUseCase
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.ui.controlPanel.admin.ManageProject
 import org.qudus.squad.ui.controlPanel.admin.ManageUsers
 import org.qudus.squad.ui.tablesDisplay.LogsTableDisplay
-import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 
@@ -41,7 +40,8 @@ class AdminControlPanel (
     private suspend fun recentLogsScreen() {
         val display = LogsTableDisplay(dateFormater = DateTimeFormatter)
         val repository: LogRepository = getKoin().get()
-        val getAllLogs = GetAllLogsUseCase(repository)
+        val logEntryValidator: LogEntryDataValidationUseCase= getKoin().get()
+        val getAllLogs = GetAllLogsUseCase(repository,logEntryValidator)
         val recentLogs = getAllLogs.getAllLogs()
         if (recentLogs.isNotEmpty()) {
             display.displayLogsDetails(recentLogs)

@@ -79,10 +79,8 @@ class ManageProject (
 
     suspend fun createNewProject() {
         try {
-            val repository: ProjectRepository = getKoin().get()
-            val validation: ProjectDataValidationUseCase = getKoin().get()
-            val logeRepository: LogRepository = getKoin().get()
-            val createNewProject = CreateNewProjectUseCase(repository, validation, logeRepository)
+
+            val createNewProject: CreateNewProjectUseCase = getKoin().get()
             println("ENTER PROJECT NAME : ")
             val titleSelected = readlnOrNull()?.trim() ?: ""
             println("ENTER PROJECT DESCRIPTION : ")
@@ -91,13 +89,13 @@ class ManageProject (
             val statesEntered = readlnOrNull()?.trim()?.split(",") ?: emptyList()
             println("Enter States (separated By Comma Character',')")
             val tasks = listOf(
-                Task(title = "Design ", description = "dd1", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-                Task(title = "Create ", description = "", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-                Task(title = "Implement ", description = "", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
-                Task(title = "tests", description = "", projectId = "1", taskState = TaskState(name = "DONE")),
-                Task(title = "apply", description = "", projectId = "1",taskState = TaskState(name = "DONE")),
-                Task(title = "save", description = "", projectId = "1", taskState = TaskState(name = "TODO")),
-                Task(title = "Review", description = "", projectId = "1",taskState = TaskState(name = "TODO"))
+                Task(title = "Design ", description = "dd1", creatorUserID = "" ,projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
+                Task(title = "Create ", description = "", creatorUserID = "" , projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
+                Task(title = "Implement ", description = "", creatorUserID = "", projectId = "1", taskState = TaskState(name = "IN PROGRESS")),
+                Task(title = "tests", description = "", creatorUserID = "", projectId = "1", taskState = TaskState(name = "DONE")),
+                Task(title = "apply", description = "", creatorUserID = "", projectId = "1",taskState = TaskState(name = "DONE")),
+                Task(title = "save", description = "", creatorUserID = "", projectId = "1", taskState = TaskState(name = "TODO")),
+                Task(title = "Review", description = "", creatorUserID = "", projectId = "1",taskState = TaskState(name = "TODO"))
             )
             val taskStates = statesEntered.map { string -> TaskState(name = string) }
             createNewProject.createProject(
