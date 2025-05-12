@@ -12,51 +12,42 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.validation.LogEntryDataValidationUseCase
-import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.model.entity.LogEntry
 import org.qudus.squad.model.entity.TargetType
+import org.qudus.squad.ui.utils.DateTimeFormatter
 
 class GetChangeLogEntriesForTargetIdUseCaseTest {
 
     private lateinit var logRepository: LogRepository
     private lateinit var logEntryDataValidator: LogEntryDataValidationUseCase
-    private lateinit var getChangeLogEntriesForTargetIdUseCase: GetChangeLogEntriesForTargetIdUseCase
+    private lateinit var useCase: GetChangeLogEntriesForTargetIdUseCase
 
     @BeforeEach
     fun setUp() {
         logRepository = mockk(relaxed = true)
         logEntryDataValidator = LogEntryDataValidationUseCase()
-        getChangeLogEntriesForTargetIdUseCase = GetChangeLogEntriesForTargetIdUseCase(logRepository,logEntryDataValidator)
+        useCase = GetChangeLogEntriesForTargetIdUseCase(logRepository, logEntryDataValidator)
     }
 
-    private fun sampleLogEntries(): List<LogEntry> {
-        val dateTime = LocalDateTime(
-            date = LocalDate(2025, 4, 30), time = LocalTime(2, 45)
-        )
+    private val sampleDateTime = LocalDateTime(
+        date = LocalDate(2025, 4, 30),
+        time = LocalTime(2, 45)
+    )
 
-        return listOf(
-            LogEntry(
-                userName = "farah",
-                targetId = "xyz-123",
-                targetType = TargetType.PROJECT,
-                action = "UPDATED",
-                oldValue = "old name",
-                newValue = "new name",
-                loggedAt = dateTime
-            ), LogEntry(
-                userName = "heba",
-                targetId = "xyz-123",
-                targetType = TargetType.PROJECT,
-                action = "UPDATED",
-                oldValue = "new name",
-                newValue = "final name",
-                loggedAt = dateTime
-            )
+    private fun sampleLogEntries(): List<LogEntry> = listOf(
+        LogEntry(
+            userName = USERNAME,
+            targetId = "xyz-123",
+            targetType = TargetType.PROJECT,
+            action = "UPDATED",
+            oldValue = "old name",
+            newValue = "new name",
+            loggedAt = sampleDateTime
         )
-    }
+    )
 
     @Test
-    fun `should return change logs for target id when history exists`() {
+    fun `should return formatted change logs for target id when history exists`() {
         runTest {
             // Given
             val targetId = "xyz-123"
@@ -64,37 +55,40 @@ class GetChangeLogEntriesForTargetIdUseCaseTest {
             coEvery { logRepository.getLogByTargetId(targetId) } returns logs
 
             // When
-            val result = getChangeLogEntriesForTargetIdUseCase.getFormattedLog(targetId)
+            val result = useCase.getFormattedLog(targetId)
 
             // Then
             result.shouldContainExactly(
                 listOf(
-                    "user farah changed project xyz-123 from old name to new name at ${
-                        DateTimeFormatter.formatDateTimeForDisplay(
-                            logs[0].loggedAt
-                        )
-                    }", "user heba changed project xyz-123 from new name to final name at ${
-                        DateTimeFormatter.formatDateTimeForDisplay(
-                            logs[1].loggedAt
-                        )
-                    }"
+                    FormattedLogEntry(
+                        userName = USERNAME,
+                        target = TARGET,
+                        changeValue =VALUES ,
+                        time = DateTimeFormatter.formatDateTimeForDisplay(sampleDateTime)
+                    )
                 )
             )
         }
     }
 
     @Test
-    fun `should return empty list when no Logs exist for target id`() {
+    fun `should return empty list when no logs exist for target id`() {
         runTest {
             // Given
-            val targetId = "123"
+            val targetId = "5264696545"
             coEvery { logRepository.getLogByTargetId(targetId) } returns emptyList()
 
             // When
-            val result = getChangeLogEntriesForTargetIdUseCase.getFormattedLog(targetId)
+            val result = useCase.getFormattedLog(targetId)
 
             // Then
             result shouldBe emptyList()
         }
+    }
+    companion object{
+        const val USERNAME="farah"
+        const val VALUES= "old name to new name"
+        const val TARGET ="project xyz-123"
+
     }
 }
