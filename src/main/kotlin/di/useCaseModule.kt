@@ -20,6 +20,7 @@ import org.qudus.squad.ui.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
+import org.qudus.squad.logic.validation.UserRoleValidationUseCase
 import org.qudus.squad.model.entity.LoginSession
 
 val useCaseModule = module {
@@ -28,13 +29,15 @@ val useCaseModule = module {
 
     single { ProjectDataValidationUseCase() }
 
+    single { UserRoleValidationUseCase() }
+
     single { LoginSession() }
 
     single { SignInUseCase(get(), get()) }
 
     single { GetChangeLogEntriesForTargetIdUseCase(get()) }
 
-    single { CreateNewProjectUseCase(get(), get(), get()) }
+    single { CreateNewProjectUseCase(get(), get(), get(), get()) }
 
     single { DeleteProjectUseCase(get(), get()) }
 
@@ -51,21 +54,21 @@ val useCaseModule = module {
     single { GetAllTasksByProjectIdUseCase(get()) }
 
 
-    single { CreateNewTaskUseCase(get(),get(),get()) }
+    single { CreateNewTaskUseCase(get(), get(), get()) }
 
-    single { DeleteTaskUseCase(get(),get(),get()) }
+    single { DeleteTaskUseCase(get(), get(), get()) }
 
     single<DataHashing> { EncryptionByUsingMD5() }
 
     single { SaveLogUseCase(get()) }
 
-    single { AddNewUserUseCase(get(),get(),get()) }
+    single { AddNewUserUseCase(get(), get(), get(), get()) }
 
     single { GetAllLogsUseCase(get()) }
 
-    single { EditTaskUseCase(get() , get() , get()) }
-    single { GetUserByIdUseCase (get()) }
-    single { GetAllUsersUseCase (get()) }
+    single { EditTaskUseCase(get(), get(), get()) }
+    single { GetUserByIdUseCase(get()) }
+    single { GetAllUsersUseCase(get()) }
     single { TaskDataValidationUseCase() }
 
 }

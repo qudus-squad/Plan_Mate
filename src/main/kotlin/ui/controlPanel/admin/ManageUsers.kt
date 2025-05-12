@@ -5,14 +5,12 @@ import logic.use_cases.user.GetAllUsersUseCase
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
-import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.ui.tablesDisplay.UsersTableDisplay
-import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.ui.utils.StringAlignment.center
 
-class ManageUsers (
+class ManageUsers(
     private val user: User,
 ) {
     ///////////////////////////// MANAGE USERS ///////////////////////////// ( 0 - > 2 )
@@ -31,10 +29,8 @@ class ManageUsers (
 
     private suspend fun createNewUser() {
         try {
-            val repository: UserRepository = getKoin().get()
-            val validation: UserDataValidationUseCase = getKoin().get()
-            val hashing: DataHashing = getKoin().get()
-            val createNewUser = AddNewUserUseCase(repository, validation, hashing)
+
+            val createNewUser: AddNewUserUseCase = getKoin().get()
             println("ENTER USER NAME : ")
             val titleSelected = readlnOrNull()?.trim() ?: ""
             println("ENTER USER PASSWORD : ")
@@ -47,16 +43,18 @@ class ManageUsers (
                 "1" -> UserRole.ADMIN
                 else -> UserRole.MATE
             }
-            if (  createNewUser.addUser(
+            if (createNewUser.addUser(
                     currentUserRole = user.role,
                     username = titleSelected,
                     password = passwordSelected,
-                    userRole = selectedRole,)
-            ) { println("USER $titleSelected CREATED ")
+                    userRole = selectedRole,
+                )
+            ) {
+                println("USER $titleSelected CREATED ")
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             println("FAILED TO CREATE USER PRESS ENTER TO TRY AGAIN 0 TO EXIT ")
-            if (readlnOrNull()?.trim() == "0" ) return manageUsersPanel() else createNewUser()
+            if (readlnOrNull()?.trim() == "0") return manageUsersPanel() else createNewUser()
         }
     }
 
@@ -73,6 +71,7 @@ class ManageUsers (
 
         }
     }
+
     private suspend fun manageUsersPanel() {
         println("┌───────────────────────────┐")
         println("│         MANAGE USERS      │")
@@ -101,6 +100,7 @@ class ManageUsers (
         println("│      INVALID ID TRY AGAIN     │")
         println("└───────────────────────────────┘")
     }
+
     private fun invalidOption() {
         println("┌───────────────────────────────┐")
         println("│   INVALID OPTION TRY AGAIN    │")
