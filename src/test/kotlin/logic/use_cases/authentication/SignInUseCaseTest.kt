@@ -10,7 +10,9 @@ import org.junit.jupiter.api.Test
 import logic.exceptions.InvalidPasswordException
 import logic.exceptions.InvalidUserNameException
 import logic.exceptions.UserNotFoundException
+import org.qudus.squad.data.repositories.LogRepositoryImplementation
 import org.qudus.squad.logic.repositories.AuthenticationRepository
+import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
@@ -19,12 +21,14 @@ class SignInUseCaseTest {
     private lateinit var authenticationRepository: AuthenticationRepository
     private lateinit var userDataValidationUseCase: UserDataValidationUseCase
     private lateinit var signInUseCase: SignInUseCase
+    private lateinit var lotRepository: LogRepository
 
     @BeforeEach
     fun setup() {
         authenticationRepository = mockk(relaxed = true)
         userDataValidationUseCase = UserDataValidationUseCase()
-        signInUseCase = SignInUseCase(authenticationRepository, userDataValidationUseCase)
+        lotRepository = mockk()
+        signInUseCase = SignInUseCase(authenticationRepository, userDataValidationUseCase,lotRepository)
     }
 
     @Test

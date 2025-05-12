@@ -8,6 +8,9 @@ import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
+import org.qudus.squad.logic.repositories.LogRepository
+import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
+import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.entity.User
 import org.qudus.squad.model.entity.UserRole
@@ -18,12 +21,15 @@ class DeleteProjectUseCaseTest {
     private lateinit var deleteProjectUseCase: DeleteProjectUseCase
     private val projectId = "P001"
     private lateinit var fakeMongoLogRepository: FakeMongoLogRepository
+    private lateinit var userDataValidationUseCase: UserDataValidationUseCase
 
     @BeforeEach
     fun setup() {
         fakeProjectRepository = FakeProjectRepository()
         fakeMongoLogRepository = FakeMongoLogRepository()
-        deleteProjectUseCase = DeleteProjectUseCase(fakeProjectRepository, fakeMongoLogRepository)
+        userDataValidationUseCase = UserDataValidationUseCase()
+        deleteProjectUseCase =
+            DeleteProjectUseCase(fakeProjectRepository, fakeMongoLogRepository, userDataValidationUseCase)
 
         // start with initial one project
         val project = Project(

@@ -7,9 +7,13 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.qudus.squad.logic.repositories.LogRepository
+import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
+import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.entity.User
@@ -20,12 +24,25 @@ class EditProjectUseCaseTest {
     private lateinit var fakeProjectRepository: FakeProjectRepository
     private lateinit var editProjectUseCase: EditProjectUseCase
     private lateinit var fakeMongoLogRepository: FakeMongoLogRepository
+    private lateinit var logRepository: LogRepository
+    private lateinit var userDataValidationUseCase: UserDataValidationUseCase
+    private lateinit var projectDataValidationUseCase: ProjectDataValidationUseCase
 
     @BeforeEach
     fun setup() {
         fakeProjectRepository = FakeProjectRepository()
         fakeMongoLogRepository = FakeMongoLogRepository()
-        editProjectUseCase = EditProjectUseCase(fakeProjectRepository, fakeMongoLogRepository)
+        logRepository = mockk()
+        projectDataValidationUseCase = ProjectDataValidationUseCase()
+        userDataValidationUseCase = UserDataValidationUseCase()
+        userDataValidationUseCase = UserDataValidationUseCase()
+        editProjectUseCase =
+            EditProjectUseCase(
+                fakeProjectRepository,
+                fakeMongoLogRepository,
+                userDataValidationUseCase,
+                projectDataValidationUseCase
+            )
     }
 
     @Test
@@ -45,10 +62,7 @@ class EditProjectUseCaseTest {
             description = "Updated project Description",
         )
         val user = User(
-            userId = "1",
-            username = "Ahmed",
-            passwordHash = "asdasdasd",
-            role = UserRole.ADMIN
+            userId = "1", username = "Ahmed", passwordHash = "asdasdasd", role = UserRole.ADMIN
         )
         // When
         val result = editProjectUseCase.editProject(user, updatedProject)
@@ -70,10 +84,7 @@ class EditProjectUseCaseTest {
             creatorUserId = "userID",
         )
         val user = User(
-            userId = "1",
-            username = "Ahmed",
-            passwordHash = "asdasdasd",
-            role = UserRole.ADMIN
+            userId = "1", username = "Ahmed", passwordHash = "asdasdasd", role = UserRole.ADMIN
         )
         // When
         val result = editProjectUseCase.editProject(user, fakeProject)
