@@ -8,10 +8,10 @@ import logic.exceptions.InvalidUserNameException
 class UserDataValidationUseCase {
     fun validateUserData(userName: String, password: String): Boolean {
         if (!isValidUserName(userName)){
-            throw InvalidUserNameException(INVALID_PASSWORD)
+            throw InvalidUserNameException(INVALID_USER_NAME)
         }
         if (!isValidPassword(password)){
-            throw InvalidPasswordException(INVALID_USER_NAME)
+            throw InvalidPasswordException(INVALID_PASSWORD)
         }
         return true
     }

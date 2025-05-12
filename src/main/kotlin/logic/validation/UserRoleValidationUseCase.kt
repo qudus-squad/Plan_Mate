@@ -1,7 +1,7 @@
 package org.qudus.squad.logic.validation
 
 import logic.exceptions.AccessDeniedException
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.UserRole
 
 class UserRoleValidationUseCase {
     fun checkUserRoleIsAdmin(userRole: UserRole,) {

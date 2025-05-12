@@ -3,7 +3,7 @@ package fakes
 import logic.exceptions.ProjectNotFoundException
 import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource.Companion.PROJECT_NOT_FOUND
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.model.entity.Project
+import org.qudus.squad.logic.model.Project
 
 class FakeProjectRepository : ProjectRepository {
 

@@ -5,8 +5,8 @@ import logic.use_cases.user.GetAllUsersUseCase
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 import org.qudus.squad.ui.tablesDisplay.UsersTableDisplay
 import org.qudus.squad.ui.utils.StringAlignment.center
 

@@ -5,7 +5,7 @@ import org.qudus.squad.data.csv.parser.UserCsvParser
 import org.qudus.squad.data.data_source.user_data_source.CsvUserDataSource.Companion.USERS_FILE
 import logic.exceptions.UserNotFoundException
 import org.qudus.squad.ui.utils.DataHashing
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.User
 
 class CsvAuthenticationDataSource(
     private val csvReader: CsvReader,

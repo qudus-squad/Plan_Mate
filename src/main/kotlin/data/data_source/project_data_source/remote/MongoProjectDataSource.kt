@@ -10,7 +10,7 @@ import logic.exceptions.FailedCreatingProject
 import logic.exceptions.ProjectNotFoundException
 import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource.Companion.PROJECT_NOT_FOUND
 import org.qudus.squad.data.data_source.project_data_source.ProjectDataSource
-import org.qudus.squad.model.entity.Project
+import org.qudus.squad.logic.model.Project
 
 class MongoProjectDataSource(
     private val mongoDatabase: MongoDatabase

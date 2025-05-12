@@ -1,6 +1,6 @@
 package org.qudus.squad.ui.tablesDisplay
 
-import org.qudus.squad.model.entity.Project
+import org.qudus.squad.logic.model.Project
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 

@@ -1,6 +1,6 @@
 package org.qudus.squad.data.data_source.user_data_source
 
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.User
 
 interface UserDataSource {
     suspend fun addUser(user: User): Boolean

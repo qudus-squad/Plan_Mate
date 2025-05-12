@@ -10,9 +10,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.use_cases.user.GetUserByIdUseCase
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
 
 class GetUserByIdUseCaseTest {
 

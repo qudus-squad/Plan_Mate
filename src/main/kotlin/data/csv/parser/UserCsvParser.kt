@@ -1,8 +1,8 @@
 package org.qudus.squad.data.csv.parser
 
 import org.qudus.squad.data.csv.CsvParser
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 
 class UserCsvParser : CsvParser<User> {
     override fun fromCsvRow(row: String): User {

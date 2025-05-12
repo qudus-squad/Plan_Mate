@@ -3,7 +3,6 @@ package logic.use_cases.project
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import logic.exceptions.ProjectNotFoundException
@@ -13,7 +12,7 @@ import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
-import org.qudus.squad.model.entity.Project
+import org.qudus.squad.logic.model.Project
 
 class GetProjectByIdUseCaseTest {
 

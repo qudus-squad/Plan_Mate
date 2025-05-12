@@ -5,10 +5,10 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import org.qudus.squad.model.entity.LogEntry
-import org.qudus.squad.model.entity.Project
-import org.qudus.squad.model.entity.TargetType
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.LogEntry
+import org.qudus.squad.logic.model.Project
+import org.qudus.squad.logic.model.TargetType
+import org.qudus.squad.logic.model.User
 
 
 class EditProjectUseCase(

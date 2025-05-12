@@ -2,24 +2,14 @@ package org.qudus.squad.ui.controlPanel.admin
 
 import logic.use_cases.project.CreateNewProjectUseCase
 import logic.use_cases.project.DeleteProjectUseCase
-import logic.use_cases.project.EditProjectUseCase
 import logic.use_cases.project.GetAllProjectsUseCase
 import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase
 import org.koin.mp.KoinPlatform.getKoin
-import org.qudus.squad.data.csv.CsvReader
-import org.qudus.squad.data.csv.parser.TaskCsvParser
-import org.qudus.squad.data.data_source.WriteInFileUseCase
-import org.qudus.squad.data.data_source.task_data_source.CsvTaskDataSource
-import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
-import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
-import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import org.qudus.squad.model.entity.Project
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
+import org.qudus.squad.logic.model.User
 import org.qudus.squad.ui.controlPanel.TaskManagement
 import org.qudus.squad.ui.tablesDisplay.OneProjectTableDisplay
 import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay

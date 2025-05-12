@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.toList
 import logic.exceptions.FailedCreatingTaskStateException
 import logic.exceptions.TaskStateNotFoundException
 import org.qudus.squad.data.data_source.task_state_data_source.TaskStateDataSource
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.TaskState
 
 class MongoTaskStateDataSource(
     private val mongoDatabase: MongoDatabase

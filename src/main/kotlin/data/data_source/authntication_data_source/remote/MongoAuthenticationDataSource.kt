@@ -8,7 +8,7 @@ import org.qudus.squad.data.data_source.authntication_data_source.Authentication
 import org.qudus.squad.data.data_source.user_data_source.remote.UserDto
 import org.qudus.squad.data.data_source.user_data_source.remote.toUser
 import org.qudus.squad.ui.utils.DataHashing
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.User
 
 class MongoAuthenticationDataSource(
     private val mongoDatabase: MongoDatabase,

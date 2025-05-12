@@ -6,8 +6,8 @@ import kotlinx.datetime.toLocalDateTime
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.TaskCsvParser
 import org.qudus.squad.data.data_source.WriteInFileUseCase
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
 
 class CsvTaskDataSource(
     private val csvReader: CsvReader,

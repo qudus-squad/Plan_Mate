@@ -1,6 +1,6 @@
 package org.qudus.squad.logic.repositories
 
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.TaskState
 
 interface TaskStateRepository {
     suspend fun gatAllTasksState(): List<TaskState>

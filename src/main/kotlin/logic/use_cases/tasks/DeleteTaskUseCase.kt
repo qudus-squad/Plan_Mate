@@ -3,8 +3,8 @@ package logic.use_cases.tasks
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
-import org.qudus.squad.model.entity.LogEntry
-import org.qudus.squad.model.entity.TargetType
+import org.qudus.squad.logic.model.LogEntry
+import org.qudus.squad.logic.model.TargetType
 
 class DeleteTaskUseCase(
     private val taskRepository: TaskRepository,

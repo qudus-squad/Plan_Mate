@@ -6,8 +6,8 @@ import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.validation.LogEntryDataValidationUseCase
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 import org.qudus.squad.ui.tablesDisplay.LogsTableDisplay
 import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay
 import org.qudus.squad.ui.utils.DateTimeFormatter

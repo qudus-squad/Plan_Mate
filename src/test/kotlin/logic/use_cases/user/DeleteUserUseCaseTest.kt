@@ -12,8 +12,8 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 
 class DeleteUserUseCaseTest {
     private lateinit var userRepository: UserRepository

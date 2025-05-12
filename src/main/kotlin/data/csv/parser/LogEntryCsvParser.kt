@@ -2,8 +2,8 @@ package org.qudus.squad.data.csv.parser
 
 import kotlinx.datetime.toLocalDateTime
 import org.qudus.squad.data.csv.CsvParser
-import org.qudus.squad.model.entity.LogEntry
-import org.qudus.squad.model.entity.TargetType
+import org.qudus.squad.logic.model.LogEntry
+import org.qudus.squad.logic.model.TargetType
 
 class LogEntryCsvParser : CsvParser<LogEntry> {
     override fun fromCsvRow(row: String): LogEntry {

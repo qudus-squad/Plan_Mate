@@ -11,8 +11,8 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.bson.conversions.Bson
 import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
 
 
 class MongoTaskDataSource(

@@ -10,9 +10,8 @@ import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
-import org.qudus.squad.model.entity.EditTaskInput
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
 
 class EditTaskUseCaseTest {
     private lateinit var taskRepository: TaskRepository

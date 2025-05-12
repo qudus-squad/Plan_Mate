@@ -4,8 +4,8 @@ import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.logic.validation.UserRoleValidationUseCase
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 
 class AddNewUserUseCase(
     private val userRepository: UserRepository,

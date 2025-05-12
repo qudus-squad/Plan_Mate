@@ -11,8 +11,8 @@ import org.qudus.squad.di.mongoDatabaseModule
 import org.qudus.squad.di.uiModule
 import org.qudus.squad.di.useCaseModule
 import org.qudus.squad.logic.repositories.TaskRepository
-import org.qudus.squad.model.entity.LoginSession
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.LoginSession
+import org.qudus.squad.logic.model.UserRole
 import org.qudus.squad.ui.controlPanel.AdminControlPanel
 import org.qudus.squad.ui.controlPanel.MateControlPanel
 import org.qudus.squad.ui.controlPanel.TaskManagement

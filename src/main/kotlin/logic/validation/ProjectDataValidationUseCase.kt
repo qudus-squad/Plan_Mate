@@ -3,7 +3,7 @@ package org.qudus.squad.logic.validation
 import logic.exceptions.InvalidProjectDescriptionException
 import logic.exceptions.InvalidProjectIdException
 import logic.exceptions.InvalidProjectTitleException
-import org.qudus.squad.model.entity.Project
+import org.qudus.squad.logic.model.Project
 
 
 class ProjectDataValidationUseCase {

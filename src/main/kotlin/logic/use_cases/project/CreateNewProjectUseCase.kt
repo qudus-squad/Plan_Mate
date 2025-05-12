@@ -5,7 +5,12 @@ import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.ui.utils.GenerateUUID
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.UserRoleValidationUseCase
-import org.qudus.squad.model.entity.*
+import org.qudus.squad.logic.model.LogEntry
+import org.qudus.squad.logic.model.Project
+import org.qudus.squad.logic.model.TargetType
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
+import org.qudus.squad.logic.model.User
 
 class CreateNewProjectUseCase(
     private val projectRepository: ProjectRepository,

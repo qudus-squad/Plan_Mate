@@ -10,12 +10,11 @@ import org.junit.jupiter.api.Test
 import logic.exceptions.InvalidPasswordException
 import logic.exceptions.InvalidUserNameException
 import logic.exceptions.UserNotFoundException
-import org.qudus.squad.data.repositories.LogRepositoryImplementation
 import org.qudus.squad.logic.repositories.AuthenticationRepository
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 
 class SignInUseCaseTest {
     private lateinit var authenticationRepository: AuthenticationRepository

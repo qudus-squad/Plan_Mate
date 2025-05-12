@@ -1,7 +1,7 @@
 package org.qudus.squad.logic.repositories
 
 import org.qudus.squad.ui.utils.GenerateUUID
-import org.qudus.squad.model.entity.Project
+import org.qudus.squad.logic.model.Project
 
 interface ProjectRepository {
     suspend fun getAllProjects(): List<Project>

@@ -1,6 +1,6 @@
 package org.qudus.squad.data.data_source.project_data_source
 
-import org.qudus.squad.model.entity.Project
+import org.qudus.squad.logic.model.Project
 
 interface ProjectDataSource {
     suspend fun getAllProjects(): List<Project>

@@ -2,7 +2,7 @@ package org.qudus.squad.data.data_source.project_data_source.remote
 
 import kotlinx.datetime.LocalDateTime
 import org.qudus.squad.data.data_source.task_data_source.remote.*
-import org.qudus.squad.model.entity.Project
+import org.qudus.squad.logic.model.Project
 
 data class ProjectDto(
     val id: String,

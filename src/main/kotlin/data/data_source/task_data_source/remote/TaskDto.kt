@@ -4,8 +4,8 @@ package org.qudus.squad.data.data_source.task_data_source.remote
 
 import kotlinx.datetime.LocalDateTime
 import org.qudus.squad.data.data_source.task_state_data_source.remote.TaskStateDto
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
 
 data class TaskDto(
     val id : String,

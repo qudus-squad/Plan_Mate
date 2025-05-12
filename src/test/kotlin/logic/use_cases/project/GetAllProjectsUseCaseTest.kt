@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.UserRoleValidationUseCase
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 
 class GetAllProjectsUseCaseTest {
 

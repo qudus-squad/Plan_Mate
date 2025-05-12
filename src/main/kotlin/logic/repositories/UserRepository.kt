@@ -1,6 +1,6 @@
 package org.qudus.squad.logic.repositories
 
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.User
 
 interface UserRepository {
     suspend fun addNewUser(user: User): Boolean

@@ -4,7 +4,6 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock
@@ -13,9 +12,9 @@ import kotlinx.datetime.toLocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
 import kotlin.test.Test
 
 

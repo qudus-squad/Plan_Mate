@@ -1,9 +1,8 @@
 package org.qudus.squad.data.data_source.log_data_source.remote
 
 import kotlinx.datetime.LocalDateTime
-import org.bson.codecs.pojo.annotations.BsonId
-import org.qudus.squad.model.entity.LogEntry
-import org.qudus.squad.model.entity.TargetType
+import org.qudus.squad.logic.model.LogEntry
+import org.qudus.squad.logic.model.TargetType
 
 
 

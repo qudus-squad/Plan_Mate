@@ -8,7 +8,7 @@ import okio.buffer
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.UserCsvParser
 import org.qudus.squad.data.data_source.WriteInFileUseCase
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.User
 
 class CsvUserDataSource(
     private val csvReader: CsvReader,

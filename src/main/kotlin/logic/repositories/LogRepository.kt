@@ -1,6 +1,6 @@
 package org.qudus.squad.logic.repositories
 
-import org.qudus.squad.model.entity.LogEntry
+import org.qudus.squad.logic.model.LogEntry
 
 interface LogRepository {
     suspend fun addNewLog(logEntry: LogEntry)

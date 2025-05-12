@@ -7,10 +7,9 @@ import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
-import org.qudus.squad.model.entity.EditTaskInput
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
+import org.qudus.squad.logic.model.User
 import org.qudus.squad.ui.tablesDisplay.TasksTableDisplay
 import org.qudus.squad.ui.utils.DateTimeFormatter
 

@@ -4,7 +4,7 @@ import logic.exceptions.InvalidProjectTitleException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase.Companion.INVALID_PROJECT_TITLE
-import org.qudus.squad.model.entity.Task
+import org.qudus.squad.logic.model.Task
 
 class GetAllTasksByProjectIdUseCase(
     private val taskRepository: TaskRepository, private val projectDataValidationUseCase: ProjectDataValidationUseCase

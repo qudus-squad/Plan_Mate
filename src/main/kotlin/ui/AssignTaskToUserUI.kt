@@ -2,8 +2,8 @@ package org.qudus.squad.ui
 
 import logic.exceptions.TaskNotFoundException
 import logic.use_cases.tasks.AssignTaskToUserUseCase
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.User
 import java.io.IOException
 import java.time.format.DateTimeParseException
 

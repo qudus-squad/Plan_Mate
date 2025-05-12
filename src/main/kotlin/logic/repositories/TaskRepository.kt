@@ -1,8 +1,8 @@
 package org.qudus.squad.logic.repositories
 
 import org.qudus.squad.ui.utils.GenerateUUID
-import org.qudus.squad.model.entity.TaskState
-import org.qudus.squad.model.entity.Task
+import org.qudus.squad.logic.model.TaskState
+import org.qudus.squad.logic.model.Task
 
 interface TaskRepository {
     suspend fun createNewTask(task: Task)

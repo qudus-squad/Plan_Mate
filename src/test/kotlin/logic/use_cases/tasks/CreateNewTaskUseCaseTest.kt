@@ -7,8 +7,8 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
 import org.junit.jupiter.api.Test
 import logic.exceptions.InvalidTaskCreatorUserIdException
 import logic.exceptions.InvalidTaskDescriptionException

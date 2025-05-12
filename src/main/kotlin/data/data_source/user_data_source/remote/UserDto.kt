@@ -1,7 +1,7 @@
 package org.qudus.squad.data.data_source.user_data_source.remote
 
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 
 data class UserDto(
     val username: String,

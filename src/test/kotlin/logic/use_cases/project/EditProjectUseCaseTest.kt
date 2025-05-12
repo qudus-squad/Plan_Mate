@@ -2,8 +2,6 @@ package logic.use_cases.project
 
 import fakes.FakeMongoLogRepository
 import fakes.FakeProjectRepository
-import io.kotest.matchers.booleans.shouldBeFalse
-import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -15,9 +13,9 @@ import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.ui.utils.GenerateUUID
-import org.qudus.squad.model.entity.Project
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
+import org.qudus.squad.logic.model.Project
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 
 class EditProjectUseCaseTest {
 

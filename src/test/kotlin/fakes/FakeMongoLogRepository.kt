@@ -5,7 +5,7 @@ import org.qudus.squad.data.data_source.log_data_source.remote.LogEntryDto
 import org.qudus.squad.data.data_source.log_data_source.remote.toLogEntry
 import org.qudus.squad.data.data_source.log_data_source.remote.toLogEntryDto
 import org.qudus.squad.logic.repositories.LogRepository
-import org.qudus.squad.model.entity.LogEntry
+import org.qudus.squad.logic.model.LogEntry
 
 class FakeMongoLogRepository() : LogRepository {
 

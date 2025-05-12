@@ -1,7 +1,7 @@
 package org.qudus.squad.ui.tablesDisplay
 
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 

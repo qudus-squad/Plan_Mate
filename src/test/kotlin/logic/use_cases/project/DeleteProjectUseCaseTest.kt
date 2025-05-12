@@ -8,12 +8,10 @@ import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
-import org.qudus.squad.logic.repositories.LogRepository
-import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
+import org.qudus.squad.logic.model.Project
+import org.qudus.squad.logic.model.User
+import org.qudus.squad.logic.model.UserRole
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import org.qudus.squad.model.entity.Project
-import org.qudus.squad.model.entity.User
-import org.qudus.squad.model.entity.UserRole
 import kotlin.test.Test
 
 class DeleteProjectUseCaseTest {

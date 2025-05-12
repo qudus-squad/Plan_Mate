@@ -1,8 +1,7 @@
 package org.qudus.squad.logic.validation
 
 import logic.exceptions.*
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.Task
 
 class TaskDataValidationUseCase {
 

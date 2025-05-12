@@ -22,7 +22,7 @@ import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.logic.validation.UserRoleValidationUseCase
-import org.qudus.squad.model.entity.LoginSession
+import org.qudus.squad.logic.model.LoginSession
 
 val useCaseModule = module {
 

@@ -14,8 +14,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.validation.LogEntryDataValidationUseCase
-import org.qudus.squad.model.entity.LogEntry
-import org.qudus.squad.model.entity.TargetType
+import org.qudus.squad.logic.model.LogEntry
+import org.qudus.squad.logic.model.TargetType
 
 class SaveLogUseCaseTest {
 

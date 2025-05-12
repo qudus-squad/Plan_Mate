@@ -5,9 +5,9 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.qudus.squad.data.csv.CsvParser
 import org.qudus.squad.ui.utils.GenerateUUID
-import org.qudus.squad.model.entity.Project
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.Project
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
 
 class ProjectCsvParser : CsvParser<Project> {
     override fun fromCsvRow(row: String): Project {

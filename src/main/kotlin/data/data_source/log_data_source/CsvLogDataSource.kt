@@ -3,7 +3,7 @@ package org.qudus.squad.data.data_source.log_data_source
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.LogEntryCsvParser
 import org.qudus.squad.data.data_source.WriteInFileUseCase
-import org.qudus.squad.model.entity.LogEntry
+import org.qudus.squad.logic.model.LogEntry
 
 class CsvLogDataSource(
     private val csvReader: CsvReader,

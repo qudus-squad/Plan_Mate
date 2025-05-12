@@ -2,7 +2,7 @@ package org.qudus.squad.logic.use_cases.project
 
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
-import org.qudus.squad.model.entity.Project
+import org.qudus.squad.logic.model.Project
 
 class GetProjectByIdUseCase(
     private val projectRepository: ProjectRepository,

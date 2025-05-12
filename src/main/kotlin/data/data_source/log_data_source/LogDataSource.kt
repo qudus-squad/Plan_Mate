@@ -1,6 +1,6 @@
 package org.qudus.squad.data.data_source.log_data_source
 
-import org.qudus.squad.model.entity.LogEntry
+import org.qudus.squad.logic.model.LogEntry
 
 interface LogDataSource {
     suspend fun addNewLog(logEntry: LogEntry)

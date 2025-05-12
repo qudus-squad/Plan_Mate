@@ -1,8 +1,8 @@
 package org.qudus.squad.ui.tablesDisplay
 
 import kotlinx.datetime.LocalDateTime
-import org.qudus.squad.model.entity.LogEntry
-import org.qudus.squad.model.entity.TargetType
+import org.qudus.squad.logic.model.LogEntry
+import org.qudus.squad.logic.model.TargetType
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 

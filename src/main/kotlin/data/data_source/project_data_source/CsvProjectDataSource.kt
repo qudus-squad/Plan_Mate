@@ -4,7 +4,7 @@ import logic.exceptions.ProjectNotFoundException
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.ProjectCsvParser
 import org.qudus.squad.data.data_source.WriteInFileUseCase
-import org.qudus.squad.model.entity.Project
+import org.qudus.squad.logic.model.Project
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.io.path.appendText

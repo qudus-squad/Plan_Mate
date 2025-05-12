@@ -13,8 +13,8 @@ import logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.Task
+import org.qudus.squad.logic.model.TaskState
 import java.io.IOException
 import kotlin.test.Test
 

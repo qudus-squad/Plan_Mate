@@ -6,12 +6,11 @@ import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
-import logic.exceptions.ProjectNotFoundException
 import logic.exceptions.UserAlreadyExistsException
 import logic.exceptions.UserNotFoundException
 import org.qudus.squad.data.data_source.project_data_source.remote.ProjectDto
 import org.qudus.squad.data.data_source.user_data_source.UserDataSource
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.User
 
 class MongoUserDataSource(
     private val mongoDatabase: MongoDatabase

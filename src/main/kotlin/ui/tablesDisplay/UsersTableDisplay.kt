@@ -1,6 +1,6 @@
 package org.qudus.squad.ui.tablesDisplay
 
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.User
 import org.qudus.squad.ui.utils.StringAlignment.center
 
 class UsersTableDisplay {

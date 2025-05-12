@@ -1,6 +1,6 @@
 package org.qudus.squad.data.data_source.task_state_data_source
 
-import org.qudus.squad.model.entity.TaskState
+import org.qudus.squad.logic.model.TaskState
 
 interface TaskStateDataSource {
     suspend fun getAllTasksState(): List<TaskState>

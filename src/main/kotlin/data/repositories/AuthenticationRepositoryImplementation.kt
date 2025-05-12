@@ -2,7 +2,7 @@ package org.qudus.squad.data.repositories
 
 import org.qudus.squad.data.data_source.authntication_data_source.AuthenticationDataSource
 import org.qudus.squad.logic.repositories.AuthenticationRepository
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.logic.model.User
 
 class AuthenticationRepositoryImplementation(
     private val authenticationDataSource: AuthenticationDataSource,

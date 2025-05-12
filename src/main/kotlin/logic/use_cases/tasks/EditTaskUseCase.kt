@@ -3,10 +3,9 @@ package logic.use_cases.tasks
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
-import org.qudus.squad.model.entity.EditTaskInput
-import org.qudus.squad.model.entity.LogEntry
-import org.qudus.squad.model.entity.TargetType
-import org.qudus.squad.model.entity.Task
+import org.qudus.squad.logic.model.LogEntry
+import org.qudus.squad.logic.model.TargetType
+import org.qudus.squad.logic.model.Task
 
 class EditTaskUseCase(
     private val taskRepository: TaskRepository,
@@ -29,3 +28,8 @@ class EditTaskUseCase(
         }
     }
 }
+
+data class EditTaskInput(
+    val userName: String, val updatedTask: Task, val action: String, val oldValue: String, val newValue: String
+)
+

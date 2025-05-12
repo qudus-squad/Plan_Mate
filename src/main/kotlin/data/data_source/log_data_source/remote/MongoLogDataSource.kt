@@ -6,7 +6,7 @@ import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import kotlinx.coroutines.flow.toList
 import kotlinx.datetime.LocalDateTime
 import org.qudus.squad.data.data_source.log_data_source.LogDataSource
-import org.qudus.squad.model.entity.LogEntry
+import org.qudus.squad.logic.model.LogEntry
 
 class MongoLogDataSource(
     private val mongoDatabase: MongoDatabase
