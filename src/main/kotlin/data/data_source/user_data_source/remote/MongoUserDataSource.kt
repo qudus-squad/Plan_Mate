@@ -6,7 +6,6 @@ import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
-import logic.exceptions.ProjectNotFoundException
 import logic.exceptions.UserAlreadyExistsException
 import logic.exceptions.UserNotFoundException
 import org.qudus.squad.data.data_source.project_data_source.remote.ProjectDto
@@ -20,7 +19,7 @@ class MongoUserDataSource(
     private val userCollection: MongoCollection<UserDto> = provideUserCollection(mongoDatabase)
 
     override suspend fun addUser(user: User): Boolean {
-        if (userCollection.find(Filters.eq("username", user.username)).firstOrNull() != null) {
+        if (userCollection.find(Filters.eq(ADD_USER_FIELD_NAME, user.username)).firstOrNull() != null) {
             throw UserAlreadyExistsException()
         }
         userCollection.insertOne(user.toUserDto())
@@ -28,7 +27,7 @@ class MongoUserDataSource(
     }
 
     override suspend fun getUserById(userId: String): User {
-        val dtoUser = userCollection.find(Filters.eq("userId", userId)).firstOrNull() ?: throw UserNotFoundException()
+        val dtoUser = userCollection.find(Filters.eq(USER_FIELD_NAME, userId)).firstOrNull() ?: throw UserNotFoundException()
         return dtoUser.toUser()
     }
 
@@ -37,18 +36,29 @@ class MongoUserDataSource(
     }
 
     override suspend fun deleteUser(userId: String) {
-        val result = userCollection.deleteOne(Filters.eq("userId", userId))
+        val result = userCollection.deleteOne(Filters.eq(USER_FIELD_NAME, userId))
         if (result.deletedCount == 0L) throw UserNotFoundException()
     }
 
     override suspend fun getUserByProjectId(userId: String): User {
         val projectId =
-            mongoDatabase.getCollection<ProjectDto>("projects").find(Filters.eq("creatorUserId", userId)).first()
+            mongoDatabase.getCollection<ProjectDto>(PROJECT_COLLECTION_NAME).find(Filters.eq(CREATE_USER_FIELD_NAME , userId)).first()
 
-        return mongoDatabase.getCollection<UserDto>("user").find(Filters.eq("projectId", projectId)).first().toUser()
+        return mongoDatabase.getCollection<UserDto>(USER_COLLECTION_NAME).find(Filters.eq(PROJECT_FIELD_NAME, projectId)).first().toUser()
     }
 
     private fun provideUserCollection(database: MongoDatabase): MongoCollection<UserDto> {
-        return database.getCollection<UserDto>("users").withDocumentClass(UserDto::class.java)
+        return database.getCollection<UserDto>(PROVIDER_USER_COLLECTION_NAME).withDocumentClass(UserDto::class.java)
     }
+
+    companion object {
+        const val USER_FIELD_NAME = "userId"
+        const val ADD_USER_FIELD_NAME = "username"
+        const val CREATE_USER_FIELD_NAME = "creatorUserId"
+        const val PROJECT_FIELD_NAME = "projectId"
+        const val PROJECT_COLLECTION_NAME = "projects"
+        const val USER_COLLECTION_NAME = "user"
+        const val PROVIDER_USER_COLLECTION_NAME = "users"
+    }
+
 }

@@ -24,7 +24,7 @@ class MongoProjectDataSource(
 
     override suspend fun deleteProjectById(id: String): Boolean {
         return try {
-            val result = provideProjectCollection(mongoDatabase).deleteOne(Filters.eq("id", id))
+            val result = provideProjectCollection(mongoDatabase).deleteOne(Filters.eq(ID_FIELD, id))
             result.deletedCount > 0
         } catch (e: Exception) {
             false
@@ -40,19 +40,25 @@ class MongoProjectDataSource(
     }
 
     override suspend fun getProjectById(id: String): Project {
-        val projectDto = provideProjectCollection(mongoDatabase).find(Filters.eq("id", id)).firstOrNull()
+        val projectDto = provideProjectCollection(mongoDatabase).find(Filters.eq(ID_FIELD, id)).firstOrNull()
             ?: throw ProjectNotFoundException(PROJECT_NOT_FOUND)
         return projectDto.toProject()
     }
 
     override suspend fun editProject(project: Project): Project {
         val projectDto = project.toProjectDto()
-        provideProjectCollection(mongoDatabase).replaceOne(Filters.eq("id", project.id), projectDto).let {
+        provideProjectCollection(mongoDatabase).replaceOne(Filters.eq(ID_FIELD, project.id), projectDto).let {
             return project
         }
     }
 
     private fun provideProjectCollection(database: MongoDatabase): MongoCollection<ProjectDto> {
-        return database.getCollection<ProjectDto>("projects").withDocumentClass(ProjectDto::class.java)
+        return database.getCollection<ProjectDto>(COLLECTION_NAME).withDocumentClass(ProjectDto::class.java)
     }
+
+    companion object {
+        const val ID_FIELD = "id"
+        const val COLLECTION_NAME = "projects"
+    }
+
 }

@@ -21,7 +21,7 @@ class MongoTaskStateDataSource(
 
     override suspend fun deleteTaskStateById(id: String): Boolean {
         return try {
-            val result = provideTaskStateCollection(mongoDatabase).deleteOne(Filters.eq("stateId", id))
+            val result = provideTaskStateCollection(mongoDatabase).deleteOne(Filters.eq(STATE_FIELD, id))
             result.deletedCount > 0
         } catch (e: Exception) {
             false
@@ -37,7 +37,7 @@ class MongoTaskStateDataSource(
     }
 
     override suspend fun getTaskStateById(id: String): TaskState {
-        val taskStateDto = provideTaskStateCollection(mongoDatabase).find(Filters.eq("stateId", id)).firstOrNull()
+        val taskStateDto = provideTaskStateCollection(mongoDatabase).find(Filters.eq(STATE_FIELD, id)).firstOrNull()
             ?: throw TaskStateNotFoundException()
         return taskStateDto.toTaskState()
     }
@@ -45,12 +45,18 @@ class MongoTaskStateDataSource(
     override suspend fun editTaskState(taskState: TaskState): Boolean {
         val taskStateDto = taskState.toTaskStateDto()
         val result =
-            provideTaskStateCollection(mongoDatabase).replaceOne(Filters.eq("stateId", taskState.id), taskStateDto)
+            provideTaskStateCollection(mongoDatabase).replaceOne(Filters.eq(STATE_FIELD, taskState.id), taskStateDto)
         return result.modifiedCount > 0
     }
 
     private fun provideTaskStateCollection(database: MongoDatabase): MongoCollection<TaskStateDto> {
-        return database.getCollection<TaskStateDto>("tasks_states")
+        return database.getCollection<TaskStateDto>(COLLECTION_NAME)
             .withDocumentClass(TaskStateDto::class.java)
     }
+
+    companion object {
+        const val STATE_FIELD = "stateId"
+        const val COLLECTION_NAME = "tasks_states"
+    }
+
 }

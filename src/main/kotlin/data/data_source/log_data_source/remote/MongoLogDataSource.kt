@@ -18,7 +18,7 @@ class MongoLogDataSource(
     }
 
     override suspend fun getLogByTargetId(targetId: String): List<LogEntry> {
-        return provideLogCollection(mongoDatabase).find(eq("targetId", targetId)).toList()
+        return provideLogCollection(mongoDatabase).find(eq(TARGET_FIELD, targetId)).toList()
             .map { logEntryDto -> logEntryDto.toLogEntry().copy(loggedAt = LocalDateTime.parse(logEntryDto.loggedAt)) }
     }
 
@@ -29,10 +29,16 @@ class MongoLogDataSource(
     }
 
     override suspend fun deleteLogByTargetId(targetId: String) {
-        provideLogCollection(mongoDatabase).deleteMany(eq("targetId", targetId))
+        provideLogCollection(mongoDatabase).deleteMany(eq(TARGET_FIELD, targetId))
     }
 
     private fun provideLogCollection(database: MongoDatabase): MongoCollection<LogEntryDto> {
-        return database.getCollection<LogEntryDto>("logs").withDocumentClass(LogEntryDto::class.java)
+        return database.getCollection<LogEntryDto>(COLLECTION_NAME).withDocumentClass(LogEntryDto::class.java)
     }
+
+    companion object {
+        const val TARGET_FIELD = "targetId"
+        const val COLLECTION_NAME = "logs"
+    }
+
 }
