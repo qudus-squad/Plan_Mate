@@ -1,6 +1,7 @@
 package org.qudus.squad.ui.controlPanel
 
 import logic.use_cases.log.GetAllLogsUseCase
+import logic.use_cases.log.SortOrder
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.validation.LogEntryDataValidationUseCase
@@ -42,7 +43,15 @@ class AdminControlPanel (
         val repository: LogRepository = getKoin().get()
         val logEntryValidator: LogEntryDataValidationUseCase= getKoin().get()
         val getAllLogs = GetAllLogsUseCase(repository,logEntryValidator)
-        val recentLogs = getAllLogs.getAllLogs()
+        println("SELECT SORT ORDER:")
+        println("1 - ASCENDING (Oldest First)")
+        println("2 - DESCENDING (Newest First)")
+        val userInput = readlnOrNull()?.trim()
+        val sortOrder = when (userInput) {
+            "1" -> SortOrder.ASCENDING
+            else -> SortOrder.DESCENDING
+        }
+        val recentLogs = getAllLogs.getAllLogs(sortOrder)
         if (recentLogs.isNotEmpty()) {
             display.displayLogsDetails(recentLogs)
         } else targetNotFound("LOG")
