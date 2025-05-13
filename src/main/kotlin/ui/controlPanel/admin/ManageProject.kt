@@ -2,21 +2,11 @@ package org.qudus.squad.ui.controlPanel.admin
 
 import logic.use_cases.project.CreateNewProjectUseCase
 import logic.use_cases.project.DeleteProjectUseCase
-import logic.use_cases.project.EditProjectUseCase
 import logic.use_cases.project.GetAllProjectsUseCase
 import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase
 import org.koin.mp.KoinPlatform.getKoin
-import org.qudus.squad.data.csv.CsvReader
-import org.qudus.squad.data.csv.parser.TaskCsvParser
-import org.qudus.squad.data.data_source.WriteInFileUseCase
-import org.qudus.squad.data.data_source.task_data_source.CsvTaskDataSource
-import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
-import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
-import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import org.qudus.squad.model.entity.Project
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
@@ -48,31 +38,58 @@ class ManageProject(
 
     private suspend fun viewProjectById() {
         val getAllProjects: GetAllProjectsUseCase = getKoin().get()
-        val lisOfProjectsId = getAllProjects.getAllProjects().map { it.id }
-        val display = OneProjectTableDisplay()
+        val lisOfProjectsId = getAllProjects.getAllProjects()
+        if ( lisOfProjectsId.isEmpty()) {
+            targetNotFound("PROJECT")
+            return
+        }
 
-        val getProjectById: GetProjectByIdUseCase = getKoin().get()
-        println("ENTER PROJECT ID : ")
-        val idSelected = readlnOrNull()?.trim() ?: ""
-        if (idSelected in lisOfProjectsId) {
-            display.displayProjectDetail(getProjectById.getProjectById(idSelected))
-            manageOneProjectPanel(idSelected)
-        } else idNotFound()
+        println("AVAILABLE PROJECTS:")
+        lisOfProjectsId.forEachIndexed { index, project ->
+            println("${index + 1}- ${project.title}")
+        }
+
+        println("SELECT PROJECT NUMBER: ")
+        val selectedIndex = readlnOrNull()?.trim()?.toIntOrNull()?.minus(1)
+
+        if (selectedIndex != null && selectedIndex in  lisOfProjectsId.indices) {
+            val selectedProject =  lisOfProjectsId[selectedIndex]
+            val getProjectById = getKoin().get<GetProjectByIdUseCase>()
+            val display = OneProjectTableDisplay()
+            display.displayProjectDetail(getProjectById.getProjectById(selectedProject.id))
+            manageOneProjectPanel(selectedProject.id)
+        } else {
+            idNotFound()
+        }
     }
 
     private suspend fun deleteProject() {
-        val getAllProjects: GetAllProjectsUseCase = getKoin().get()
-        val lisOfProjectsId = getAllProjects.getAllProjects().map { it.id }
-        val deleteProject: DeleteProjectUseCase = getKoin().get()
-        println("ENTER PROJECT ID : ")
-        val idSelected = readlnOrNull()?.trim() ?: ""
-        if (idSelected in lisOfProjectsId) {
-            deleteProject.deleteProject(user, idSelected)
-            println("PROJECT WITH : '$idSelected' ID DELETED")
+        val getAllProjects = getKoin().get<GetAllProjectsUseCase>()
+        val projects = getAllProjects.getAllProjects()
+        if (projects.isEmpty()) {
+            targetNotFound("PROJECT")
+            return
+        }
+
+        println("AVAILABLE PROJECTS:")
+        projects.forEachIndexed { index, project ->
+            println("${index + 1}- ${project.title}")
+        }
+
+        println("SELECT PROJECT NUMBER TO DELETE:")
+        val selectedIndex = readlnOrNull()?.trim()?.toIntOrNull()?.minus(1)
+
+        if (selectedIndex != null && selectedIndex in projects.indices) {
+            val selectedProject = projects[selectedIndex]
+            val deleteProject = getKoin().get<DeleteProjectUseCase>()
+            deleteProject.deleteProject(user, selectedProject.id)
+            println("PROJECT '${selectedProject.title}' DELETED SUCCESSFULLY.")
             getAllProjects()
-        } else idNotFound()
-        println("PRESS ENTER TO TRY AGAIN OR 0 TO EXIT ")
-        if (readlnOrNull()?.trim() == "0") return manageAllProjectsPanel() else deleteProject()
+        } else {
+            idNotFound()
+            println("PRESS ENTER TO TRY AGAIN OR 0 TO EXIT")
+            if (readlnOrNull()?.trim() == "0") return manageAllProjectsPanel() else deleteProject()
+        }
     }
 
     suspend fun createNewProject() {
@@ -83,9 +100,9 @@ class ManageProject(
             val titleSelected = readlnOrNull()?.trim() ?: ""
             println("ENTER PROJECT DESCRIPTION : ")
             val descriptionSelected = readlnOrNull()?.trim() ?: ""
-            println("Enter States (separated By Comma Character',')")
+            println("Enter States (separated By Comma Character ','):")
             val statesEntered = readlnOrNull()?.trim()?.split(",") ?: emptyList()
-            println("Enter States (separated By Comma Character',')")
+
             val tasks = listOf(
                 Task(
                     title = "Design ",
@@ -222,10 +239,10 @@ class ManageProject(
     private suspend fun getTasksByProjectId() {
 
         val get:GetAllTasksByProjectIdUseCase = getKoin().get()
-        println("ENTER ): ")
+        println("ENTER PROJECT ID: ")
         val titleSelected = readlnOrNull()?.trim() ?: ""
-        val print = get.getAllTasksByProjectId(titleSelected)
-        println(print)
+        val tasks = get.getAllTasksByProjectId(titleSelected)
+        println(tasks)
     }
 
     ///////////////////////////// ERRORS ////////////////////////////// ( 0 - > 3 )

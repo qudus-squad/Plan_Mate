@@ -59,16 +59,32 @@ class ManageUsers(
     }
 
     private suspend fun deleteUser() {
-        try {
-            val deleteUserUseCase: DeleteUserUseCase = getKoin().get()
-            println("ENTER USER ID : ")
-            val idSelected = readlnOrNull()?.trim() ?: ""
-            deleteUserUseCase.deleteUser(user, idSelected)
-            println("USER WITH : '$idSelected' ID DELETED")
-        } catch (e: Exception) {
-            println("FAILED TO DELETE USER PRESS ENTER TO TRY AGAIN OR 0 TO EXIT")
-            if (readlnOrNull()?.trim() == "0") return manageUsersPanel() else deleteUser()
+        val getAllUsers = getKoin().get<GetAllUsersUseCase>()
+        val allUsers = getAllUsers.getAllUsers()
 
+        if (allUsers.isEmpty()) {
+            targetNotFound("USERS")
+            return
+        }
+
+        println("AVAILABLE USERS:")
+        allUsers.forEachIndexed { index, user ->
+            println("${index + 1}- ${user.username} [${user.role}]")
+        }
+
+        println("SELECT USER NUMBER TO DELETE:")
+        val selectedIndex = readlnOrNull()?.trim()?.toIntOrNull()?.minus(1)
+
+        if (selectedIndex != null && selectedIndex in allUsers.indices) {
+            val selectedUser = allUsers[selectedIndex]
+            val deleteUserUseCase: DeleteUserUseCase = getKoin().get()
+            deleteUserUseCase.deleteUser(user, selectedUser.userId)
+            println("USER '${selectedUser.username}' DELETED SUCCESSFULLY.")
+            getAllUsers()
+        } else {
+            idNotFound()
+            println("PRESS ENTER TO TRY AGAIN OR 0 TO EXIT")
+            if (readlnOrNull()?.trim() == "0") return manageUsersPanel() else deleteUser()
         }
     }
 
