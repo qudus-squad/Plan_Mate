@@ -106,10 +106,10 @@ class TaskManagement(
         val repository: TaskRepository = getKoin().get()
         val projectDataValidationUseCase: ProjectDataValidationUseCase = getKoin().get()
         val display = TasksTableDisplay(dateFormater = DateTimeFormatter)
-        val ta = GetAllTasksByProjectIdUseCase(
+        val tasks = GetAllTasksByProjectIdUseCase(
             repository, projectDataValidationUseCase
         ).getAllTasksByProjectId(projectId = id)
-        display.displayTasksTable(ta)
+        display.displayTasksTable(tasks)
 
         val validation: TaskDataValidationUseCase = getKoin().get()
         val logRepository: LogRepository = getKoin().get()
@@ -122,21 +122,12 @@ class TaskManagement(
         val idSelected = readlnOrNull()?.trim() ?: ""
         val task = tasksRepository.getTaskById(idSelected)
         if (task != null) {
+            println("task DELETED successfully")
             deleteTask.deleteTask(
                 user.username, taskId = idSelected, taskTitle = task.title
             )
-        } else println("")
-        val oldTask = tasksRepository.getTaskById(id = idSelected)
+        } else{ println("No task found with ID : $idSelected") }
 
-        if (oldTask != null) {
-            deleteTask.deleteTask(
-                userName = user.username,
-                taskId = idSelected,
-                taskTitle = oldTask.title,
-            )
-            println("task updated successfully")
-        }
-        else println("No task found with ID : $idSelected")
     }
     suspend fun assignTask() {
         val repository: TaskRepository = getKoin().get()

@@ -4,7 +4,7 @@ import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.ui.utils.StringAlignment
 
 class TaskStateDisplay {
-    fun displayTasksTable(tasks: List<TaskState>) {
+    fun displayStatesTable(tasks: List<TaskState>) {
         val idColumnWith = 36
         val nameColumnWidth = 20
         val bordersWidth = 2
@@ -42,5 +42,5 @@ fun main() {
         TaskState("a1923ab9-6789-43cf-87c2-9e8b1fcd093a", "Fix Bugs")
     )
 
-    display.displayTasksTable(tasks)
+    display.displayStatesTable(tasks)
 }

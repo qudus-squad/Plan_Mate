@@ -17,6 +17,14 @@ class OneProjectTableDisplay() {
         val topHeaderWidth = totalWidth / 2
         val toGroupTasksByOneState = project.tasks.groupBy { it.taskState.name }
         val maxRowsInTable = toGroupTasksByOneState.values.maxOfOrNull { it.size } ?: 0
+        val taskStateList : MutableList<TaskState> = mutableListOf()
+
+        project.tasks.forEach { task ->
+            taskStateList.add(task.taskState)
+        }
+        val map = taskStateList.map { it.name }
+        map.forEach { println(it) }
+
 
         println("Ξ".repeat(topHeaderWidth)
                 + "   PLAN MATE   "
@@ -25,8 +33,9 @@ class OneProjectTableDisplay() {
         println("│${project.title.center(totalWidth)}│")
         println("│${project.description.center(totalWidth)}│")
         println("│${"─".repeat(totalWidth)}│")
-        println("│${stateHeaders.joinToString("│").center(totalWidth)}│")
+        println("│${map.joinToString("│").center(totalWidth)}│")
         println("│${"─".repeat(totalWidth)}│")
+
 
         for (eachTask in 0 until maxRowsInTable) {
             val taskBuilder = StringBuilder("│")
@@ -39,9 +48,10 @@ class OneProjectTableDisplay() {
             println(taskBuilder.toString())
         }
         println("└${"─".repeat(totalWidth)}┘")
-    }
 
-} fun main() {
+
+    }
+    fun main() {
         val tasks = listOf(
             Task(title = "Design ", description = "", projectId = "1", creatorUserID = "" , taskState = TaskState(name = "IN PROGRESS")),
             Task(title = "Create ", description = "", projectId = "1", creatorUserID = "" , taskState = TaskState(name = "IN PROGRESS")),
@@ -65,4 +75,5 @@ class OneProjectTableDisplay() {
         OneProjectTableDisplay().displayProjectDetail(project)
     }
 
+}
 

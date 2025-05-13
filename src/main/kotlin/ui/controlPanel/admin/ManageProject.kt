@@ -10,6 +10,7 @@ import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.model.entity.User
+import org.qudus.squad.ui.controlPanel.StateManagement
 import org.qudus.squad.ui.controlPanel.TaskManagement
 import org.qudus.squad.ui.tablesDisplay.OneProjectTableDisplay
 import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay
@@ -18,8 +19,10 @@ import org.qudus.squad.ui.utils.StringAlignment.center
 
 class ManageProject(
     private val user: User,
-    private val taskManagement: TaskManagement
-) {
+    private val taskManagement: TaskManagement,
+  //  private val stateManagement: StateManagement,
+
+    ) {
 
 
     ///////////////////////////// MANAGE PROJECTS ////////////////////////////// ( 0 - > 1 )
@@ -229,8 +232,8 @@ class ManageProject(
             "3" -> taskManagement.deleteTaskById(id)
             "4" -> taskManagement.editTaskNameUsingId()
             "5" -> taskManagement.editTaskDescriptionUsingId()
-            "6" -> taskManagement.assignTask()
-            "7" -> taskManagement.switchTaskState()
+           // "6" -> stateManagement.createNewState(id)
+           // "7" -> stateManagement.deleteStateById(id)
             "0" -> getAllProjects()
             else -> return
         }
