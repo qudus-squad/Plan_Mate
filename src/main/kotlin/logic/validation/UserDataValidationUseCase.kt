@@ -24,8 +24,8 @@ class UserDataValidationUseCase {
     }
     private fun isValidUserID(userid: String): Boolean {
         val formattedUserId = userid.trim()
-        return formattedUserId.isNotEmpty() && userid.all { ch ->
-            ch.isLetterOrDigit() || ch == '.' || ch == '_'
+        return formattedUserId.isNotEmpty() && formattedUserId.all { ch ->
+            ch.isLetterOrDigit() || ch == '.' || ch == '_' || ch == '-'
         }
     }
     fun validateDeleteUserValues(userName: String, userId: String,): Boolean{

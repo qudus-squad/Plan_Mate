@@ -8,9 +8,15 @@ class GetAllLogsUseCase(
     private val logRepository: LogRepository ,
     private val logEntryValidator: LogEntryDataValidationUseCase
 ) {
-    suspend fun getAllLogs(): List<LogEntry>{
+    suspend fun getAllLogs(order: SortOrder = SortOrder.DESCENDING): List<LogEntry>{
         val allLogs: List<LogEntry> = logRepository.getAllLogs()
         allLogs.forEach { logEntryValidator.validateLogEntry(it) }
-        return allLogs
+        return when (order) {
+            SortOrder.ASCENDING -> allLogs.sortedBy { it.loggedAt }
+            SortOrder.DESCENDING -> allLogs.sortedByDescending { it.loggedAt }
+        }
     }
+}
+enum class SortOrder {
+   ASCENDING, DESCENDING
 }
