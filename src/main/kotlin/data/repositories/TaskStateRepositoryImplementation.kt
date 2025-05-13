@@ -5,9 +5,9 @@ import org.qudus.squad.logic.repositories.TaskStateRepository
 import org.qudus.squad.model.entity.TaskState
 
 class TaskStateRepositoryImplementation(
-    private val taskStateDataSource: TaskStateDataSource
+    private val taskStateDataSource: TaskStateDataSource,
 ) : TaskStateRepository {
-    override suspend fun gatAllTasksState(): List<TaskState> {
+    override suspend fun getAllTasksState(): List<TaskState> {
         return taskStateDataSource.getAllTasksState()
     }
 

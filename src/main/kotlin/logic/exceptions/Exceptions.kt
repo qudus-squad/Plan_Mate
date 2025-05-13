@@ -33,6 +33,7 @@ class TaskStateNotFoundException(message: String = TASK_STATE_NOT_FOUND) : Excep
 class InvalidLogUserNameException(message: String) : Exception(message)
 class InvalidLogTargetIdException(message: String) : Exception(message)
 class InvalidLogActionException(message: String) : Exception(message)
+class InvalidTaskStateIdException(message: String) : Exception(message)
 
 class ExceptionsUtils {
 

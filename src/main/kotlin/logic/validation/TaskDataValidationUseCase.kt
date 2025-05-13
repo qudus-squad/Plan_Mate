@@ -2,7 +2,6 @@ package org.qudus.squad.logic.validation
 
 import logic.exceptions.*
 import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
 
 class TaskDataValidationUseCase {
 
@@ -59,17 +58,28 @@ class TaskDataValidationUseCase {
             ch.isLetterOrDigit() || ch == '.' || ch == '_'
         }
     }
-    fun validateEditTaskName(taskStateName: String){
+    fun validateTaskStateName(taskStateName: String) {
         if (!isValidTaskStateName(taskStateName)){
             throw InvalidTaskStateNameException(INVALID_TASK_STATE_NAME)
         }
     }
+
+    fun validateTaskStateId(stateId: String) {
+        if (!isValidTaskStateId(stateId)){
+            throw InvalidTaskStateIdException(INVALID_TASK_STATE_ID)
+        }
+    }
+
     private fun isValidUserName(userName: String): Boolean{
         return userName.isNotBlank()
     }
 
     private fun isValidTaskId(taskId: String): Boolean{
         return taskId.isNotBlank()
+    }
+
+    private fun isValidTaskStateId(stateId: String): Boolean{
+        return stateId.isNotBlank()
     }
 
     private fun isValidTaskTitle(title: String): Boolean{
@@ -99,5 +109,6 @@ class TaskDataValidationUseCase {
         const val INVALID_TASK_CREATOR_ID = "Task creator id should not be empty or blank."
         const val INVALID_TASK_PROJECT_ID = "Task project id should not be empty or blank."
         const val INVALID_TASK_STATE_NAME = "Task state name should not be empty or blank."
+        const val INVALID_TASK_STATE_ID = "Task state id should not be empty or blank."
     }
 }
