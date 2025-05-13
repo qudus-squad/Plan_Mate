@@ -15,7 +15,10 @@ class TaskCsvParser : CsvParser<Task> {
             title = taskList[TaskCsvColumnIndex.TITLE],
             description = taskList[TaskCsvColumnIndex.DESCRIPTION],
             projectId = taskList[TaskCsvColumnIndex.PROJECT_ID],
-            taskState = TaskState(taskList[TaskCsvColumnIndex.STATE_ID], taskList[TaskCsvColumnIndex.STATE_NAME]),
+            taskState = TaskState(
+                taskList[TaskCsvColumnIndex.STATE_ID],
+                taskList[TaskCsvColumnIndex.STATE_NAME]
+            ),
             creatorUserID = taskList[TaskCsvColumnIndex.CREATOR_USER_ID],
             createdAt = taskList[TaskCsvColumnIndex.CREATED_AT].toLocalDateTime(),
             lastUpdatedAt = taskList[TaskCsvColumnIndex.LAST_UPDATED_AT].toLocalDateTime(),
@@ -24,7 +27,7 @@ class TaskCsvParser : CsvParser<Task> {
 
     override fun toCsvRow(model: Task): String {
         return listOf(
-           model.id,
+            model.id,
             model.title,
             model.description,
             model.projectId,

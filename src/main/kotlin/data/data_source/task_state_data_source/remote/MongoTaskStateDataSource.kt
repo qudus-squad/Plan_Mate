@@ -29,8 +29,8 @@ class MongoTaskStateDataSource(
     }
 
     override suspend fun addNewTaskState(taskState: TaskState): TaskState {
-        val tasStateDto = taskState.toTaskStateDto()
-        val result = provideTaskStateCollection(mongoDatabase).insertOne(tasStateDto)
+        val taskStateDto = taskState.toTaskStateDto()
+        val result = provideTaskStateCollection(mongoDatabase).insertOne(taskStateDto)
         return result.insertedId?.let {
             taskState
         } ?: throw FailedCreatingTaskStateException()
@@ -58,5 +58,4 @@ class MongoTaskStateDataSource(
         const val STATE_FIELD = "stateId"
         const val COLLECTION_NAME = "tasks_states"
     }
-
 }
