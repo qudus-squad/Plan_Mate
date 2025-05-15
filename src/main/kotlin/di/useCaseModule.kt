@@ -13,6 +13,8 @@ import logic.use_cases.user.AddNewUserUseCase
 import logic.use_cases.user.GetAllUsersUseCase
 import org.koin.dsl.module
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
+import org.qudus.squad.logic.use_cases.tasks.GetAllTasksUseCase
+import org.qudus.squad.logic.use_cases.tasks.GetTaskByIdUseCase
 import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
 import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
 import org.qudus.squad.logic.use_cases.user.GetUserByIdUseCase
@@ -24,11 +26,6 @@ import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.logic.validation.UserRoleValidationUseCase
 import org.qudus.squad.model.entity.LoginSession
-import org.qudus.squad.ui.authentication.AuthenticationManger
-import org.qudus.squad.ui.controlPanel.AdminControlPanel
-import org.qudus.squad.ui.controlPanel.MateControlPanel
-import org.qudus.squad.ui.controlPanel.admin.ManageProject
-import org.qudus.squad.ui.controlPanel.admin.ManageUsers
 
 val useCaseModule = module {
 
@@ -79,21 +76,6 @@ val useCaseModule = module {
     single { GetAllUsersUseCase(get()) }
     single { TaskDataValidationUseCase() }
     single { DeleteUserUseCase(get(), get(), get()) }
-
-    single { LoginSession() }
-    single { ManageUsers(get()) }
-    single {
-        ManageProject(
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get()
-        )
-    }
-    single { AdminControlPanel(get(), get(), get()) }
-    single { AuthenticationManger(get(), get(), get()) }
-    single { MateControlPanel(get(), get()) }
+    single { GetTaskByIdUseCase(get(),get()) }
+    single { GetAllTasksUseCase(get()) }
 }

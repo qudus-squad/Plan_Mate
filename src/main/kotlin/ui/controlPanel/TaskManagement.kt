@@ -1,9 +1,10 @@
 package org.qudus.squad.ui.controlPanel
 
+import logic.exceptions.InvalidTaskIdException
 import logic.use_cases.tasks.*
-import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.data.data_source.task_data_source.*
-import org.qudus.squad.logic.repositories.TaskRepository
+import org.qudus.squad.logic.use_cases.tasks.GetAllTasksUseCase
+import org.qudus.squad.logic.use_cases.tasks.GetTaskByIdUseCase
 import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
 import org.qudus.squad.model.entity.EditTaskInput
 import org.qudus.squad.model.entity.LoginSession
@@ -13,14 +14,15 @@ import org.qudus.squad.ui.tablesDisplay.TasksTableDisplay
 import org.qudus.squad.ui.utils.DateTimeFormatter
 
 class TaskManagement(
-    private val tasksRepository: TaskRepository,
     private val loginSession: LoginSession,
     private val createNewTasUseCase: CreateNewTaskUseCase,
     private val editTaskUseCase: EditTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val getAllTasksByProjectIdUseCase: GetAllTasksByProjectIdUseCase,
     private val assignTaskToUserUseCase: AssignTaskToUserUseCase,
-    private val unAssignTaskToUserUseCase: UnAssignTaskUseCase
+    private val unAssignTaskToUserUseCase: UnAssignTaskUseCase,
+    private val getTaskByIdUseCase: GetTaskByIdUseCase,
+    private val getAllTasksUseCase: GetAllTasksUseCase
 ) {
     suspend fun createNewTask(id: String) {
 
@@ -48,13 +50,16 @@ class TaskManagement(
 
         val display = TasksTableDisplay(dateFormater = DateTimeFormatter)
         try {
-            val tasks = tasksRepository.getAllTasks()
+            val tasks = getAllTasksUseCase.getAllTasks()
+            if (tasks.isEmpty()){
+                println("There are no tasks in your")
+            }
             display.displayTasksTable(tasks)
             println("ENTER TASK ID : ")
             val idSelected = readlnOrNull()?.trim() ?: ""
             println("ENTER NEW TITLE : ")
             val titleSelected = readlnOrNull()?.trim() ?: ""
-            val oldTask = tasksRepository.getTaskById(id = idSelected)
+            val oldTask = getTaskByIdUseCase.getTaskById(taskId = idSelected)
 
             editTaskUseCase.editTask(
                 EditTaskInput(
@@ -71,21 +76,23 @@ class TaskManagement(
         } catch (_: InvalidToGetTaskByIdTaskException) {
             println(FAILED_GET_TASK_BY_ID)
         } catch (_: NoFoundTaskException) {
-            println(FAILED_To_Find_TASK)
+            println(FAILED_TO_FIND_TASK)
+        } catch (e: InvalidTaskIdException) {
+            println(e.message)
         }
     }
 
     suspend fun editTaskDescriptionUsingId() {
         val display = TasksTableDisplay(dateFormater = DateTimeFormatter)
         try {
-            val tasks = tasksRepository.getAllTasks()
+            val tasks = getAllTasksUseCase.getAllTasks()
             display.displayTasksTable(tasks)
             println("ENTER TASK ID : ")
             val idSelected = readlnOrNull()?.trim() ?: ""
             println("ENTER NEW DESCRIPTION : ")
             val descriptionSelected = readlnOrNull()?.trim() ?: ""
 
-            val oldTask = tasksRepository.getTaskById(id = idSelected)
+            val oldTask = getTaskByIdUseCase.getTaskById(taskId = idSelected)
             editTaskUseCase.editTask(
                 EditTaskInput(
                     userName = loginSession.currentUser.username,
@@ -101,23 +108,21 @@ class TaskManagement(
         } catch (_: InvalidToEditTaskException) {
             println(FAILED_EDIT_TASK)
         } catch (_: NoFoundTaskException) {
-            println(FAILED_To_Find_TASK)
+            println(FAILED_TO_FIND_TASK)
+        } catch (e: InvalidTaskIdException) {
+            println(e.message)
         }
     }
 
     suspend fun deleteTaskById(id: String) {
-
-        val repository: TaskRepository = getKoin().get()
-
         try {
-
             val tasks = getAllTasksByProjectIdUseCase.getAllTasksByProjectId(projectId = id)
             val display = TasksTableDisplay(dateFormater = DateTimeFormatter)
             display.displayTasksTable(tasks)
             println("ENTER TASK ID : ")
             val idSelected = readlnOrNull()?.trim() ?: ""
 
-            val task = repository.getTaskById(idSelected)
+            val task = getTaskByIdUseCase.getTaskById(idSelected)
             val result = deleteTaskUseCase.deleteTask(
                 userName = loginSession.currentUser.username,
                 taskId = idSelected,
@@ -131,7 +136,7 @@ class TaskManagement(
         } catch (_: InvalidToGetAllTasksException) {
             println(FAILED_GET_TASK_BY_ID)
         } catch (_: NoFoundTaskException) {
-            println(FAILED_To_Find_TASK)
+            println(FAILED_TO_FIND_TASK)
         }
     }
 

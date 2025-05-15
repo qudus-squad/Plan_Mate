@@ -1,6 +1,7 @@
 package logic.exceptions
 
 import logic.exceptions.ExceptionsUtils.Companion.FAILED_CREATING_TASK_STATE
+import logic.exceptions.ExceptionsUtils.Companion.INVALID_TASK_ID
 import logic.exceptions.ExceptionsUtils.Companion.TASK_STATE_NOT_FOUND
 import logic.exceptions.ExceptionsUtils.Companion.USER_ALREADY_EXIST
 import logic.exceptions.ExceptionsUtils.Companion.USER_NOT_FOUND
@@ -8,7 +9,7 @@ import logic.exceptions.ExceptionsUtils.Companion.USER_NOT_FOUND
 
 open class InvalidTaskDataException(message: String) : Exception(message)
 
-class InvalidTaskIdException(message: String) : InvalidTaskDataException(message)
+class InvalidTaskIdException(message: String = INVALID_TASK_ID) : InvalidTaskDataException(message)
 class InvalidTaskTitleException(message: String) : InvalidTaskDataException(message)
 class InvalidTaskDescriptionException(message: String) : InvalidTaskDataException(message)
 class InvalidTaskCreatorUserIdException(message: String) : InvalidTaskDataException(message)
@@ -42,5 +43,6 @@ class ExceptionsUtils {
         const val FAILED_CREATING_PROJECT = "Failed to create project"
         const val FAILED_CREATING_TASK_STATE = "Failed to create project"
         const val TASK_STATE_NOT_FOUND = "Task state not found"
+        const val INVALID_TASK_ID = "Invalid task id"
     }
 }
