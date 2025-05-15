@@ -16,6 +16,7 @@ class OneProjectTableDisplay() {
         val totalWidth = taskColumnWidth * numberOfStatesHeader + bordersSize
         val topHeaderWidth = totalWidth / 2
         val toGroupTasksByOneState = project.tasks.groupBy { it.taskState.name }
+        println("tasks = ${project.tasks.size}")
         val maxRowsInTable = toGroupTasksByOneState.values.maxOfOrNull { it.size } ?: 0
 
         println("Ξ".repeat(topHeaderWidth)

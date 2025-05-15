@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import logic.exceptions.TaskCreationException
+import logic.exceptions.TaskNotFoundException
 import org.bson.conversions.Bson
 import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
 import org.qudus.squad.model.entity.Task
@@ -18,8 +20,12 @@ import org.qudus.squad.model.entity.TaskState
 class MongoTaskDataSource(
     private val mongoDatabase: MongoDatabase
 ) : TaskDataSource {
-    override suspend fun createNewTask(task: Task) {
-        getTaskCollection().insertOne(task.toTaskDto())
+    override suspend fun createNewTask(task: Task): Task {
+        val isTaskCreated = getTaskCollection().insertOne(task.toTaskDto()).wasAcknowledged()
+        if (!isTaskCreated){
+            throw TaskCreationException()
+        }
+        return getTaskById(task.id)
     }
 
     override suspend fun editExistingTask(updatedTask: Task) {
@@ -44,10 +50,10 @@ class MongoTaskDataSource(
         return getTaskCollection().find(eq(TASK_PROJECT_ID, id)).toList().map { it.toTask() }
     }
 
-    override suspend fun getTaskById(id: String): Task? {
+    override suspend fun getTaskById(id: String): Task {
         val taskById: Bson = eq(TASK_ID, id)
-        val taskDto = getTaskCollection().find(taskById).firstOrNull()
-        return taskDto?.toTask()
+        val taskDto = getTaskCollection().find(taskById).firstOrNull() ?: throw TaskNotFoundException("Task Not Found")
+        return taskDto.toTask()
     }
 
     override suspend fun assignTaskToUser(taskId: String, userId: String): Boolean {

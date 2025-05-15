@@ -8,6 +8,7 @@ import logic.exceptions.ExceptionsUtils.Companion.USER_NOT_FOUND
 
 open class InvalidTaskDataException(message: String) : Exception(message)
 
+class TaskCreationException(): Exception()
 class InvalidTaskIdException(message: String) : InvalidTaskDataException(message)
 class InvalidTaskTitleException(message: String) : InvalidTaskDataException(message)
 class InvalidTaskDescriptionException(message: String) : InvalidTaskDataException(message)

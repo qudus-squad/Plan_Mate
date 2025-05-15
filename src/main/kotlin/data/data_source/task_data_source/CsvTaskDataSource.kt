@@ -3,6 +3,7 @@ package org.qudus.squad.data.data_source.task_data_source
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import logic.exceptions.TaskNotFoundException
 import org.qudus.squad.data.csv.CsvReader
 import org.qudus.squad.data.csv.parser.TaskCsvParser
 import org.qudus.squad.data.data_source.WriteInFileUseCase
@@ -15,9 +16,10 @@ class CsvTaskDataSource(
     private val writeInFileUseCase: WriteInFileUseCase
 ) : TaskDataSource {
 
-    override suspend fun createNewTask(task: Task) {
+    override suspend fun createNewTask(task: Task): Task {
         val newTaskCsvRow = taskCsvParser.toCsvRow(task) + "\n"
         writeInFileUseCase.writeLineToFile(TASKS_FILE, newTaskCsvRow)
+        return getTaskById(task.id)
     }
 
     override suspend fun editExistingTask(updatedTask: Task) {
@@ -53,8 +55,8 @@ class CsvTaskDataSource(
         return getAllTasks().filter { it.projectId == id }
     }
 
-    override suspend fun getTaskById(id: String): Task? {
-        return getAllTasks().firstOrNull { it.id == id }
+    override suspend fun getTaskById(id: String): Task {
+        return getAllTasks().firstOrNull() { it.id == id } ?: throw TaskNotFoundException("Task Not Found")
     }
 
     override suspend fun assignTaskToUser(taskId: String, userId: String): Boolean {

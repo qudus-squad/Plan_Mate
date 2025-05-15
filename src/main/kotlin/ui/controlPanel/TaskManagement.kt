@@ -1,5 +1,7 @@
 package org.qudus.squad.ui.controlPanel
 
+import logic.exceptions.TaskCreationException
+import logic.exceptions.TaskNotFoundException
 import logic.use_cases.tasks.*
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.LogRepository
@@ -35,15 +37,23 @@ class TaskManagement(
         println("ENTER TASK STATE NAME : ")
         val taskStateNameSelected = readlnOrNull()?.trim() ?: ""
 
-        createNewTask.createNewTask(
-            userName = user.username, task = Task(
-                title = titleSelected,
-                creatorUserID = user.userId,
-                description = descriptionSelected,
-                projectId = id,
-                taskState = TaskState(name = taskStateNameSelected),
+
+        try {
+            val addedTask = createNewTask.createNewTask(
+                userName = user.username, task = Task(
+                    title = titleSelected,
+                    creatorUserID = user.userId,
+                    description = descriptionSelected,
+                    projectId = id,
+                    taskState = TaskState(name = taskStateNameSelected),
+                )
             )
-        )
+            println("${addedTask.title} Task created Successfully")
+        }catch (_: TaskCreationException){
+            println("Sorry, some problem occur while creation task")
+        }catch (_: TaskNotFoundException){
+            println("Task created successfully but we can't show it here")
+        }
     }
 
     suspend fun editTaskNameUsingId() {
