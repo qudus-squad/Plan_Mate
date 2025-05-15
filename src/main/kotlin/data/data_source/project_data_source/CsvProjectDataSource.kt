@@ -18,34 +18,42 @@ class CsvProjectDataSource(
     private val projectFilePath: Path = Paths.get(PROJECTS_FILE)
 
     override suspend fun getAllProjects(): List<Project> {
-        return csvReader.read(PROJECTS_FILE).mapNotNull {
+        return csvReader.read(PROJECTS_FILE).map {
             try {
                 projectCsvParser.fromCsvRow(it)
             } catch (_: IllegalArgumentException) {
-                null
+                throw InvalidToGetAllLException()
             }
         }
     }
 
     override suspend fun deleteProjectById(id: String): Boolean {
-        val allProjects = getAllProjects()
+        try {
+            val allProjects = getAllProjects()
 
-        val isProjectExists = allProjects.firstOrNull { it.id == id }
-        if (isProjectExists == null) return false
+            val isProjectExists = allProjects.firstOrNull { it.id == id }
+            if (isProjectExists == null) return false
 
-        val updatedProjects = allProjects.filterNot { it.id == id }
+            val updatedProjects = allProjects.filterNot { it.id == id }
 
+            val csvLines = updatedProjects.map(projectCsvParser::toCsvRow)
+            writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
 
-        val csvLines = updatedProjects.map(projectCsvParser::toCsvRow)
-        writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
-
-        return !updatedProjects.any { it.id == id }
+            return true
+        } catch (e: Exception) {
+            throw InvalidToDeleteProjectException()
+        }
     }
 
+
     override suspend fun createNewProject(project: Project): Project {
-        val csvLine = projectCsvParser.toCsvRow(project) + "\n"
-        projectFilePath.appendText(csvLine)
-        return project
+        return try {
+            val csvLine = projectCsvParser.toCsvRow(project) + "\n"
+            projectFilePath.appendText(csvLine)
+            project
+        } catch (e: Exception) {
+            throw InvalidToAddProjectException()
+        }
     }
 
     override suspend fun getProjectById(id: String): Project {
@@ -54,15 +62,17 @@ class CsvProjectDataSource(
         } ?: throw ProjectNotFoundException(PROJECT_NOT_FOUND)
     }
 
-    override suspend fun editProject(project: Project): Project {
-        val updatedProjects = getAllProjects().map {
-            if (it.id == project.id) project else it
+    override suspend fun editProject(project: Project): Boolean {
+        return try {
+            val updatedProjects = getAllProjects().map {
+                if (it.id == project.id) project else it
+            }
+            val csvLines = updatedProjects.map(projectCsvParser::toCsvRow)
+            writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
+            true
+        } catch (e: Exception) {
+            throw InvalidToEditProjectException()
         }
-
-        val csvLines = updatedProjects.map(projectCsvParser::toCsvRow)
-        writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
-        val updatedProject = getProjectById(project.id)
-        return updatedProject
     }
 
     companion object {

@@ -44,7 +44,7 @@ class AddNewUserUseCaseTest {
             val username = "Abdo"
             val password = "123456789"
             val userRole = UserRole.MATE
-            coEvery { userRepository.addNewUser(any()) } returns true
+            coEvery { userRepository.addUser(any()) } returns true
 
             // When
             val result = addNewUserUseCase.addUser(
@@ -134,7 +134,7 @@ class AddNewUserUseCaseTest {
             val password = "12356789"
             val userRole = UserRole.MATE
             val user = User(username = username, passwordHash = password, role = userRole)
-            coEvery { userRepository.addNewUser(user) } throws InvalidUserNameException(INVALID_USER_NAME)
+            coEvery { userRepository.addUser(user) } throws InvalidUserNameException(INVALID_USER_NAME)
 
             // When & Then
             shouldThrow<InvalidUserNameException> {
@@ -219,7 +219,7 @@ class AddNewUserUseCaseTest {
             val username = "Abdo"
             val password = "123456789"
             val userRole = UserRole.MATE
-            coEvery { userRepository.addNewUser(any()) } throws UserAlreadyExistsException()
+            coEvery { userRepository.addUser(any()) } throws UserAlreadyExistsException()
 
             // When & Then
             shouldThrow<UserAlreadyExistsException> {

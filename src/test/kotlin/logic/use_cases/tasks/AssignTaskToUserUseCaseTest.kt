@@ -8,12 +8,12 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDateTime
 import logic.exceptions.InvalidTaskIdException
 import logic.exceptions.InvalidUserIdException
-import logic.exceptions.InvalidUserNameException
-import org.junit.jupiter.api.BeforeEach
 import logic.exceptions.TaskNotFoundException
+import org.junit.jupiter.api.BeforeEach
+import org.qudus.squad.data.data_source.task_data_source.InvalidToEditTaskException
+import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
-import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 import java.io.IOException
@@ -23,12 +23,14 @@ class AssignTaskToUserUseCaseTest {
     private lateinit var taskRepository: TaskRepository
     private lateinit var assignTaskToUserUseCase: AssignTaskToUserUseCase
     private lateinit var taskDataValidationUseCase: TaskDataValidationUseCase
+    private lateinit var logRepository: LogRepository
 
     @BeforeEach
     fun setup() {
         taskRepository = mockk(relaxed = true)
         taskDataValidationUseCase = TaskDataValidationUseCase()
-        assignTaskToUserUseCase = AssignTaskToUserUseCase(taskRepository, taskDataValidationUseCase)
+        logRepository = mockk(relaxed = true)
+        assignTaskToUserUseCase = AssignTaskToUserUseCase(taskRepository, taskDataValidationUseCase , logRepository)
     }
 
     @Test
@@ -38,10 +40,8 @@ class AssignTaskToUserUseCaseTest {
             val taskId = "task1"
             val userId = "user1"
 
-            coEvery { taskRepository.getTaskById(taskId) } returns null
-
             // When & Then
-            shouldThrow<TaskNotFoundException> {
+            shouldThrow<InvalidToEditTaskException> {
                 assignTaskToUserUseCase.assignTaskToUser(userId, taskId)
             }
         }

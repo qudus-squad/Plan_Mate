@@ -23,7 +23,7 @@ class AddNewUserUseCase(
         userRoleValidationUseCase.checkUserRoleIsAdmin(currentUserRole)
         userValidator.validateUserData(username, password)
         val user = User(username = username, passwordHash = hashing.generateHash(password), role = userRole)
-        val isNewUserAdded = userRepository.addNewUser(user)
+        val isNewUserAdded = userRepository.addUser(user)
 
         return isNewUserAdded
     }
