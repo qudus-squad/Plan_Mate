@@ -22,7 +22,7 @@ class ProjectRepositoryImplementation(private val projectDataSource: ProjectData
         return projectDataSource.getProjectById(id)
     }
 
-    override suspend fun editProject(project: Project): Project {
+    override suspend fun editProject(project: Project): Boolean {
         return projectDataSource.editProject(project)
     }
 }

@@ -12,5 +12,4 @@ class AuthenticationRepositoryImplementation(
     override suspend fun signIn(username: String, password: String): User {
         return authenticationDataSource.signIn(username, password)
     }
-
 }

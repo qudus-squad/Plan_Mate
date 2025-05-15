@@ -11,10 +11,21 @@ class DeleteTaskUseCase(
     private val logRepository: LogRepository,
     private val taskDataValidator: TaskDataValidationUseCase
 ) {
-    suspend fun deleteTask(userName: String, taskId: String, taskTitle: String){
-        if (taskDataValidator.validateDeleteTaskValues(userName,taskId,taskTitle)){
-            taskRepository.deleteTaskById(taskId)
-            logRepository.addNewLog(LogEntry(userName,taskId, TargetType.TASK,"$taskTitle Task Deleted"))
+    suspend fun deleteTask(userName: String, taskId: String, taskTitle: String): Boolean {
+        if (!taskDataValidator.validateDeleteTaskValues(userName, taskId, taskTitle)) {
+            return false
         }
+        val result = taskRepository.deleteTaskById(taskId)
+        if (result) {
+            logRepository.addNewLog(
+                LogEntry(
+                    userName = userName,
+                    targetId = taskId,
+                    targetType = TargetType.TASK,
+                    action = "$taskTitle Task Deleted"
+                )
+            )
+        }
+        return result
     }
 }

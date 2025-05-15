@@ -7,10 +7,10 @@ import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 class UnAssignTaskUseCase(
     private val taskRepository: TaskRepository,
 ) {
-    suspend fun unAssignTask(taskId: String){
+    suspend fun unAssignTask(taskId: String) : Boolean{
         if (taskId.isBlank()){
             throw InvalidTaskIdException(TaskDataValidationUseCase.INVALID_TASK_ID)
         }
-        taskRepository.unAssignTask(taskId)
+     return taskRepository.unAssignTask(taskId)
     }
 }

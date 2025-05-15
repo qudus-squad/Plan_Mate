@@ -7,17 +7,19 @@ import org.qudus.squad.model.entity.Project
 
 
 class ProjectDataValidationUseCase {
-    fun validateProjectData(project: Project) {
+    fun validateProjectData(project: Project): Boolean {
         if (!isValidProjectTitle(project.title)) {
             throw InvalidProjectTitleException(INVALID_PROJECT_TITLE)
         }
         if (!isValidProjectDescription(project.description)) {
             throw InvalidProjectDescriptionException(INVALID_PROJECT_DESCRIPTION)
         }
+        return true
     }
 
-    fun validateProjectId(id: String) {
+    fun validateProjectId(id: String): Boolean {
         if (!isValidProjectId(id)) throw InvalidProjectIdException(INVALID_PROJECT_ID)
+        return true
     }
 
     private fun isValidProjectId(title: String): Boolean {

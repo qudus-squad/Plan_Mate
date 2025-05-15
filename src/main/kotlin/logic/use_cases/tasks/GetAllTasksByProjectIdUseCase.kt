@@ -1,21 +1,20 @@
 package logic.use_cases.tasks
 
+import logic.exceptions.InvalidProjectIdException
 import logic.exceptions.InvalidProjectTitleException
-import logic.exceptions.TaskNotFoundException
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
-import org.qudus.squad.logic.validation.ProjectDataValidationUseCase.Companion.INVALID_PROJECT_TITLE
+import org.qudus.squad.logic.validation.ProjectDataValidationUseCase.Companion.INVALID_PROJECT_ID
 import org.qudus.squad.model.entity.Task
 
 class GetAllTasksByProjectIdUseCase(
     private val taskRepository: TaskRepository, private val projectDataValidationUseCase: ProjectDataValidationUseCase
 ) {
-    suspend fun getAllTasksByProjectId(projectId: String): List<Task> {
-        if (!projectDataValidationUseCase.isValidProjectTitle(projectId)) throw InvalidProjectTitleException(
-            INVALID_PROJECT_TITLE
+ suspend fun getAllTasksByProjectId(projectId: String): List<Task> {
+        if (!projectDataValidationUseCase.validateProjectId(projectId)) throw InvalidProjectIdException(
+            INVALID_PROJECT_ID
         )
-        val task = taskRepository.getAllTasksByProjectId(projectId)
-        if(task.isEmpty()) throw TaskNotFoundException(NO_TASK_FOUND)
+        println("sdfgsdxfgvsxdgdsfgdfxgbvdfgvfsd gfsdjk fndsjk fnsd/fk jsdl;fsd xf")
         return taskRepository.getAllTasksByProjectId(projectId)
     }
 

@@ -14,15 +14,20 @@ class DeleteProjectUseCase(
     private val userValidationUseCase: UserDataValidationUseCase
 ) {
     suspend fun deleteProject(user: User, projectId: String): Boolean {
-        userValidationUseCase.validateUserData(user.username,user.passwordHash)
-        logRepository.addNewLog(
-            LogEntry(
-                userName = user.username,
-                targetId = projectId,
-                targetType = TargetType.PROJECT,
-                action = "$projectId Deleted Project",
+     if(!userValidationUseCase.validateUserData(user.username,user.passwordHash))
+         return false
+        val result = projectRepository.deleteProjectById(projectId)
+        if (result) {
+            logRepository.addNewLog(
+                LogEntry(
+                    userName = user.username,
+                    targetId = projectId,
+                    targetType = TargetType.PROJECT,
+                    action = "$projectId Deleted Project",
+                )
             )
-        )
-        return projectRepository.deleteProjectById(projectId)
+
+        }
+        return result
     }
 }

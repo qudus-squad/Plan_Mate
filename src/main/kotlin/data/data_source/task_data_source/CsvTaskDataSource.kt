@@ -15,46 +15,73 @@ class CsvTaskDataSource(
     private val writeInFileUseCase: WriteInFileUseCase
 ) : TaskDataSource {
 
-    override suspend fun createNewTask(task: Task) {
-        val newTaskCsvRow = taskCsvParser.toCsvRow(task) + "\n"
-        writeInFileUseCase.writeLineToFile(TASKS_FILE, newTaskCsvRow)
-    }
-
-    override suspend fun editExistingTask(updatedTask: Task) {
-        val taskCsvLines = getAllTasks().map { task ->
-            if (task.id == updatedTask.id) taskCsvParser.toCsvRow(updatedTask)
-            else taskCsvParser.toCsvRow(task)
+    override suspend fun createNewTask(task: Task): Task {
+        return try {
+            val newTaskCsvRow = taskCsvParser.toCsvRow(task) + "\n"
+            writeInFileUseCase.writeLineToFile(TASKS_FILE, newTaskCsvRow)
+            task
+        } catch (e: Exception) {
+            throw InvalidToAddTaskException()
         }
-        writeInFileUseCase.writeLinesToFile(TASKS_FILE, taskCsvLines)
+
     }
 
-    override suspend fun switchTaskState(taskId: String, newTaskState: TaskState) {
-        val taskCsvLines = getAllTasks().map { task ->
-            if (task.id == taskId) {
-                val updatedTask = task.copy(
-                    taskState = newTaskState,
-                    lastUpdatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-                )
-                taskCsvParser.toCsvRow(updatedTask)
-            } else {
-                taskCsvParser.toCsvRow(task)
+    override suspend fun editExistingTask(updatedTask: Task): Boolean {
+        return try {
+            val taskCsvLines = getAllTasks().map { task ->
+                if (task.id == updatedTask.id) taskCsvParser.toCsvRow(updatedTask)
+                else taskCsvParser.toCsvRow(task)
             }
+            writeInFileUseCase.writeLinesToFile(TASKS_FILE, taskCsvLines)
+            true
+        } catch (e: Exception) {
+            throw InvalidToEditTaskException()
         }
-        writeInFileUseCase.writeLinesToFile(TASKS_FILE, taskCsvLines)
     }
 
-    override suspend fun deleteTaskById(id: String) {
-        val filteredTasks = getAllTasks().filter { it.id != id }
-        val csvLines = filteredTasks.map { project -> taskCsvParser.toCsvRow(project) }
-        writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
+    override suspend fun switchTaskState(taskId: String, newTaskState: TaskState): Boolean {
+        return try {
+            val taskCsvLines = getAllTasks().map { task ->
+                if (task.id == taskId) {
+                    val updatedTask = task.copy(
+                        taskState = newTaskState,
+                        lastUpdatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                    )
+                    taskCsvParser.toCsvRow(updatedTask)
+                } else {
+                    taskCsvParser.toCsvRow(task)
+                }
+            }
+            writeInFileUseCase.writeLinesToFile(TASKS_FILE, taskCsvLines)
+            true
+        } catch (e: Exception) {
+            throw InvalidToEditTaskException()
+        }
+    }
+
+    override suspend fun deleteTaskById(id: String): Boolean {
+        return try {
+            val filteredTasks = getAllTasks().filter { it.id != id }
+            val csvLines = filteredTasks.map { project -> taskCsvParser.toCsvRow(project) }
+            writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
+            true
+        } catch (e: Exception) {
+            throw InvalidToDeleteTaskException()
+        }
     }
 
     override suspend fun getAllTasksByProjectId(id: String): List<Task> {
-        return getAllTasks().filter { it.projectId == id }
+        return try {
+            getAllTasks().filter { it.projectId == id }
+        } catch (e: Exception) {
+            throw InvalidToGetAllTasksException()
+        }
     }
 
-    override suspend fun getTaskById(id: String): Task? {
-        return getAllTasks().firstOrNull { it.id == id }
+    override suspend fun getTaskById(id: String): Task {
+        return getAllTasks().firstOrNull { it.id == id } ?: throw InvalidToGetTaskByIdTaskException(
+
+        )
     }
 
     override suspend fun assignTaskToUser(taskId: String, userId: String): Boolean {
@@ -71,24 +98,29 @@ class CsvTaskDataSource(
             writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
             true
         } catch (e: Exception) {
-            throw e
+            throw InvalidToEditTaskException()
         }
     }
 
-    override suspend fun unAssignTask(taskId: String) {
-        val updatedTaskList = getAllTasks().map { task ->
-            if (task.id == taskId) {
-                task.copy(
-                    assignedUserId = null,
-                    lastUpdatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-                )
-            } else task
+    override suspend fun unAssignTask(taskId: String): Boolean {
+        return try {
+            val updatedTaskList = getAllTasks().map { task ->
+                if (task.id == taskId) {
+                    task.copy(
+                        assignedUserId = null,
+                        lastUpdatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                    )
+                } else task
+            }
+            val csvLines = updatedTaskList.map { task -> taskCsvParser.toCsvRow(task) }
+            writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
+            true
+        } catch (e: Exception) {
+            throw InvalidToEditTaskException()
         }
-        val csvLines = updatedTaskList.map { task -> taskCsvParser.toCsvRow(task) }
-        writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
     }
 
-    private fun getAllTasks(): List<Task> {
+    override suspend fun getAllTasks(): List<Task> {
         return csvReader.read(TASKS_FILE).mapNotNull { csvRow ->
             try {
                 taskCsvParser.fromCsvRow(csvRow)
@@ -97,6 +129,7 @@ class CsvTaskDataSource(
             }
         }
     }
+
 
     companion object {
         const val TASKS_FILE = "tasks.csv"

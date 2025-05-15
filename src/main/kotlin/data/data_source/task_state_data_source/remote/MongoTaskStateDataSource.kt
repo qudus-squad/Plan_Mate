@@ -1,57 +1,55 @@
 package org.qudus.squad.data.data_source.task_state_data_source.remote
 
 import com.mongodb.client.model.Filters
-import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
-import logic.exceptions.FailedCreatingTaskStateException
-import logic.exceptions.TaskStateNotFoundException
-import org.qudus.squad.data.data_source.task_state_data_source.TaskStateDataSource
+import org.qudus.squad.data.data_source.provideCollection
+import org.qudus.squad.data.data_source.task_state_data_source.*
 import org.qudus.squad.model.entity.TaskState
 
 class MongoTaskStateDataSource(
     private val mongoDatabase: MongoDatabase
 ) : TaskStateDataSource {
+    private val taskStateCollection = provideCollection(mongoDatabase, COLLECTION_NAME, TaskStateDto::class.java)
+
     override suspend fun getAllTasksState(): List<TaskState> {
-        return provideTaskStateCollection(mongoDatabase).find().toList().map { taskStateDto ->
+        val tasks = taskStateCollection.find().toList().map { taskStateDto ->
             taskStateDto.toTaskState()
         }
+        if (tasks.isEmpty()) throw InvalidToGetAllTaskStatesException()
+        return tasks
     }
 
     override suspend fun deleteTaskStateById(id: String): Boolean {
-        return try {
-            val result = provideTaskStateCollection(mongoDatabase).deleteOne(Filters.eq(STATE_FIELD, id))
-            result.deletedCount > 0
-        } catch (e: Exception) {
-            false
-        }
+
+        val isDeleted = taskStateCollection.deleteOne(Filters.eq(STATE_FIELD, id)).wasAcknowledged()
+
+        if (!isDeleted) throw InvalidToDeleteTaskStateException()
+        return true
     }
 
     override suspend fun addNewTaskState(taskState: TaskState): TaskState {
         val taskStateDto = taskState.toTaskStateDto()
-        val result = provideTaskStateCollection(mongoDatabase).insertOne(taskStateDto)
-        return result.insertedId?.let {
-            taskState
-        } ?: throw FailedCreatingTaskStateException()
+        val isInserted = taskStateCollection.insertOne(taskStateDto).wasAcknowledged()
+        if (!isInserted) {
+            throw InvalidToAddTaskStateException()
+        }
+        return taskState
     }
 
     override suspend fun getTaskStateById(id: String): TaskState {
-        val taskStateDto = provideTaskStateCollection(mongoDatabase).find(Filters.eq(STATE_FIELD, id)).firstOrNull()
-            ?: throw TaskStateNotFoundException()
+        val taskStateDto = taskStateCollection.find(Filters.eq(STATE_FIELD, id)).firstOrNull()
+            ?: throw InvalidToGetByIdTaskStateException()
         return taskStateDto.toTaskState()
     }
 
     override suspend fun editTaskState(taskState: TaskState): Boolean {
         val taskStateDto = taskState.toTaskStateDto()
-        val result =
-            provideTaskStateCollection(mongoDatabase).replaceOne(Filters.eq(STATE_FIELD, taskState.id), taskStateDto)
-        return result.modifiedCount > 0
-    }
-
-    private fun provideTaskStateCollection(database: MongoDatabase): MongoCollection<TaskStateDto> {
-        return database.getCollection<TaskStateDto>(COLLECTION_NAME)
-            .withDocumentClass(TaskStateDto::class.java)
+        val isEdited =
+            taskStateCollection.replaceOne(Filters.eq(STATE_FIELD, taskState.id), taskStateDto).wasAcknowledged()
+        if (!isEdited) throw InvalidToEditTaskStateException()
+        return true
     }
 
     companion object {
