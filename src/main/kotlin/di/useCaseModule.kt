@@ -73,6 +73,6 @@ val useCaseModule = module {
     single { GetUserByIdUseCase(get(), get()) }
     single { GetAllUsersUseCase(get()) }
     single { TaskDataValidationUseCase() }
-    single { DeleteUserUseCase(get(),get(),get()) }
+    single { DeleteUserUseCase(get(), get(), get()) }
 
 }
