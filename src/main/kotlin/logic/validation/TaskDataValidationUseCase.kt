@@ -37,7 +37,7 @@ class TaskDataValidationUseCase {
 
     fun validateTaskId(taskId: String): Boolean{
         if (!isValidTaskId(taskId)){
-            throw InvalidTaskIdException(INVALID_TASK_ID)
+            throw InvalidTaskIdException()
         }
         return true
     }
@@ -47,7 +47,7 @@ class TaskDataValidationUseCase {
             throw InvalidUserIdException(UserDataValidationUseCase.INVALID_USER_ID)
         }
         if (!isValidTaskId(taskId)){
-            throw InvalidTaskIdException(UserDataValidationUseCase.INVALID_USER_NAME)
+            throw InvalidTaskIdException()
         }
         return true
     }

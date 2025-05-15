@@ -12,8 +12,24 @@ import org.qudus.squad.ui.controlPanel.admin.ManageUsers
 val uiModule = module {
     single { LoginSession() }
     single { ManageUsers(get()) }
-    single { TaskManagement(get(), get()) }
-    single { ManageProject(get(), get()) }
+    single { TaskManagement(get(),
+        get(),
+        get(),
+        get(),
+        get(),
+        get(),
+        get(),
+        get(),
+        get()
+    ) }
+    single { ManageProject(get(),
+        get(),
+        get(),
+        get(),
+        get(),
+        get(),
+        get(),
+    ) }
     single { AdminControlPanel(get(), get(), get()) }
     single { AuthenticationManger(get(), get(), get()) }
     single { MateControlPanel(get(), get()) }

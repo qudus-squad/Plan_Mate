@@ -3,13 +3,11 @@ package org.qudus.squad.data.data_source.task_data_source.remote
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.bson.conversions.Bson
 import org.qudus.squad.data.data_source.provideCollection
 import org.qudus.squad.data.data_source.task_data_source.*
 import org.qudus.squad.model.entity.Task
@@ -79,9 +77,7 @@ class MongoTaskDataSource(
     }
 
     override suspend fun getAllTasks(): List<Task> {
-        val tasks = taskCollection.find().toList().map { it.toTask() }
-        if (tasks.isEmpty()) throw NoFoundTaskException()
-        return tasks
+        return taskCollection.find().toList().map { it.toTask() }
     }
 
 

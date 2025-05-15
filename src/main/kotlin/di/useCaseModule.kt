@@ -13,6 +13,8 @@ import logic.use_cases.user.AddNewUserUseCase
 import logic.use_cases.user.GetAllUsersUseCase
 import org.koin.dsl.module
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
+import org.qudus.squad.logic.use_cases.tasks.GetAllTasksUseCase
+import org.qudus.squad.logic.use_cases.tasks.GetTaskByIdUseCase
 import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
 import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
 import org.qudus.squad.logic.use_cases.user.GetUserByIdUseCase
@@ -74,5 +76,6 @@ val useCaseModule = module {
     single { GetAllUsersUseCase(get()) }
     single { TaskDataValidationUseCase() }
     single { DeleteUserUseCase(get(), get(), get()) }
-
+    single { GetTaskByIdUseCase(get(),get()) }
+    single { GetAllTasksUseCase(get()) }
 }
