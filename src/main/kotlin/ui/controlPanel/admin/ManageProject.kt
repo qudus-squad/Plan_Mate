@@ -7,9 +7,9 @@ import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
+import org.qudus.squad.model.entity.LoginSession
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
-import org.qudus.squad.model.entity.User
 import org.qudus.squad.ui.controlPanel.TaskManagement
 import org.qudus.squad.ui.tablesDisplay.OneProjectTableDisplay
 import org.qudus.squad.ui.tablesDisplay.ProjectsTableDisplay
@@ -17,7 +17,7 @@ import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 
 class ManageProject(
-    private val user: User,
+    private val loginSession: LoginSession,
     private val taskManagement: TaskManagement
 ) {
 
@@ -39,7 +39,7 @@ class ManageProject(
     private suspend fun viewProjectById() {
         val getAllProjects: GetAllProjectsUseCase = getKoin().get()
         val lisOfProjectsId = getAllProjects.getAllProjects()
-        if ( lisOfProjectsId.isEmpty()) {
+        if (lisOfProjectsId.isEmpty()) {
             targetNotFound("PROJECT")
             return
         }
@@ -52,8 +52,8 @@ class ManageProject(
         println("SELECT PROJECT NUMBER: ")
         val selectedIndex = readlnOrNull()?.trim()?.toIntOrNull()?.minus(1)
 
-        if (selectedIndex != null && selectedIndex in  lisOfProjectsId.indices) {
-            val selectedProject =  lisOfProjectsId[selectedIndex]
+        if (selectedIndex != null && selectedIndex in lisOfProjectsId.indices) {
+            val selectedProject = lisOfProjectsId[selectedIndex]
             val getProjectById = getKoin().get<GetProjectByIdUseCase>()
             val display = OneProjectTableDisplay()
             display.displayProjectDetail(getProjectById.getProjectById(selectedProject.id))
@@ -82,7 +82,7 @@ class ManageProject(
         if (selectedIndex != null && selectedIndex in projects.indices) {
             val selectedProject = projects[selectedIndex]
             val deleteProject = getKoin().get<DeleteProjectUseCase>()
-            deleteProject.deleteProject(user, selectedProject.id)
+            deleteProject.deleteProject(loginSession.currentUser, selectedProject.id)
             println("PROJECT '${selectedProject.title}' DELETED SUCCESSFULLY.")
             getAllProjects()
         } else {
@@ -156,7 +156,7 @@ class ManageProject(
             )
             val taskStates = statesEntered.map { string -> TaskState(name = string) }
             createNewProject.createProject(
-                user = user,
+                user = loginSession.currentUser,
                 title = titleSelected,
                 description = descriptionSelected,
                 tasks = tasks,
@@ -238,7 +238,7 @@ class ManageProject(
 
     private suspend fun getTasksByProjectId() {
 
-        val get:GetAllTasksByProjectIdUseCase = getKoin().get()
+        val get: GetAllTasksByProjectIdUseCase = getKoin().get()
         println("ENTER PROJECT ID: ")
         val titleSelected = readlnOrNull()?.trim() ?: ""
         val tasks = get.getAllTasksByProjectId(titleSelected)

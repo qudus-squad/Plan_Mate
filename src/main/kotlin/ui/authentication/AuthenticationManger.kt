@@ -5,20 +5,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import logic.use_cases.authentication.SignInUseCase
-import org.qudus.squad.logic.repositories.TaskRepository
+import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.model.entity.LoginSession
 import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.ui.controlPanel.AdminControlPanel
 import org.qudus.squad.ui.controlPanel.MateControlPanel
-import org.qudus.squad.ui.controlPanel.TaskManagement
-import org.qudus.squad.ui.controlPanel.admin.ManageProject
-import org.qudus.squad.ui.controlPanel.admin.ManageUsers
 import kotlin.system.exitProcess
 
 class AuthenticationManger(
     private val signInUseCase: SignInUseCase,
-    private val taskRepository: TaskRepository,
     private val loginSession: LoginSession,
+    private val adminControlPanel: AdminControlPanel
 ) {
     val authScope = CoroutineScope(Dispatchers.IO)
     var userName = ""
@@ -38,16 +35,12 @@ class AuthenticationManger(
                     loginSession.currentUser = user
                     when (user.role) {
                         UserRole.ADMIN -> {
-                            val taskManagement = TaskManagement(taskRepository, user)
-                            val manageProject = ManageProject(user, taskManagement)
-                            val manageUsers = ManageUsers(user)
-                            val adminControlPanel = AdminControlPanel(user, manageProject, manageUsers)
                             adminControlPanel.adminStory()
                         }
 
                         UserRole.MATE -> {
-                            val taskManagement = TaskManagement(taskRepository, user)
-                            val mateControlPanel = MateControlPanel(user, taskManagement)
+
+                            val mateControlPanel: MateControlPanel = getKoin().get()
                             mateControlPanel.mateStory()
                         }
                     }

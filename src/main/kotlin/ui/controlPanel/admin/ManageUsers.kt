@@ -5,13 +5,13 @@ import logic.use_cases.user.GetAllUsersUseCase
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.logic.repositories.UserRepository
 import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
-import org.qudus.squad.model.entity.User
+import org.qudus.squad.model.entity.LoginSession
 import org.qudus.squad.model.entity.UserRole
 import org.qudus.squad.ui.tablesDisplay.UsersTableDisplay
 import org.qudus.squad.ui.utils.StringAlignment.center
 
 class ManageUsers(
-    private val user: User,
+    private val loginSession: LoginSession,
 ) {
     ///////////////////////////// MANAGE USERS ///////////////////////////// ( 0 - > 2 )
 
@@ -44,7 +44,7 @@ class ManageUsers(
                 else -> UserRole.MATE
             }
             if (createNewUser.addUser(
-                    currentUserRole = user.role,
+                    currentUserRole = loginSession.currentUser.role,
                     username = titleSelected,
                     password = passwordSelected,
                     userRole = selectedRole,
@@ -78,7 +78,7 @@ class ManageUsers(
         if (selectedIndex != null && selectedIndex in allUsers.indices) {
             val selectedUser = allUsers[selectedIndex]
             val deleteUserUseCase: DeleteUserUseCase = getKoin().get()
-            deleteUserUseCase.deleteUser(user, selectedUser.userId)
+            deleteUserUseCase.deleteUser(loginSession.currentUser, selectedUser.userId)
             println("USER '${selectedUser.username}' DELETED SUCCESSFULLY.")
             getAllUsers()
         } else {

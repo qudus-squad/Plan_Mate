@@ -8,14 +8,15 @@ import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.model.entity.EditTaskInput
+import org.qudus.squad.model.entity.LoginSession
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
-import org.qudus.squad.model.entity.User
 import org.qudus.squad.ui.tablesDisplay.TasksTableDisplay
 import org.qudus.squad.ui.utils.DateTimeFormatter
 
 class TaskManagement(
-    private val tasksRepository: TaskRepository, private val user: User,
+    private val tasksRepository: TaskRepository,
+    private val loginSession: LoginSession,
 ) {
     suspend fun createNewTask(id: String) {
         val repository: TaskRepository = getKoin().get()
@@ -36,9 +37,9 @@ class TaskManagement(
         val taskStateNameSelected = readlnOrNull()?.trim() ?: ""
 
         createNewTask.createNewTask(
-            userName = user.username, task = Task(
+            userName = loginSession.currentUser.username, task = Task(
                 title = titleSelected,
-                creatorUserID = user.userId,
+                creatorUserID = loginSession.currentUser.userId,
                 description = descriptionSelected,
                 projectId = id,
                 taskState = TaskState(name = taskStateNameSelected),
@@ -64,7 +65,7 @@ class TaskManagement(
 
             editTask.editTask(
                 EditTaskInput(
-                    userName = user.username,
+                    userName = loginSession.currentUser.username,
                     updatedTask = oldTask.copy(title = titleSelected),
                     action = "edit Task Name form ${oldTask.title} to $titleSelected",
                     oldValue = oldTask.title,
@@ -91,7 +92,7 @@ class TaskManagement(
         if (oldTask != null) {
             editTask.editTask(
                 EditTaskInput(
-                    userName = user.username,
+                    userName = loginSession.currentUser.username,
                     updatedTask = oldTask.copy(description = descriptionSelected),
                     action = "edit Task description form ${oldTask.description} to $descriptionSelected",
                     oldValue = oldTask.description,
@@ -123,14 +124,14 @@ class TaskManagement(
         val task = tasksRepository.getTaskById(idSelected)
         if (task != null) {
             deleteTask.deleteTask(
-                user.username, taskId = idSelected, taskTitle = task.title
+                loginSession.currentUser.username, taskId = idSelected, taskTitle = task.title
             )
         } else println("")
         val oldTask = tasksRepository.getTaskById(id = idSelected)
 
         if (oldTask != null) {
             deleteTask.deleteTask(
-                userName = user.username,
+                userName = loginSession.currentUser.username,
                 taskId = idSelected,
                 taskTitle = oldTask.title,
             )
