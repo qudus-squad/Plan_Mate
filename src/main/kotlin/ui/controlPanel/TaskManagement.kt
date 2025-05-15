@@ -3,11 +3,8 @@ package org.qudus.squad.ui.controlPanel
 import logic.use_cases.tasks.*
 import org.koin.mp.KoinPlatform.getKoin
 import org.qudus.squad.data.data_source.task_data_source.*
-import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.TaskRepository
 import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
-import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
-import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.model.entity.EditTaskInput
 import org.qudus.squad.model.entity.LoginSession
 import org.qudus.squad.model.entity.Task
@@ -17,11 +14,16 @@ import org.qudus.squad.ui.utils.DateTimeFormatter
 
 class TaskManagement(
     private val tasksRepository: TaskRepository,
-    private val loginSession: LoginSession
+    private val loginSession: LoginSession,
+    private val createNewTasUseCase: CreateNewTaskUseCase,
+    private val editTaskUseCase: EditTaskUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val getAllTasksByProjectIdUseCase: GetAllTasksByProjectIdUseCase,
+    private val assignTaskToUserUseCase: AssignTaskToUserUseCase,
+    private val unAssignTaskToUserUseCase: UnAssignTaskUseCase
 ) {
     suspend fun createNewTask(id: String) {
 
-        val createNewTask: CreateNewTaskUseCase = getKoin().get()
         println("ENTER TASK NAME : ")
         val titleSelected = readlnOrNull()?.trim() ?: ""
         println("ENTER TASK DESCRIPTION : ")
@@ -31,7 +33,7 @@ class TaskManagement(
         println("ENTER TASK STATE NAME : ")
         val taskStateNameSelected = readlnOrNull()?.trim() ?: ""
 
-        createNewTask.createNewTask(
+        createNewTasUseCase.createNewTask(
             userName = loginSession.currentUser.username, task = Task(
                 title = titleSelected,
                 creatorUserID = loginSession.currentUser.userId,
@@ -43,14 +45,7 @@ class TaskManagement(
     }
 
     suspend fun editTaskNameUsingId() {
-        val repository: TaskRepository = getKoin().get()
-        val validation: TaskDataValidationUseCase = getKoin().get()
-        val logRepository: LogRepository = getKoin().get()
-        val editTask = EditTaskUseCase(
-            repository,
-            logRepository = logRepository,
-            taskDataValidator = validation,
-        )
+
         val display = TasksTableDisplay(dateFormater = DateTimeFormatter)
         try {
             val tasks = tasksRepository.getAllTasks()
@@ -61,7 +56,7 @@ class TaskManagement(
             val titleSelected = readlnOrNull()?.trim() ?: ""
             val oldTask = tasksRepository.getTaskById(id = idSelected)
 
-            editTask.editTask(
+            editTaskUseCase.editTask(
                 EditTaskInput(
                     userName = loginSession.currentUser.username,
                     updatedTask = oldTask.copy(title = titleSelected),
@@ -81,16 +76,7 @@ class TaskManagement(
     }
 
     suspend fun editTaskDescriptionUsingId() {
-        val repository: TaskRepository = getKoin().get()
-        val validation: TaskDataValidationUseCase = getKoin().get()
-        val logRepository: LogRepository = getKoin().get()
-        val editTask = EditTaskUseCase(
-            repository,
-            logRepository = logRepository,
-            taskDataValidator = validation,
-        )
         val display = TasksTableDisplay(dateFormater = DateTimeFormatter)
-
         try {
             val tasks = tasksRepository.getAllTasks()
             display.displayTasksTable(tasks)
@@ -100,7 +86,7 @@ class TaskManagement(
             val descriptionSelected = readlnOrNull()?.trim() ?: ""
 
             val oldTask = tasksRepository.getTaskById(id = idSelected)
-            editTask.editTask(
+            editTaskUseCase.editTask(
                 EditTaskInput(
                     userName = loginSession.currentUser.username,
                     updatedTask = oldTask.copy(description = descriptionSelected),
@@ -122,24 +108,17 @@ class TaskManagement(
     suspend fun deleteTaskById(id: String) {
 
         val repository: TaskRepository = getKoin().get()
-        val projectDataValidationUseCase: ProjectDataValidationUseCase = getKoin().get()
-
-        val validation: TaskDataValidationUseCase = getKoin().get()
-        val logRepository: LogRepository = getKoin().get()
-        val deleteTask = DeleteTaskUseCase(repository, logRepository, validation)
 
         try {
 
-            val ta = GetAllTasksByProjectIdUseCase(
-                repository, projectDataValidationUseCase
-            ).getAllTasksByProjectId(projectId = id)
+            val tasks = getAllTasksByProjectIdUseCase.getAllTasksByProjectId(projectId = id)
             val display = TasksTableDisplay(dateFormater = DateTimeFormatter)
-            display.displayTasksTable(ta)
+            display.displayTasksTable(tasks)
             println("ENTER TASK ID : ")
             val idSelected = readlnOrNull()?.trim() ?: ""
 
             val task = repository.getTaskById(idSelected)
-            val result = deleteTask.deleteTask(
+            val result = deleteTaskUseCase.deleteTask(
                 userName = loginSession.currentUser.username,
                 taskId = idSelected,
                 taskTitle = task.title,
@@ -158,17 +137,6 @@ class TaskManagement(
 
 
     suspend fun assignTask() {
-        val repository: TaskRepository = getKoin().get()
-        val taskDataValidationUseCase: TaskDataValidationUseCase = getKoin().get()
-        val logRepository: LogRepository = getKoin().get()
-
-
-        val assignTaskToUser = AssignTaskToUserUseCase(
-            taskRepository = repository,
-            taskDataValidationUseCase = taskDataValidationUseCase,
-            logRepository = logRepository
-        )
-
         println("ENTER USER ID : ")
         val userIdSelected = readlnOrNull()?.trim() ?: ""
 
@@ -176,7 +144,7 @@ class TaskManagement(
         val taskIdSelected = readlnOrNull()?.trim() ?: ""
 
         try {
-            assignTaskToUser.assignTaskToUser(userId = userIdSelected, taskId = taskIdSelected)
+            assignTaskToUserUseCase.assignTaskToUser(userId = userIdSelected, taskId = taskIdSelected)
             println("Task successfully assigned to user.")
         } catch (_: InvalidToEditTaskException) {
             println(FAILED_ASSIGN_TASK)
@@ -186,14 +154,11 @@ class TaskManagement(
     }
 
     suspend fun switchTaskState() {
-        val repository: TaskRepository = getKoin().get()
-        val unAssignTaskToUser = UnAssignTaskUseCase(taskRepository = repository)
-
         println("ENTER TASK ID : ")
         val taskIdSelected = readlnOrNull()?.trim() ?: ""
 
         try {
-            unAssignTaskToUser.unAssignTask(taskId = taskIdSelected)
+            unAssignTaskToUserUseCase.unAssignTask(taskId = taskIdSelected)
             println("Task state switched (unassigned) successfully.")
         } catch (_: InvalidToEditTaskException) {
             println(FAILED_UNASSIGN_TASK)
