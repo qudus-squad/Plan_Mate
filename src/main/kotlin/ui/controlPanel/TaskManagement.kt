@@ -141,9 +141,13 @@ class TaskManagement(
     suspend fun assignTask() {
         val repository: TaskRepository = getKoin().get()
         val taskDataValidationUseCase: TaskDataValidationUseCase = getKoin().get()
+        val logRepository: LogRepository = getKoin().get()
+
+
         val assignTaskToUser = AssignTaskToUserUseCase(
             taskRepository = repository,
             taskDataValidationUseCase = taskDataValidationUseCase,
+            logRepository = logRepository
         )
 
         println("ENTER USER ID : ")

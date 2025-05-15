@@ -6,6 +6,6 @@ interface UserDataSource {
     suspend fun addUser(user: User): Boolean
     suspend fun getUserById(userId: String): User
     suspend fun getAllUsers(): List<User>
-    suspend fun deleteUser(userId: String)
+    suspend fun deleteUser(userId: String) : Boolean
     suspend fun getUserByProjectId(projectId: String) : User
 }

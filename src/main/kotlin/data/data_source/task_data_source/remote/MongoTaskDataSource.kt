@@ -2,15 +2,15 @@ package org.qudus.squad.data.data_source.task_data_source.remote
 
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.Updates
-import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.bson.conversions.Bson
-import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
+import org.qudus.squad.data.data_source.provideCollection
+import org.qudus.squad.data.data_source.task_data_source.*
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 
@@ -18,51 +18,89 @@ import org.qudus.squad.model.entity.TaskState
 class MongoTaskDataSource(
     private val mongoDatabase: MongoDatabase
 ) : TaskDataSource {
-    override suspend fun createNewTask(task: Task) {
-        getTaskCollection().insertOne(task.toTaskDto())
+    private val taskCollection = provideCollection(mongoDatabase, COLLECTION_NAME, TaskDto::class.java)
+
+    override suspend fun createNewTask(task: Task): Task {
+        return try {
+            taskCollection.insertOne(task.toTaskDto())
+            task
+        } catch (e: Exception) {
+            throw InvalidToAddTaskException(FAILED_ADD_TASK)
+        }
     }
 
-    override suspend fun editExistingTask(updatedTask: Task) {
-        getTaskCollection().replaceOne(eq(TASK_ID, updatedTask.id), updatedTask.toTaskDto())
+    override suspend fun editExistingTask(updatedTask: Task): Boolean {
+        return try {
+            taskCollection.replaceOne(eq(TASK_ID, updatedTask.id), updatedTask.toTaskDto())
+            true
+        } catch (e: Exception) {
+            throw InvalidToEditTaskException(FAILED_EDIT_TASK)
+        }
     }
 
-    override suspend fun switchTaskState(taskId: String, newTaskState: TaskState) {
-        val filter = eq(TASK_ID, taskId)
-        val updates = Updates.combine(
-            Updates.set(TASK_STATE, newTaskState.name),
-            Updates.set(TASK_LAST_UPDATED_AT, Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
-        )
-        getTaskCollection().updateOne(filter, updates)
+    override suspend fun switchTaskState(taskId: String, newTaskState: TaskState): Boolean {
+        return try {
+            val filter = eq(TASK_ID, taskId)
+            val updates = Updates.combine(
+                Updates.set(TASK_STATE, newTaskState.name),
+                Updates.set(TASK_LAST_UPDATED_AT, Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
+            )
+            taskCollection.updateOne(filter, updates)
+            true
+        } catch (e: Exception) {
+            throw InvalidToEditTaskException(FAILED_EDIT_TASK)
+        }
     }
 
-    override suspend fun deleteTaskById(id: String) {
-        val taskById: Bson = eq(TASK_ID, id)
-        getTaskCollection().deleteOne(taskById)
+    override suspend fun deleteTaskById(id: String): Boolean {
+        return try {
+            val taskById: Bson = eq(TASK_ID, id)
+            taskCollection.deleteOne(taskById)
+            true
+        } catch (e: Exception) {
+            throw InvalidToDeleteTaskException(FAILED_DELETE_TASK)
+        }
     }
 
     override suspend fun getAllTasksByProjectId(id: String): List<Task> {
-        return getTaskCollection().find(eq(TASK_PROJECT_ID, id)).toList().map { it.toTask() }
+        return try {
+            taskCollection.find(eq(TASK_PROJECT_ID, id)).toList().map {
+                it.toTask()
+            }
+        } catch (e: Exception) {
+            throw InvalidToGetAllTasksException(FAILED_GET_ALL_TASKS)
+        }
     }
 
-    override suspend fun getTaskById(id: String): Task? {
-        val taskById: Bson = eq(TASK_ID, id)
-        val taskDto = getTaskCollection().find(taskById).firstOrNull()
-        return taskDto?.toTask()
+    override suspend fun getTaskById(id: String): Task {
+        return try {
+            val taskById: Bson = eq(TASK_ID, id)
+            val taskDto = taskCollection.find(taskById).first()
+            taskDto.toTask()
+        } catch (e: Exception) {
+            throw InvalidToGetTaskByIdTaskException(FAILED_GET_TASK_BY_ID)
+        }
     }
 
     override suspend fun assignTaskToUser(taskId: String, userId: String): Boolean {
-        val taskById : Bson = eq(TASK_ID,taskId)
-        val result = getTaskCollection().updateOne(taskById, Updates.set(TASK_ASSIGNED_USER_ID,userId))
-        return result.modifiedCount == 1L
+        return try {
+            val taskById: Bson = eq(TASK_ID, taskId)
+            val result = taskCollection.updateOne(taskById, Updates.set(TASK_ASSIGNED_USER_ID, userId))
+            result.modifiedCount == 1L
+        } catch (e: Exception) {
+            throw InvalidToEditTaskException(FAILED_EDIT_TASK)
+        }
     }
 
-    override suspend fun unAssignTask(taskId: String) {
-        val taskById : Bson = eq(TASK_ID,taskId)
-        getTaskCollection().updateOne(taskById, Updates.set(TASK_ASSIGNED_USER_ID,""))
-    }
-
-    private fun getTaskCollection(): MongoCollection<TaskDto> {
-        return mongoDatabase.getCollection<TaskDto>(COLLECTION_NAME)
+    override suspend fun unAssignTask(taskId: String): Boolean {
+        return try {
+            val taskById: Bson = eq(TASK_ID, taskId)
+            val result = taskCollection.updateOne(taskById, Updates.set(TASK_ASSIGNED_USER_ID, ""))
+            if (result.modifiedCount == 1L) true
+            else throw InvalidToEditTaskException(FAILED_EDIT_TASK)
+        } catch (e: Exception) {
+            throw InvalidToEditTaskException(FAILED_EDIT_TASK)
+        }
     }
 
     companion object {
@@ -73,5 +111,4 @@ class MongoTaskDataSource(
         const val TASK_ASSIGNED_USER_ID = "assignedUserId"
         const val TASK_LAST_UPDATED_AT = "lastUpdatedAt"
     }
-
 }

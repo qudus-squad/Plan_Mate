@@ -2,6 +2,7 @@ package org.qudus.squad.data.repositories
 
 import org.qudus.squad.data.data_source.task_state_data_source.TaskStateDataSource
 import org.qudus.squad.logic.repositories.TaskStateRepository
+import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
 
 class TaskStateRepositoryImplementation(

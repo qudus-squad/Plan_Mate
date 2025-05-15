@@ -45,11 +45,13 @@ class CsvUserDataSource(
         }
     }
 
-    override suspend fun deleteUser(userId: String) {
-        val filteredTasks = getAllUsers().filter { it.userId != userId }
-        val csvLines = filteredTasks.map { project -> userCsvParser.toCsvRow(project) }
+    override suspend fun deleteUser(userId: String): Boolean {
+        val filteredUsers = getAllUsers().filter { it.userId != userId }
+        val csvLines = filteredUsers.map { user -> userCsvParser.toCsvRow(user) }
         writeInFileUseCase.writeLinesToFile(USERS_FILE, csvLines)
+        return true
     }
+
 
     override suspend fun getUserByProjectId(projectId: String): User {
         TODO("Not yet implemented")

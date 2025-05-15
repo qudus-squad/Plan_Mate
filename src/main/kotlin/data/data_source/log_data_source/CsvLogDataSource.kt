@@ -12,9 +12,14 @@ class CsvLogDataSource(
 ) : LogDataSource {
 
 
-    override suspend fun addNewLog(logEntry: LogEntry) {
-        val csvLine = logEntryCsvParser.toCsvRow(logEntry) + "\n"
-        writeInFileUseCase.writeLineToFile(LOGS_FILE,csvLine)
+    override suspend fun addNewLog(logEntry: LogEntry): LogEntry {
+        return try {
+            val csvLine = logEntryCsvParser.toCsvRow(logEntry) + "\n"
+            writeInFileUseCase.writeLineToFile(LOGS_FILE, csvLine)
+            logEntry
+        } catch (e: Exception) {
+            throw InvalidToAddLogException(FAILED_ADD_LOG)
+        }
     }
 
     override suspend fun getLogByTargetId(targetId: String): List<LogEntry> {
@@ -22,19 +27,24 @@ class CsvLogDataSource(
     }
 
     override suspend fun getAllLogs(): List<LogEntry> {
-        return csvReader.read(LOGS_FILE).mapNotNull {
+        return csvReader.read(LOGS_FILE).map {
             try {
                 logEntryCsvParser.fromCsvRow(it)
             } catch (_: IllegalArgumentException) {
-                null
+                throw InvalidToGetAllLogsException(FAILED_GET_ALL_LOGS)
             }
         }
     }
 
-    override suspend fun deleteLogByTargetId(targetId: String) {
-        val filteredLogs = getAllLogs().filterNot { it.targetId == targetId }
-        val csvLines = filteredLogs.map{log -> logEntryCsvParser.toCsvRow(log)}
-        writeInFileUseCase.writeLinesToFile(LOGS_FILE, csvLines)
+    override suspend fun deleteLogByTargetId(targetId: String): Boolean {
+        return try {
+            val filteredLogs = getAllLogs().filterNot { it.targetId == targetId }
+            val csvLines = filteredLogs.map { log -> logEntryCsvParser.toCsvRow(log) }
+            writeInFileUseCase.writeLinesToFile(LOGS_FILE, csvLines)
+            true
+        } catch (e: Exception) {
+            throw InvalidToDeleteLogException(FAILED_DELETE_LOG)
+        }
     }
 
     companion object {

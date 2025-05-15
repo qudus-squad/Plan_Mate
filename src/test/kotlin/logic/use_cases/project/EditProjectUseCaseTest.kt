@@ -2,6 +2,7 @@ package logic.use_cases.project
 
 import fakes.FakeMongoLogRepository
 import fakes.FakeProjectRepository
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
@@ -9,6 +10,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import logic.exceptions.ProjectNotFoundException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.qudus.squad.logic.repositories.LogRepository
@@ -86,10 +88,9 @@ class EditProjectUseCaseTest {
         val user = User(
             userId = "1", username = "Ahmed", passwordHash = "asdasdasd", role = UserRole.ADMIN
         )
-        // When
-        val result = editProjectUseCase.editProject(user, fakeProject)
-
-        // Then
-        result.shouldBeNull()
+        // When & Then
+        shouldThrow<ProjectNotFoundException> {
+            editProjectUseCase.editProject(user, fakeProject)
+        }
     }
 }

@@ -7,5 +7,5 @@ interface ProjectDataSource {
     suspend fun deleteProjectById(id: String): Boolean
     suspend fun createNewProject(project: Project): Project
     suspend fun getProjectById(id: String): Project
-    suspend fun editProject(project: Project): Project
+    suspend fun editProject(project: Project): Boolean
 }

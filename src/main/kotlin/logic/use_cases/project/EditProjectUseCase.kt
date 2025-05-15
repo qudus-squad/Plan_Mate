@@ -1,6 +1,7 @@
 package logic.use_cases.project
 
 
+import logic.exceptions.ProjectNotFoundException
 import org.qudus.squad.logic.repositories.LogRepository
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
@@ -20,18 +21,24 @@ class EditProjectUseCase(
     suspend fun editProject(user: User, project: Project): Project {
         userDataValidationUseCase.validateUserData(user.username, user.passwordHash)
         projectValidationUseCase.validateProjectData(project)
-        logRepository.addNewLog(
-            LogEntry(
-                userName = user.username,
-                targetId = project.id,
-                targetType = TargetType.PROJECT,
-                action = "${project.id} Created Project",
-                oldValue = "Project $project",
-                newValue = "Project $project",
+        val result = projectRepository.editProject(project)
+        if(result) {
+            logRepository.addNewLog(
+                LogEntry(
+                    userName = user.username,
+                    targetId = project.id,
+                    targetType = TargetType.PROJECT,
+                    action = "${project.id} Created Project",
+                    oldValue = "Project $project",
+                    newValue = "Project $project",
+                )
             )
-        )
-        return projectRepository.editProject(project)
+        }else
+            throw ProjectNotFoundException(PROJECT_NOT_FOUND)
+        return project
+    }
+    companion object{
+        const val PROJECT_NOT_FOUND = "Project Not Found"
+
     }
 }
-
-

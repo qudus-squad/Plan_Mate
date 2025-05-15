@@ -8,8 +8,8 @@ class LogRepositoryImplementation(
     private val logDataSource: LogDataSource
 ) : LogRepository {
 
-    override suspend fun addNewLog(logEntry: LogEntry) {
-        logDataSource.addNewLog(logEntry)
+    override suspend fun addNewLog(logEntry: LogEntry): LogEntry {
+       return logDataSource.addNewLog(logEntry)
     }
     override suspend fun getLogByTargetId(targetId: String): List<LogEntry> {
        return logDataSource.getLogByTargetId(targetId)
@@ -19,7 +19,7 @@ class LogRepositoryImplementation(
       return logDataSource.getAllLogs()
     }
 
-    override suspend fun deleteLogByTargetId(targetId: String) {
-        logDataSource.deleteLogByTargetId(targetId)
+    override suspend fun deleteLogByTargetId(targetId: String): Boolean {
+        return logDataSource.deleteLogByTargetId(targetId)
     }
 }
