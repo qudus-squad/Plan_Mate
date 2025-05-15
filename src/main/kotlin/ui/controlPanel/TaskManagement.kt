@@ -9,24 +9,19 @@ import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
 import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.model.entity.EditTaskInput
+import org.qudus.squad.model.entity.LoginSession
 import org.qudus.squad.model.entity.Task
 import org.qudus.squad.model.entity.TaskState
-import org.qudus.squad.model.entity.User
 import org.qudus.squad.ui.tablesDisplay.TasksTableDisplay
 import org.qudus.squad.ui.utils.DateTimeFormatter
 
 class TaskManagement(
-    private val tasksRepository: TaskRepository, private val user: User,
+    private val tasksRepository: TaskRepository,
+    private val loginSession: LoginSession
 ) {
     suspend fun createNewTask(id: String) {
-        val repository: TaskRepository = getKoin().get()
-        val validation: TaskDataValidationUseCase = getKoin().get()
-        val logRepository: LogRepository = getKoin().get()
-        val createNewTask = CreateNewTaskUseCase(
-            repository,
-            logRepository = logRepository,
-            taskDataValidator = validation,
-        )
+
+        val createNewTask: CreateNewTaskUseCase = getKoin().get()
         println("ENTER TASK NAME : ")
         val titleSelected = readlnOrNull()?.trim() ?: ""
         println("ENTER TASK DESCRIPTION : ")
@@ -37,9 +32,9 @@ class TaskManagement(
         val taskStateNameSelected = readlnOrNull()?.trim() ?: ""
 
         createNewTask.createNewTask(
-            userName = user.username, task = Task(
+            userName = loginSession.currentUser.username, task = Task(
                 title = titleSelected,
-                creatorUserID = user.userId,
+                creatorUserID = loginSession.currentUser.userId,
                 description = descriptionSelected,
                 projectId = id,
                 taskState = TaskState(name = taskStateNameSelected),
@@ -68,7 +63,7 @@ class TaskManagement(
 
             editTask.editTask(
                 EditTaskInput(
-                    userName = user.username,
+                    userName = loginSession.currentUser.username,
                     updatedTask = oldTask.copy(title = titleSelected),
                     action = "edit Task Name form ${oldTask.title} to $titleSelected",
                     oldValue = oldTask.title,
@@ -80,7 +75,7 @@ class TaskManagement(
             println(FAILED_EDIT_TASK)
         } catch (_: InvalidToGetTaskByIdTaskException) {
             println(FAILED_GET_TASK_BY_ID)
-        }catch (_:NoFoundTaskException){
+        } catch (_: NoFoundTaskException) {
             println(FAILED_To_Find_TASK)
         }
     }
@@ -107,7 +102,7 @@ class TaskManagement(
             val oldTask = tasksRepository.getTaskById(id = idSelected)
             editTask.editTask(
                 EditTaskInput(
-                    userName = user.username,
+                    userName = loginSession.currentUser.username,
                     updatedTask = oldTask.copy(description = descriptionSelected),
                     action = "edit Task description form ${oldTask.description} to $descriptionSelected",
                     oldValue = oldTask.description,
@@ -119,7 +114,7 @@ class TaskManagement(
             println(FAILED_GET_TASK_BY_ID)
         } catch (_: InvalidToEditTaskException) {
             println(FAILED_EDIT_TASK)
-        }catch (_:NoFoundTaskException){
+        } catch (_: NoFoundTaskException) {
             println(FAILED_To_Find_TASK)
         }
     }
@@ -145,7 +140,7 @@ class TaskManagement(
 
             val task = repository.getTaskById(idSelected)
             val result = deleteTask.deleteTask(
-                userName = user.username,
+                userName = loginSession.currentUser.username,
                 taskId = idSelected,
                 taskTitle = task.title,
             )
@@ -156,7 +151,7 @@ class TaskManagement(
             println(FAILED_DELETE_TASK)
         } catch (_: InvalidToGetAllTasksException) {
             println(FAILED_GET_TASK_BY_ID)
-        }catch (_:NoFoundTaskException){
+        } catch (_: NoFoundTaskException) {
             println(FAILED_To_Find_TASK)
         }
     }
@@ -185,7 +180,7 @@ class TaskManagement(
             println("Task successfully assigned to user.")
         } catch (_: InvalidToEditTaskException) {
             println(FAILED_ASSIGN_TASK)
-        }catch (_:InvalidToEditTaskException) {
+        } catch (_: InvalidToEditTaskException) {
             println(FAILED_ASSIGN_TASK)
         }
     }
