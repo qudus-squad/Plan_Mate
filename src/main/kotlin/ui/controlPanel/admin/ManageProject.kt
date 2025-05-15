@@ -4,8 +4,6 @@ import logic.use_cases.project.CreateNewProjectUseCase
 import logic.use_cases.project.DeleteProjectUseCase
 import logic.use_cases.project.GetAllProjectsUseCase
 import logic.use_cases.tasks.GetAllTasksByProjectIdUseCase
-import org.koin.mp.KoinPlatform.getKoin
-import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
 import org.qudus.squad.model.entity.LoginSession
 import org.qudus.squad.model.entity.Task
@@ -18,7 +16,12 @@ import org.qudus.squad.ui.utils.StringAlignment.center
 
 class ManageProject(
     private val loginSession: LoginSession,
-    private val taskManagement: TaskManagement
+    private val taskManagement: TaskManagement,
+    private val getAllProjectsUseCase: GetAllProjectsUseCase,
+    private val getProjectByIdUseCase: GetProjectByIdUseCase,
+    private val deleteProjectUseCase: DeleteProjectUseCase,
+    private val createNewProjectUseCase: CreateNewProjectUseCase,
+    private val getAllTasksByProjectIdUseCase: GetAllTasksByProjectIdUseCase
 ) {
 
 
@@ -26,9 +29,7 @@ class ManageProject(
 
     suspend fun getAllProjects() {
         val display = ProjectsTableDisplay(dateFormater = DateTimeFormatter)
-        val repository: ProjectRepository = getKoin().get()
-        val getAllProjects = GetAllProjectsUseCase(repository)
-        val allProjects = getAllProjects.getAllProjects()
+        val allProjects = getAllProjectsUseCase.getAllProjects()
         if (allProjects.isNotEmpty()) {
             display.displayProjectsTable(allProjects)
             manageAllProjectsPanel()
@@ -37,9 +38,8 @@ class ManageProject(
     }
 
     private suspend fun viewProjectById() {
-        val getAllProjects: GetAllProjectsUseCase = getKoin().get()
-        val lisOfProjectsId = getAllProjects.getAllProjects()
-        if ( lisOfProjectsId.isEmpty()) {
+        val lisOfProjectsId = getAllProjectsUseCase.getAllProjects()
+        if (lisOfProjectsId.isEmpty()) {
             targetNotFound("PROJECT")
             return
         }
@@ -52,11 +52,10 @@ class ManageProject(
         println("SELECT PROJECT NUMBER: ")
         val selectedIndex = readlnOrNull()?.trim()?.toIntOrNull()?.minus(1)
 
-        if (selectedIndex != null && selectedIndex in  lisOfProjectsId.indices) {
-            val selectedProject =  lisOfProjectsId[selectedIndex]
-            val getProjectById = getKoin().get<GetProjectByIdUseCase>()
+        if (selectedIndex != null && selectedIndex in lisOfProjectsId.indices) {
+            val selectedProject = lisOfProjectsId[selectedIndex]
             val display = OneProjectTableDisplay()
-            display.displayProjectDetail(getProjectById.getProjectById(selectedProject.id))
+            display.displayProjectDetail(getProjectByIdUseCase.getProjectById(selectedProject.id))
             manageOneProjectPanel(selectedProject.id)
         } else {
             idNotFound()
@@ -64,8 +63,7 @@ class ManageProject(
     }
 
     private suspend fun deleteProject() {
-        val getAllProjects = getKoin().get<GetAllProjectsUseCase>()
-        val projects = getAllProjects.getAllProjects()
+        val projects = getAllProjectsUseCase.getAllProjects()
         if (projects.isEmpty()) {
             targetNotFound("PROJECT")
             return
@@ -81,8 +79,7 @@ class ManageProject(
 
         if (selectedIndex != null && selectedIndex in projects.indices) {
             val selectedProject = projects[selectedIndex]
-            val deleteProject = getKoin().get<DeleteProjectUseCase>()
-            deleteProject.deleteProject(loginSession.currentUser, selectedProject.id)
+            deleteProjectUseCase.deleteProject(loginSession.currentUser, selectedProject.id)
             println("PROJECT '${selectedProject.title}' DELETED SUCCESSFULLY.")
             getAllProjects()
         } else {
@@ -95,7 +92,6 @@ class ManageProject(
     suspend fun createNewProject() {
         try {
 
-            val createNewProject: CreateNewProjectUseCase = getKoin().get()
             println("ENTER PROJECT NAME : ")
             val titleSelected = readlnOrNull()?.trim() ?: ""
             println("ENTER PROJECT DESCRIPTION : ")
@@ -155,7 +151,7 @@ class ManageProject(
                 )
             )
             val taskStates = statesEntered.map { string -> TaskState(name = string) }
-            createNewProject.createProject(
+            createNewProjectUseCase.createProject(
                 user = loginSession.currentUser,
                 title = titleSelected,
                 description = descriptionSelected,
@@ -238,10 +234,9 @@ class ManageProject(
 
     private suspend fun getTasksByProjectId() {
 
-        val get:GetAllTasksByProjectIdUseCase = getKoin().get()
         println("ENTER PROJECT ID: ")
         val titleSelected = readlnOrNull()?.trim() ?: ""
-        val tasks = get.getAllTasksByProjectId(titleSelected)
+        val tasks = getAllTasksByProjectIdUseCase.getAllTasksByProjectId(titleSelected)
         println(tasks)
     }
 

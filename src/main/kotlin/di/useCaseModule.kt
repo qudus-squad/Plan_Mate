@@ -24,6 +24,11 @@ import org.qudus.squad.logic.validation.TaskDataValidationUseCase
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.logic.validation.UserRoleValidationUseCase
 import org.qudus.squad.model.entity.LoginSession
+import org.qudus.squad.ui.authentication.AuthenticationManger
+import org.qudus.squad.ui.controlPanel.AdminControlPanel
+import org.qudus.squad.ui.controlPanel.MateControlPanel
+import org.qudus.squad.ui.controlPanel.admin.ManageProject
+import org.qudus.squad.ui.controlPanel.admin.ManageUsers
 
 val useCaseModule = module {
 
@@ -75,4 +80,20 @@ val useCaseModule = module {
     single { TaskDataValidationUseCase() }
     single { DeleteUserUseCase(get(), get(), get()) }
 
+    single { LoginSession() }
+    single { ManageUsers(get()) }
+    single {
+        ManageProject(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    single { AdminControlPanel(get(), get(), get()) }
+    single { AuthenticationManger(get(), get(), get()) }
+    single { MateControlPanel(get(), get()) }
 }
