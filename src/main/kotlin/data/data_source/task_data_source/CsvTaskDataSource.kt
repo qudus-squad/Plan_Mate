@@ -21,7 +21,7 @@ class CsvTaskDataSource(
             writeInFileUseCase.writeLineToFile(TASKS_FILE, newTaskCsvRow)
             task
         } catch (e: Exception) {
-            throw InvalidToAddTaskException(FAILED_ADD_TASK)
+            throw InvalidToAddTaskException()
         }
 
     }
@@ -35,7 +35,7 @@ class CsvTaskDataSource(
             writeInFileUseCase.writeLinesToFile(TASKS_FILE, taskCsvLines)
             true
         } catch (e: Exception) {
-            throw InvalidToEditTaskException(FAILED_EDIT_TASK)
+            throw InvalidToEditTaskException()
         }
     }
 
@@ -55,7 +55,7 @@ class CsvTaskDataSource(
             writeInFileUseCase.writeLinesToFile(TASKS_FILE, taskCsvLines)
             true
         } catch (e: Exception) {
-            throw InvalidToEditTaskException(FAILED_EDIT_TASK)
+            throw InvalidToEditTaskException()
         }
     }
 
@@ -66,7 +66,7 @@ class CsvTaskDataSource(
             writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
             true
         } catch (e: Exception) {
-            throw InvalidToDeleteTaskException(FAILED_DELETE_TASK)
+            throw InvalidToDeleteTaskException()
         }
     }
 
@@ -74,13 +74,13 @@ class CsvTaskDataSource(
         return try {
             getAllTasks().filter { it.projectId == id }
         } catch (e: Exception) {
-            throw InvalidToGetAllTasksException(FAILED_GET_ALL_TASKS)
+            throw InvalidToGetAllTasksException()
         }
     }
 
     override suspend fun getTaskById(id: String): Task {
         return getAllTasks().firstOrNull { it.id == id } ?: throw InvalidToGetTaskByIdTaskException(
-            FAILED_GET_TASK_BY_ID
+
         )
     }
 
@@ -98,7 +98,7 @@ class CsvTaskDataSource(
             writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
             true
         } catch (e: Exception) {
-            throw InvalidToEditTaskException(FAILED_EDIT_TASK)
+            throw InvalidToEditTaskException()
         }
     }
 
@@ -116,12 +116,11 @@ class CsvTaskDataSource(
             writeInFileUseCase.writeLinesToFile(TASKS_FILE, csvLines)
             true
         } catch (e: Exception) {
-            throw InvalidToEditTaskException(FAILED_EDIT_TASK)
+            throw InvalidToEditTaskException()
         }
     }
 
-
-    private fun getAllTasks(): List<Task> {
+    override suspend fun getAllTasks(): List<Task> {
         return csvReader.read(TASKS_FILE).mapNotNull { csvRow ->
             try {
                 taskCsvParser.fromCsvRow(csvRow)
@@ -130,6 +129,7 @@ class CsvTaskDataSource(
             }
         }
     }
+
 
     companion object {
         const val TASKS_FILE = "tasks.csv"

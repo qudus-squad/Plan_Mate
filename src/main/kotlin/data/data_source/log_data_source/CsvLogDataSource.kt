@@ -18,7 +18,7 @@ class CsvLogDataSource(
             writeInFileUseCase.writeLineToFile(LOGS_FILE, csvLine)
             logEntry
         } catch (e: Exception) {
-            throw InvalidToAddLogException(FAILED_ADD_LOG)
+            throw InvalidToAddLogException()
         }
     }
 
@@ -31,7 +31,7 @@ class CsvLogDataSource(
             try {
                 logEntryCsvParser.fromCsvRow(it)
             } catch (_: IllegalArgumentException) {
-                throw InvalidToGetAllLogsException(FAILED_GET_ALL_LOGS)
+                throw InvalidToGetAllLogsException()
             }
         }
     }
@@ -43,7 +43,7 @@ class CsvLogDataSource(
             writeInFileUseCase.writeLinesToFile(LOGS_FILE, csvLines)
             true
         } catch (e: Exception) {
-            throw InvalidToDeleteLogException(FAILED_DELETE_LOG)
+            throw InvalidToDeleteLogException()
         }
     }
 

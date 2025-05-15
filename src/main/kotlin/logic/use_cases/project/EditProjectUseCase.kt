@@ -18,11 +18,13 @@ class EditProjectUseCase(
     private val userDataValidationUseCase: UserDataValidationUseCase,
     private val projectValidationUseCase: ProjectDataValidationUseCase
 ) {
-    suspend fun editProject(user: User, project: Project): Project {
-        userDataValidationUseCase.validateUserData(user.username, user.passwordHash)
-        projectValidationUseCase.validateProjectData(project)
+    suspend fun editProject(user: User, project: Project): Boolean {
+        if (userDataValidationUseCase.validateUserData(
+                user.username, user.passwordHash
+            ) && projectValidationUseCase.validateProjectData(project)
+        ) return false
         val result = projectRepository.editProject(project)
-        if(result) {
+        if (result) {
             logRepository.addNewLog(
                 LogEntry(
                     userName = user.username,
@@ -33,12 +35,11 @@ class EditProjectUseCase(
                     newValue = "Project $project",
                 )
             )
-        }else
-            throw ProjectNotFoundException(PROJECT_NOT_FOUND)
-        return project
+        }
+        return result
     }
-    companion object{
-        const val PROJECT_NOT_FOUND = "Project Not Found"
 
+    companion object {
+        const val PROJECT_NOT_FOUND = "Project Not Found"
     }
 }

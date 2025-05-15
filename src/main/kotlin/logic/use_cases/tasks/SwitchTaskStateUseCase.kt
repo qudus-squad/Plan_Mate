@@ -9,8 +9,8 @@ class SwitchTaskStateUseCase(
     private val taskDataValidationUseCase: TaskDataValidationUseCase
 
 ) {
-    suspend fun switchTaskState(taskState: TaskState) {
+    suspend fun switchTaskState(taskState: TaskState) : Boolean{
         taskDataValidationUseCase.validateTaskStateName(taskState.name)
-        taskStateRepository.editTaskState(taskState)
+       return taskStateRepository.editTaskState(taskState)
     }
 }

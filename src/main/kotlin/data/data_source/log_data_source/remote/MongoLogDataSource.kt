@@ -14,44 +14,37 @@ class MongoLogDataSource(
 
     private val logCollection = provideCollection(mongoDatabase, COLLECTION_NAME, LogEntryDto::class.java)
     override suspend fun addNewLog(logEntry: LogEntry): LogEntry {
-        return try {
-            val result = logCollection.insertOne(logEntry.toLogEntryDto())
-            if (result.insertedId != null) {
-                logEntry
-            } else throw InvalidToAddLogException(FAILED_ADD_LOG)
-
-        } catch (e: Exception) {
-            throw InvalidToAddLogException(FAILED_ADD_LOG)
-        }
+        val isLogCreated = logCollection.insertOne(logEntry.toLogEntryDto()).wasAcknowledged()
+        if (!isLogCreated)
+            throw InvalidToAddLogException()
+        return logEntry
     }
 
     override suspend fun getLogByTargetId(targetId: String): List<LogEntry> {
-        return try {
-            logCollection.find(eq(TARGET_FIELD, targetId)).toList().map { logEntryDto ->
+        val logs = logCollection.find(eq(TARGET_FIELD, targetId))
+            .toList()
+            .map { logEntryDto ->
                 logEntryDto.toLogEntry().copy(loggedAt = LocalDateTime.parse(logEntryDto.loggedAt))
             }
-        } catch (e: Exception) {
-            throw InvalidToGetByIdLogException(FAILED_GET_LOG_BY_ID)
-        }
+        if (logs.isEmpty()) throw InvalidToGetByIdLogException()
+        return logs
     }
 
+
     override suspend fun getAllLogs(): List<LogEntry> {
-        return try {
-            logCollection.find().toList().map { logEntryDto ->
+
+         val logs = logCollection.find().toList().map { logEntryDto ->
                 logEntryDto.toLogEntry().copy(loggedAt = LocalDateTime.parse(logEntryDto.loggedAt))
-            }
-        } catch (e: Exception) {
-            throw InvalidToGetAllLogsException(FAILED_GET_ALL_LOGS)
         }
+        if(logs.isEmpty()) throw InvalidToGetAllLogsException()
+        return logs
     }
 
     override suspend fun deleteLogByTargetId(targetId: String): Boolean {
-        return try {
-            logCollection.deleteMany(eq(TARGET_FIELD, targetId))
-            true
-        } catch (e: Exception) {
-            throw InvalidToDeleteLogException(FAILED_DELETE_LOG)
-        }
+        val isLogDeleted = logCollection.deleteMany(eq(TARGET_FIELD, targetId)).deletedCount > 0
+        if (!isLogDeleted)
+            throw InvalidToDeleteLogException()
+        return true
     }
 
     companion object {

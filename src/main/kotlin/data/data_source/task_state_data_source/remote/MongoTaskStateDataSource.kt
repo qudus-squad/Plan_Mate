@@ -14,55 +14,42 @@ class MongoTaskStateDataSource(
     private val taskStateCollection = provideCollection(mongoDatabase, COLLECTION_NAME, TaskStateDto::class.java)
 
     override suspend fun getAllTasksState(): List<TaskState> {
-
-        return try {
-            taskStateCollection.find().toList().map { taskStateDto ->
-                taskStateDto.toTaskState()
-            }
-        } catch (e: Exception) {
-            throw InvalidToGetAllTaskStatesException(
-                FAILED_GET_ALL_TASK_STATES
-            )
+        val tasks = taskStateCollection.find().toList().map { taskStateDto ->
+            taskStateDto.toTaskState()
         }
+        if (tasks.isEmpty()) throw InvalidToGetAllTaskStatesException()
+        return tasks
     }
 
     override suspend fun deleteTaskStateById(id: String): Boolean {
-        return try {
-            val result = taskStateCollection.deleteOne(Filters.eq(STATE_FIELD, id))
-            result.deletedCount > 0
-        } catch (e: Exception) {
-            throw InvalidToDeleteTaskStateException(
-                FAILED_DELETE_TASK_STATE
-            )
-        }
+
+        val isDeleted = taskStateCollection.deleteOne(Filters.eq(STATE_FIELD, id)).wasAcknowledged()
+
+        if (!isDeleted) throw InvalidToDeleteTaskStateException()
+        return true
     }
 
     override suspend fun addNewTaskState(taskState: TaskState): TaskState {
-        return try {
-            val taskStateDto = taskState.toTaskStateDto()
-            val result = taskStateCollection.insertOne(taskStateDto)
-            result.insertedId?.let {
-                taskState
-            } ?: throw InvalidToAddTaskStateException(FAILED_ADD_TASK_STATE)
-        } catch (e: Exception) {
-            throw InvalidToAddTaskStateException(FAILED_ADD_TASK_STATE)
+        val taskStateDto = taskState.toTaskStateDto()
+        val isInserted = taskStateCollection.insertOne(taskStateDto).wasAcknowledged()
+        if (!isInserted) {
+            throw InvalidToAddTaskStateException()
         }
+        return taskState
     }
 
     override suspend fun getTaskStateById(id: String): TaskState {
         val taskStateDto = taskStateCollection.find(Filters.eq(STATE_FIELD, id)).firstOrNull()
-            ?: throw InvalidToGetByIdTaskStateException(FAILED_GET_TASK_STATE_BY_ID)
+            ?: throw InvalidToGetByIdTaskStateException()
         return taskStateDto.toTaskState()
     }
 
     override suspend fun editTaskState(taskState: TaskState): Boolean {
-        return try {
-            val taskStateDto = taskState.toTaskStateDto()
-            val result = taskStateCollection.replaceOne(Filters.eq(STATE_FIELD, taskState.id), taskStateDto)
-            result.modifiedCount > 0
-        } catch (e: Exception) {
-            throw InvalidToEditTaskStateException(FAILED_DELETE_TASK_STATE)
-        }
+        val taskStateDto = taskState.toTaskStateDto()
+        val isEdited =
+            taskStateCollection.replaceOne(Filters.eq(STATE_FIELD, taskState.id), taskStateDto).wasAcknowledged()
+        if (!isEdited) throw InvalidToEditTaskStateException()
+        return true
     }
 
     companion object {

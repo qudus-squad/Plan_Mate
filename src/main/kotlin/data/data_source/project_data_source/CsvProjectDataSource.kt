@@ -22,7 +22,7 @@ class CsvProjectDataSource(
             try {
                 projectCsvParser.fromCsvRow(it)
             } catch (_: IllegalArgumentException) {
-                throw InvalidToGetAllLException(FAILED_GET_ALL_PROJECTS)
+                throw InvalidToGetAllLException()
             }
         }
     }
@@ -41,7 +41,7 @@ class CsvProjectDataSource(
 
             return true
         } catch (e: Exception) {
-            throw InvalidToDeleteProjectException(FAILED_DELETE_PROJECT)
+            throw InvalidToDeleteProjectException()
         }
     }
 
@@ -52,7 +52,7 @@ class CsvProjectDataSource(
             projectFilePath.appendText(csvLine)
             project
         } catch (e: Exception) {
-            throw InvalidToAddProjectException(FAILED_ADD_PROJECT)
+            throw InvalidToAddProjectException()
         }
     }
 
@@ -71,7 +71,7 @@ class CsvProjectDataSource(
             writeInFileUseCase.writeLinesToFile(PROJECTS_FILE, csvLines)
             true
         } catch (e: Exception) {
-            throw InvalidToEditProjectException(FAILED_EDIT_PROJECT)
+            throw InvalidToEditProjectException()
         }
     }
 

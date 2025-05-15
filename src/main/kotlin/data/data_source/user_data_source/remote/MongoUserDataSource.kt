@@ -22,52 +22,43 @@ class MongoUserDataSource(
     private val userCollection = provideCollection(mongoDatabase, PROVIDER_USER_COLLECTION_NAME, UserDto::class.java)
 
     override suspend fun addUser(user: User): Boolean {
-        try {
-            if (userCollection.find(Filters.eq(ADD_USER_FIELD_NAME, user.username)).firstOrNull() != null) {
-                throw UserAlreadyExistsException()
-            }
-            userCollection.insertOne(user.toUserDto())
-            return true
-        } catch (e: Exception) {
-            throw InvalidToAddUserException(FAILED_ADD_USER)
+        if (userCollection.find(Filters.eq(ADD_USER_FIELD_NAME, user.username)).firstOrNull() != null) {
+            throw UserAlreadyExistsException()
         }
+        val result = userCollection.insertOne(user.toUserDto()).wasAcknowledged()
+        if (!result) throw InvalidToAddUserException()
+
+        return true
     }
 
     override suspend fun getUserById(userId: String): User {
-        return try {
-            val dtoUser =
-                userCollection.find(Filters.eq(USER_FIELD_NAME, userId)).firstOrNull() ?: throw UserNotFoundException()
-            dtoUser.toUser()
-        } catch (e: Exception) {
-            throw InvalidToGetByIdUserException(FAILED_GET_USER_BY_ID)
-        }
+        val dtoUser =
+            userCollection.find(Filters.eq(USER_FIELD_NAME, userId)).firstOrNull() ?: throw InvalidToGetByIdUserException()
+        return dtoUser.toUser()
     }
 
     override suspend fun getAllUsers(): List<User> {
-        return try {
-            userCollection.find().toList().map { it.toUser() }
-        } catch (e: Exception) {
-            throw InvalidToGetAllUsersException(FAILED_GET_ALL_USERS)
-        }
+
+        val users = userCollection.find().toList().map { userDto -> userDto.toUser() }
+        if (users.isEmpty()) throw InvalidToGetAllUsersException()
+        return users
     }
 
     override suspend fun deleteUser(userId: String): Boolean {
-        return try {
-            val result = userCollection.deleteOne(Filters.eq(USER_FIELD_NAME, userId))
-            if (result.deletedCount == 0L) throw UserNotFoundException()
-            true
-        } catch (e: Exception) {
-            throw InvalidToDeleteUserException(FAILED_DELETE_USER)
-        }
+        val result = userCollection.deleteOne(Filters.eq(USER_FIELD_NAME, userId)).wasAcknowledged()
+        if (!result) throw InvalidToDeleteUserException()
+        return true
     }
 
 
     override suspend fun getUserByProjectId(userId: String): User {
         val projectId = mongoDatabase.getCollection<ProjectDto>(PROJECT_COLLECTION_NAME)
-            .find(Filters.eq(CREATE_USER_FIELD_NAME, userId)).first()
+            .find(Filters.eq(CREATE_USER_FIELD_NAME, userId)).firstOrNull()?.id ?: throw UserNotFoundException()
 
-        return mongoDatabase.getCollection<UserDto>(USER_COLLECTION_NAME)
-            .find(Filters.eq(PROJECT_FIELD_NAME, projectId)).first().toUser()
+        val userDto =
+            mongoDatabase.getCollection<UserDto>(USER_COLLECTION_NAME).find(Filters.eq(PROJECT_FIELD_NAME, projectId))
+                .firstOrNull() ?: throw InvalidToGetUserByProjectIdException()
+        return userDto.toUser()
     }
 
 

@@ -13,4 +13,5 @@ interface TaskRepository {
     suspend fun getTaskById(id: String): Task
     suspend fun assignTaskToUser(taskId: String, userId: String): Boolean
     suspend fun unAssignTask(taskId: String): Boolean
+    suspend fun getAllTasks(): List<Task>
 }

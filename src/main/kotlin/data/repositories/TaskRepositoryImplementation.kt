@@ -39,4 +39,8 @@ class TaskRepositoryImplementation(
     override suspend fun unAssignTask(taskId: String): Boolean {
         return taskDataSource.unAssignTask(taskId)
     }
+
+    override suspend fun getAllTasks(): List<Task> {
+        return taskDataSource.getAllTasks()
+    }
 }

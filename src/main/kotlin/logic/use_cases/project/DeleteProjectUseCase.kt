@@ -14,7 +14,8 @@ class DeleteProjectUseCase(
     private val userValidationUseCase: UserDataValidationUseCase
 ) {
     suspend fun deleteProject(user: User, projectId: String): Boolean {
-        userValidationUseCase.validateUserData(user.username,user.passwordHash)
+     if(!userValidationUseCase.validateUserData(user.username,user.passwordHash))
+         return false
         val result = projectRepository.deleteProjectById(projectId)
         if (result) {
             logRepository.addNewLog(
