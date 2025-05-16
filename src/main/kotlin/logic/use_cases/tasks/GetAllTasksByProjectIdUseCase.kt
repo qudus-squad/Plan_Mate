@@ -14,7 +14,6 @@ class GetAllTasksByProjectIdUseCase(
         if (!projectDataValidationUseCase.validateProjectId(projectId)) throw InvalidProjectIdException(
             INVALID_PROJECT_ID
         )
-        println("sdfgsdxfgvsxdgdsfgdfxgbvdfgvfsd gfsdjk fndsjk fnsd/fk jsdl;fsd xf")
         return taskRepository.getAllTasksByProjectId(projectId)
     }
 

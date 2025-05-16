@@ -55,7 +55,7 @@ class TaskDataValidationUseCase {
     private fun isValidUserID(userid: String): Boolean {
         val formattedUserId = userid.trim()
         return formattedUserId.isNotEmpty() && userid.all { ch ->
-            ch.isLetterOrDigit() || ch == '.' || ch == '_'
+            ch.isLetterOrDigit() || ch == '.' || ch == '_' || ch=='-'
         }
     }
     fun validateTaskStateName(taskStateName: String) {
