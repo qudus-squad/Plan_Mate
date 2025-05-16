@@ -14,18 +14,13 @@ class AddNewUserUseCase(
     private val userRoleValidationUseCase: UserRoleValidationUseCase
 ) {
     suspend fun addUser(
-        currentUserRole: UserRole,
-        username: String,
-        password: String,
-        userRole: UserRole
-    ): Boolean {
-
+        currentUserRole: UserRole, username: String, password: String, userRole: UserRole
+    ): User {
         userRoleValidationUseCase.checkUserRoleIsAdmin(currentUserRole)
         userValidator.validateUserData(username, password)
         val user = User(username = username, passwordHash = hashing.generateHash(password), role = userRole)
-        val isNewUserAdded = userRepository.addUser(user)
+        userRepository.addUser(user)
 
-        return isNewUserAdded
+        return user
     }
-
 }
