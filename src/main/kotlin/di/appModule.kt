@@ -1,12 +1,6 @@
 package org.qudus.squad.di
 
 import org.koin.dsl.module
-import org.qudus.squad.data.csv.CsvReader
-import org.qudus.squad.data.csv.parser.LogEntryCsvParser
-import org.qudus.squad.data.csv.parser.ProjectCsvParser
-import org.qudus.squad.data.csv.parser.TaskCsvParser
-import org.qudus.squad.data.csv.parser.UserCsvParser
-import org.qudus.squad.data.data_source.WriteInFileUseCase
 import org.qudus.squad.data.data_source.authntication_data_source.AuthenticationDataSource
 import org.qudus.squad.data.data_source.authntication_data_source.remote.MongoAuthenticationDataSource
 import org.qudus.squad.data.data_source.log_data_source.LogDataSource
@@ -34,11 +28,8 @@ import org.qudus.squad.ui.utils.EncryptionByUsingMD5
 import org.qudus.squad.logic.validation.UserDataValidationUseCase
 
 val appModule = module {
-    single { UserCsvParser() }
 
     single<DataHashing> { EncryptionByUsingMD5() }
-
-    single { CsvReader() }
 
     single<AuthenticationDataSource> {
         MongoAuthenticationDataSource(get(), get())
@@ -48,9 +39,6 @@ val appModule = module {
         AuthenticationRepositoryImplementation(get())
     }
 
-    single { LogEntryCsvParser() }
-
-    single { WriteInFileUseCase() }
 
     single<LogDataSource> {
         MongoLogDataSource(get())
@@ -60,15 +48,11 @@ val appModule = module {
         LogRepositoryImplementation(get())
     }
 
-    single { ProjectCsvParser() }
-
     single<ProjectDataSource> {
         MongoProjectDataSource(get())
     }
 
     single<ProjectRepository> { ProjectRepositoryImplementation(get()) }
-
-    single { TaskCsvParser() }
 
     single<TaskDataSource> { MongoTaskDataSource(get()) }
 
