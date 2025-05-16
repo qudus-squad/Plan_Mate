@@ -3,13 +3,11 @@ package logic.use_cases.project
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import logic.exceptions.ProjectNotFoundException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.qudus.squad.data.data_source.project_data_source.CsvProjectDataSource.Companion.PROJECT_NOT_FOUND
 import org.qudus.squad.logic.repositories.ProjectRepository
 import org.qudus.squad.logic.use_cases.project.GetProjectByIdUseCase
 import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
@@ -59,6 +57,9 @@ class GetProjectByIdUseCaseTest {
             getProjectByIdUseCase.getProjectById("12345689")
         }
     }
+    companion object{
+        const val PROJECT_NOT_FOUND = "Project Not Found"
 
+    }
 }
 
