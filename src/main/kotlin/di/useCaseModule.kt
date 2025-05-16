@@ -18,14 +18,11 @@ import org.qudus.squad.logic.use_cases.tasks.GetTaskByIdUseCase
 import org.qudus.squad.logic.use_cases.tasks.UnAssignTaskUseCase
 import org.qudus.squad.logic.use_cases.user.DeleteUserUseCase
 import org.qudus.squad.logic.use_cases.user.GetUserByIdUseCase
-import org.qudus.squad.logic.validation.LogEntryDataValidationUseCase
+import org.qudus.squad.logic.validation.*
+import org.qudus.squad.model.entity.LoginSession
+import org.qudus.squad.ui.tablesDisplay.ProjectDetailsDisplay
 import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.ui.utils.EncryptionByUsingMD5
-import org.qudus.squad.logic.validation.ProjectDataValidationUseCase
-import org.qudus.squad.logic.validation.TaskDataValidationUseCase
-import org.qudus.squad.logic.validation.UserDataValidationUseCase
-import org.qudus.squad.logic.validation.UserRoleValidationUseCase
-import org.qudus.squad.model.entity.LoginSession
 
 val useCaseModule = module {
 

@@ -11,21 +11,13 @@ import org.qudus.squad.data.data_source.task_data_source.TaskDataSource
 import org.qudus.squad.data.data_source.task_data_source.remote.MongoTaskDataSource
 import org.qudus.squad.data.data_source.task_state_data_source.TaskStateDataSource
 import org.qudus.squad.data.data_source.task_state_data_source.remote.MongoTaskStateDataSource
-import org.qudus.squad.data.repositories.*
-import org.qudus.squad.logic.repositories.*
 import org.qudus.squad.data.data_source.user_data_source.UserDataSource
 import org.qudus.squad.data.data_source.user_data_source.remote.MongoUserDataSource
-import org.qudus.squad.data.repositories.AuthenticationRepositoryImplementation
-import org.qudus.squad.data.repositories.LogRepositoryImplementation
-import org.qudus.squad.data.repositories.ProjectRepositoryImplementation
-import org.qudus.squad.data.repositories.UserRepositoryImplementation
-import org.qudus.squad.logic.repositories.AuthenticationRepository
-import org.qudus.squad.logic.repositories.LogRepository
-import org.qudus.squad.logic.repositories.ProjectRepository
-import org.qudus.squad.logic.repositories.UserRepository
+import org.qudus.squad.data.repositories.*
+import org.qudus.squad.logic.repositories.*
+import org.qudus.squad.logic.validation.UserDataValidationUseCase
 import org.qudus.squad.ui.utils.DataHashing
 import org.qudus.squad.ui.utils.EncryptionByUsingMD5
-import org.qudus.squad.logic.validation.UserDataValidationUseCase
 
 val appModule = module {
 

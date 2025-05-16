@@ -1,16 +1,14 @@
 package org.qudus.squad.ui.tablesDisplay
 
 import org.qudus.squad.model.entity.Task
-import org.qudus.squad.model.entity.TaskState
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 
-class TasksTableDisplay (
+class AllTasksTableDisplay (
     private val dateFormater: DateTimeFormatter
 ){
-
-        fun displayTasksTable(tasks: List<Task>) {
-            val idColumnWith = 36
+        fun invoke(tasks: List<Task>) {
+            val idColumnWith = 10
             val nameColumnWidth = 20
             val dateColumnWidth = 20
             val bordersWidth = 2
@@ -28,33 +26,12 @@ class TasksTableDisplay (
                     "│${"DATE CREATED".center(dateColumnWidth )}│")
             println("│${"─".repeat(totalWidth)}│")
 
-            tasks.forEach { task ->
+            tasks.forEachIndexed { index, task ->
+                val id = index + 1
                 val formatedDate = dateFormater.formatDateTimeForDisplay(task.createdAt)
-                println("│${task.id.center(idColumnWith )}" +
+                println("│${id.toString().center(idColumnWith )}" +
                         "│${task.title.center(nameColumnWidth )}" +
                         "│${formatedDate.center(dateColumnWidth )}│") }
             println("└${"─".repeat(totalWidth)}┘")
         }
     }
-fun main() {
-    val projects: List<Task> = listOf(
-        Task(
-            id = "1",
-            title = "task 1",
-            description = "///",
-            projectId = "proj1",
-            creatorUserID = "",
-            taskState = TaskState(name = ""),
-        ),
-        Task(
-            id = "2",
-            title = "task 2",
-            description = "///",
-            projectId = "proj2",
-            creatorUserID = "",
-            taskState = TaskState(name = ""),
-        )
-    )
-
-    TasksTableDisplay(dateFormater = DateTimeFormatter).displayTasksTable(projects)
-}

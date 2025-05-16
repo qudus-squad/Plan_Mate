@@ -4,12 +4,11 @@ import org.qudus.squad.model.entity.Project
 import org.qudus.squad.ui.utils.DateTimeFormatter
 import org.qudus.squad.ui.utils.StringAlignment.center
 
-class ProjectsTableDisplay(
+class AllProjectsTableDisplay(
     private val dateFormater: DateTimeFormatter
 ) {
-
-    fun displayProjectsTable(projects: List<Project>) {
-        val idColumnWith = 36
+    fun invoke(projects: List<Project>) {
+        val idColumnWith = 10
         val nameColumnWidth = 20
         val dateColumnWidth = 20
         val bordersWidth = 2
@@ -27,21 +26,12 @@ class ProjectsTableDisplay(
                 "│${"DATE CREATED".center(dateColumnWidth )}│")
         println("│${"─".repeat(totalWidth)}│")
 
-        projects.forEach { project ->
+        projects.forEachIndexed { index, project ->
+            val id = index + 1
             val formatedDate = dateFormater.formatDateTimeForDisplay(project.createdAt)
-            println("│${project.id.center(idColumnWith )}" +
+            println("│${id.toString().center(idColumnWith )}" +
                     "│${project.title.center(nameColumnWidth )}" +
                     "│${formatedDate.center(dateColumnWidth )}│") }
         println("└${"─".repeat(totalWidth)}┘")
     }
 }
-    fun main ( ) {
-
-        val projects: List<Project> = listOf(
-            Project(title = "project 1", creatorUserId = "" ,description = " /// "),
-            Project(title = "project 2", creatorUserId = "" ,description = " ///"),
-            Project(title = "project 3", creatorUserId = "" , description = " ///"),
-            Project(title = "project 4", creatorUserId = "" , description = " /// ")
-        )
-        ProjectsTableDisplay(dateFormater = DateTimeFormatter).displayProjectsTable(projects)
-    }
