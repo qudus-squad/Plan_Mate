@@ -51,7 +51,8 @@ class MongoTaskDataSource(
 
     override suspend fun getAllTasksByProjectId(id: String): List<Task> {
         val tasks = taskCollection.find(eq(TASK_PROJECT_ID, id)).toList().map { taskDto -> taskDto.toTask() }
-        if (tasks.isEmpty()) { return emptyList()
+        if (tasks.isEmpty()) {
+            throw InvalidToGetAllTasksException()
         }
         return tasks
     }
