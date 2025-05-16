@@ -20,6 +20,8 @@ val uiModule = module {
         get(),
         get(),
         get(),
+        get(),
+        get(),
         get()
     ) }
     single { ManageProject(get(),
