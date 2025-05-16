@@ -43,15 +43,15 @@ class ManageUsers(
                 "1" -> UserRole.ADMIN
                 else -> UserRole.MATE
             }
-            if (createNewUser.addUser(
-                    currentUserRole = loginSession.currentUser.role,
-                    username = titleSelected,
-                    password = passwordSelected,
-                    userRole = selectedRole,
+            createNewUser.addUser(
+                currentUserRole = loginSession.currentUser.role,
+                username = titleSelected,
+                password = passwordSelected,
+                userRole = selectedRole,
+
                 )
-            ) {
-                println("USER $titleSelected CREATED ")
-            }
+            println("USER $titleSelected CREATED ")
+
         } catch (e: Exception) {
             println("FAILED TO CREATE USER PRESS ENTER TO TRY AGAIN 0 TO EXIT ")
             if (readlnOrNull()?.trim() == "0") return manageUsersPanel() else createNewUser()

@@ -75,12 +75,12 @@ class TaskManagement(
                 )
             )
             println("Task edited task name Successfully")
-        } catch (_: InvalidToEditTaskException) {
-            println(FAILED_EDIT_TASK)
-        } catch (_: InvalidToGetTaskByIdTaskException) {
-            println(FAILED_GET_TASK_BY_ID)
-        } catch (_: NoFoundTaskException) {
-            println(FAILED_TO_FIND_TASK)
+        } catch (e: InvalidToEditTaskException) {
+            println(e.message)
+        } catch (e: InvalidToGetTaskByIdTaskException) {
+            println(e.message)
+        } catch (e: NoFoundTaskException) {
+            println(e.message)
         } catch (e: InvalidTaskIdException) {
             println(e.message)
         }
@@ -107,12 +107,12 @@ class TaskManagement(
                 )
             )
             println("Task edited task description Successfully")
-        } catch (_: InvalidToGetTaskByIdTaskException) {
-            println(FAILED_GET_TASK_BY_ID)
-        } catch (_: InvalidToEditTaskException) {
-            println(FAILED_EDIT_TASK)
-        } catch (_: NoFoundTaskException) {
-            println(FAILED_TO_FIND_TASK)
+        } catch (e: InvalidToGetTaskByIdTaskException) {
+            println(e.message)
+        } catch (e: InvalidToEditTaskException) {
+            println(e.message)
+        } catch (e: NoFoundTaskException) {
+            println(e.message)
         } catch (e: InvalidTaskIdException) {
             println(e.message)
         }
@@ -135,12 +135,12 @@ class TaskManagement(
             if (result) {
                 println("Task deleted successfully")
             }
-        } catch (_: InvalidToDeleteTaskException) {
-            println(FAILED_DELETE_TASK)
-        } catch (_: InvalidToGetAllTasksException) {
-            println(FAILED_GET_TASK_BY_ID)
-        } catch (_: NoFoundTaskException) {
-            println(FAILED_TO_FIND_TASK)
+        } catch (e: InvalidToDeleteTaskException) {
+            println(e.message)
+        } catch (e: InvalidToGetAllTasksException) {
+            println(e.message)
+        } catch (e: NoFoundTaskException) {
+            println(e.message)
         }
     }
 
@@ -193,8 +193,8 @@ class TaskManagement(
                 taskId = selectedTask.id
             )
             println("${selectedUser.username} adopted '${selectedTask.title}'. hope they don’t return it!")
-        } catch (_: InvalidToEditTaskException) {
-            println(FAILED_ASSIGN_TASK)
+        } catch (e: InvalidToEditTaskException) {
+            println(e.message)
         }
     }
 
@@ -205,8 +205,8 @@ class TaskManagement(
         try {
             unAssignTaskToUserUseCase.unAssignTask(taskId = taskIdSelected)
             println("Task state switched (unassigned) successfully.")
-        } catch (_: InvalidToEditTaskException) {
-            println(FAILED_UNASSIGN_TASK)
+        } catch (e: InvalidToEditTaskException) {
+            println(e.message)
         }
     }
 }
